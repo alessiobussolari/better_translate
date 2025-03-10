@@ -23,6 +23,7 @@ Add the gem to your Gemfile:
 
 ```ruby
 gem 'better_translate'
+```
 
 Then run:
 
