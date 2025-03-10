@@ -1,36 +1,51 @@
 # frozen_string_literal: true
+require "ruby-progressbar"
 
-require "yaml"
-require "better_translate/config"
+require "better_translate/version"
 require "better_translate/translator"
+require "better_translate/service"
+require "better_translate/writer"
+
+require 'better_translate/providers/base_provider'
+require 'better_translate/providers/chatgpt_provider'
+require 'better_translate/providers/gemini_provider'
 
 module BetterTranslate
-  # Punto di ingresso della gemma
-  def self.run(file_path, mode: :override, incremental_file: nil)
-    config = Config.load_config
-    translator = Translator.new(config)
-    translator.translate_file(file_path, mode: mode, incremental_file: incremental_file)
-  end
-
   class << self
     attr_accessor :configuration
-  end
 
-  def self.configure
-    self.configuration ||= Config.new(
-      provider: :google,
-      default_language: 'it',
-      target_languages: %w(en fr es),
-      api_keys: {},
-      translation_method: :override,
-      initial_file_path: 'path/to/your/input.yml'
-    )
-    yield(configuration) if block_given?
-  end
+    # Metodo per configurare la gemma
+    def configure
+      self.configuration ||= OpenStruct.new
+      yield(configuration) if block_given?
+    end
 
-  def self.run
-    translator = Translator.new(configuration)
-    translator.translate_file(configuration.initial_file_path, mode: configuration.translation_method)
+    # Metodo install per generare il file di configurazione (initializer)
+    def install
+      unless defined?(Rails) && Rails.respond_to?(:root)
+        puts "Il metodo install è disponibile solo in un'applicazione Rails."
+        return
+      end
+
+      # Costruisce il percorso della cartella template all'interno della gemma
+      source = File.expand_path("../generators/better_translate/templates/better_translate.rb", __dir__)
+      destination = File.join(Rails.root, "config", "initializers", "better_translate.rb")
+
+      if File.exist?(destination)
+        puts "Il file initializer esiste già: #{destination}"
+      else
+        FileUtils.mkdir_p(File.dirname(destination))
+        FileUtils.cp(source, destination)
+        puts "Initializer creato in: #{destination}"
+      end
+    end
+
+    def magic
+      puts "Metodo magic invocato: eseguirò la traduzione dei file..."
+
+      BetterTranslate::Translator.work
+      puts "Metodo magic invocato: Traduzione completata con successo!"
+    end
+
   end
 end
-

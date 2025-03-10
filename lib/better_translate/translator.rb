@@ -1,116 +1,131 @@
-require "yaml"
-require "net/http"
-require "json"
-
 module BetterTranslate
   class Translator
-    def initialize(config)
-      @config = config
-    end
+    class << self
+      def work
+        puts "Avvio della traduzione dei file..."
 
-    # Legge il file YAML da tradurre e genera le traduzioni secondo la modalità specificata
-    #
-    # mode: :override => rigenera tutte le traduzioni
-    #       :incremental => aggiorna solo le chiavi mancanti o sovrascritte partendo dal file incremental_file
-    def translate_file(file_path, mode: :override, incremental_file: nil)
-      original = YAML.load_file(file_path)
-      translations = {}
+        translations = read_yml_source
 
-      case mode
-      when :override
-        translations = generate_translations(original)
-      when :incremental
-        incremental_values = incremental_file && File.exist?(incremental_file) ? YAML.load_file(incremental_file) : {}
-        translations = merge_translations(original, incremental_values)
-      else
-        raise "Modalità di traduzione non supportata: #{mode}"
+        # Rimuove le chiavi da escludere (global_exclusions) dalla struttura letta
+        filtered_translations = remove_exclusions(
+          translations, BetterTranslate.configuration.global_exclusions
+        )
+
+        BetterTranslate.configuration.target_languages.each do |target_lang|
+          puts "Inizio traduzione da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
+          service = BetterTranslate::Service.new
+          translated_data = translate_with_progress(filtered_translations, service, target_lang[:short_name], target_lang[:name])
+          BetterTranslate::Writer.write_translations(translated_data, target_lang[:short_name])
+          puts "Traduzione completata da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
+        end
+
+        "Traduzione iniziata! #{filtered_translations.inspect}"
       end
 
-      # Scrittura su file. Potreste decidere di generare file separati per ogni lingua.
-      @config.target_languages.each do |lang|
-        output = apply_translations(original, translations, lang)
-        File.write("translated_#{lang}.yml", output.to_yaml)
-        puts "File translated_#{lang}.yml generato."
+      private
+
+      # Legge il file YAML in base al percorso fornito.
+      #
+      # @param file_path [String] percorso del file YAML da leggere
+      # @return [Hash] struttura dati contenente le traduzioni
+      # @raise [StandardError] se il file non esiste
+      def read_yml_source
+        file_path = BetterTranslate.configuration.input_file
+        unless File.exist?(file_path)
+          raise "File non trovato: #{file_path}"
+        end
+
+        YAML.load_file(file_path)
       end
-    end
 
-    private
+      # Rimuove le chiavi specificate in exclusion_list dalla struttura dati,
+      # calcolando i percorsi a partire dal contenuto della lingua di partenza.
+      #
+      # Ad esempio, se il file YAML è:
+      # { "en" => { "sample" => { "valid" => "valid", "excluded" => "Excluded" } } }
+      # e exclusion_list = ["sample.excluded"],
+      # il risultato sarà:
+      # { "en" => { "sample" => { "valid" => "valid" } } }
+      #
+      # @param data [Hash, Array, Object] La struttura dati da filtrare.
+      # @param exclusion_list [Array<String>] Lista dei percorsi (in dot notation) da escludere.
+      # @param current_path [Array] Il percorso corrente (usato in maniera ricorsiva).
+      # @return [Hash, Array, Object] La struttura dati filtrata.
+      def remove_exclusions(data, exclusion_list, current_path = [])
+        if data.is_a?(Hash)
+          data.each_with_object({}) do |(key, value), result|
+            # Se siamo al livello top-level e la chiave corrisponde alla lingua di partenza,
+            # resettare il percorso (così da escludere "en" dal percorso finale)
+            new_path = if current_path.empty? && key == BetterTranslate.configuration.source_language
+                         []
+                       else
+                         current_path + [key]
+                       end
 
-    # Metodo che genera le traduzioni per ogni chiave
-    def generate_translations(yml_data)
-      # Questo metodo percorre il file YML e traduce ogni stringa
-      # Utilizza il provider definito nella configurazione
-      translations = {}
-
-      yml_data.each do |key, value|
-        if value.is_a?(String)
-          translations[key] = translate_text(value)
-        elsif value.is_a?(Hash)
-          translations[key] = generate_translations(value)
+            path_string = new_path.join(".")
+            unless exclusion_list.include?(path_string)
+              result[key] = remove_exclusions(value, exclusion_list, new_path)
+            end
+          end
+        elsif data.is_a?(Array)
+          data.map.with_index do |item, index|
+            remove_exclusions(item, exclusion_list, current_path + [index])
+          end
+        else
+          data
         end
       end
 
-      translations
-    end
-
-    # Metodo che unisce le traduzioni esistenti (incremental) con il file originale
-    def merge_translations(original, incremental)
-      # Se incremental contiene traduzioni, le utilizza. Altrimenti, genera la traduzione.
-      merged = {}
-
-      original.each do |key, value|
-        if value.is_a?(String)
-          merged[key] = incremental[key] || translate_text(value)
-        elsif value.is_a?(Hash)
-          merged[key] = merge_translations(value, incremental[key] || {})
+      # Metodo ricorsivo che percorre la struttura, traducendo ogni stringa e aggiornando il progresso.
+      #
+      # @param data [Hash, Array, String] La struttura dati da tradurre.
+      # @param provider [Object] Il provider che risponde al metodo translate.
+      # @param target_lang_code [String] Codice della lingua target (es. "en").
+      # @param target_lang_name [String] Nome della lingua target (es. "English").
+      # @param progress [Hash] Un hash con le chiavi :count e :total per monitorare il progresso.
+      # @return [Hash, Array, String] La struttura tradotta.
+      def deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+        if data.is_a?(Hash)
+          data.each_with_object({}) do |(key, value), result|
+            result[key] = deep_translate_with_progress(value, service, target_lang_code, target_lang_name, progress)
+          end
+        elsif data.is_a?(Array)
+          data.map do |item|
+            deep_translate_with_progress(item, service, target_lang_code, target_lang_name, progress)
+          end
+        elsif data.is_a?(String)
+          progress.increment
+          service.translate(data, target_lang_code, target_lang_name)
+        else
+          data
         end
       end
 
-      merged
-    end
+      # Metodo principale per tradurre l'intera struttura dati, con monitoraggio del progresso.
+      #
+      # @param data [Hash, Array, String] la struttura dati da tradurre
+      # @param provider [Object] il provider da usare per tradurre (deve implementare translate)
+      # @param target_lang_code [String] codice della lingua target
+      # @param target_lang_name [String] nome della lingua target
+      # @return la struttura tradotta
+      def translate_with_progress(data, service, target_lang_code, target_lang_name)
+        total = count_strings(data)
+        progress = ProgressBar.create(total: total, format: '%a %B %p%% %t')
+        deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+      end
 
-    # Applica le traduzioni alla struttura YML originale per una determinata lingua.
-    # In questo esempio, simuliamo la sostituzione (in una situazione reale la struttura potrebbe essere più complessa).
-    def apply_translations(original, translations, lang)
-      # In questo esempio, semplicemente sostituisce i valori con la traduzione.
-      # Potreste voler strutturare il file in modo diverso, ad esempio creando un file per lingua.
-      result = {}
-
-      original.each do |key, value|
-        if value.is_a?(String)
-          result[key] = "[#{lang}] #{translations[key]}"
-        elsif value.is_a?(Hash)
-          result[key] = apply_translations(value, translations[key], lang)
+      # Conta ricorsivamente il numero di stringhe traducibili nella struttura dati.
+      def count_strings(data)
+        if data.is_a?(Hash)
+          data.values.sum { |v| count_strings(v) }
+        elsif data.is_a?(Array)
+          data.sum { |item| count_strings(item) }
+        elsif data.is_a?(String)
+          1
+        else
+          0
         end
       end
-
-      result
-    end
-
-    # Metodo per tradurre il testo utilizzando il provider selezionato.
-    def translate_text(text)
-      case @config.provider
-      when :google
-        translate_with_google(text)
-      when :openai
-        translate_with_openai(text)
-      else
-        raise "Provider non supportato: #{@config.provider}"
-      end
-    end
-
-    # Esempio di implementazione per il provider Google
-    def translate_with_google(text)
-      # Simulazione di chiamata API per Google Translate.
-      # In una implementazione reale, qui si effettuerebbe una chiamata HTTP.
-      "Google_Translated(#{text})"
-    end
-
-    # Esempio di implementazione per il provider OpenAI
-    def translate_with_openai(text)
-      # Simulazione di chiamata API per OpenAI.
-      # In una implementazione reale, qui si effettuerebbe una chiamata HTTP.
-      "OpenAI_Translated(#{text})"
     end
   end
 end
