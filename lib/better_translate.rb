@@ -51,9 +51,16 @@ module BetterTranslate
     def magic
       message = "Magic method invoked: Translation will begin..."
       BetterTranslate::Utils.logger(message: message)
+      # Utilizziamo il logger per tutti i messaggi
+      message = "\n[BetterTranslate] Starting translation process...\n"
+      BetterTranslate::Utils.logger(message: message)
 
       BetterTranslate::Translator.work
+      
       message = "Magic method invoked: Translation completed successfully!"
+      BetterTranslate::Utils.logger(message: message)
+      # Utilizziamo il logger per tutti i messaggi
+      message = "\n[BetterTranslate] Translation completed successfully!\n"
       BetterTranslate::Utils.logger(message: message)
     end
 
