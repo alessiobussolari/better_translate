@@ -19,3 +19,5 @@
 translation_similarities.json
 translation_similarities_summary.txt
 spec/fixtures/vcr_cassettes/
+
+.idea
