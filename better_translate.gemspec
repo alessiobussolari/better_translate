@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ['alessio_bussolari']
   spec.email   = ['alessio.bussolari@pandev.it']
 
-  spec.summary       = %q{Gemma per tradurre file YAML in più lingue tramite provider (ChatGPT e Gemini)}
+  spec.summary       = %q{Gem for translating YAML files into multiple languages using providers (ChatGPT and Gemini)}
   spec.description   = %q{
-BetterTranslate è una gemma che consente di tradurre file YAML partendo da una lingua sorgente verso una o più lingue target.
-La gemma supporta differenti provider di traduzione, attualmente ChatGPT (OpenAI) e Google Gemini, e permette di scegliere
-la modalità di traduzione: "override" per rigenerare tutte le traduzioni oppure "incremental" per aggiornare solo le chiavi mancanti.
+BetterTranslate is a gem that allows you to translate YAML files from a source language into one or more target languages.
+The gem supports different translation providers, currently ChatGPT (OpenAI) and Google Gemini, and allows you to choose
+the translation mode: "override" to regenerate all translations or "incremental" to update only the missing keys.
 
-La configurazione della gemma è centralizzata tramite un initializer, dove è possibile definire API key, lingue target, lingua sorgente,
-esclusioni di chiavi e la cartella di output. BetterTranslate integra inoltre il monitoraggio del progresso della traduzione tramite una progress bar.
+The gem's configuration is centralized via an initializer, where you can define API keys, target languages, source language,
+key exclusions, and the output folder. BetterTranslate also integrates translation progress tracking using a progress bar.
   }
 
   spec.homepage      = "https://github.com/alessiobussolari/better_translate"

@@ -22,6 +22,9 @@ Configuration is centralized via an initializer (for example, in a Rails app), w
 - **Rails Generators**: 
   - `rails generate better_translate:install` to generate the initializer.
   - `rails generate better_translate:translate` to trigger the translation process directly from your Rails app.
+- **Translation Helpers**: 
+  - `translate_text_to_languages` for translating a single text into multiple target languages.
+  - `translate_texts_to_languages` for translating an array of texts into multiple target languages.
 
 ## Installation
 
@@ -95,7 +98,7 @@ BetterTranslate.configure do |config|
   config.input_file = Rails.root.join("config", "locales", "en.yml").to_s
   
   # Translation mode: :override or :incremental
-  config.translation_method = :override
+  config.translation_mode = :override
 end
 ```
 
@@ -134,13 +137,66 @@ The gem includes generators to simplify tasks:
 
   The `better_translate:translate` generator will trigger the translation process (via `BetterTranslate.magic`) and display progress in the terminal.
 
+### Translation Helpers
+
+BetterTranslate provides helper methods to simplify translation tasks.
+
+#### Single Text Translation
+
+The `translate_text_to_languages` helper allows you to translate a single text into multiple target languages in one call.
+
+**Example Usage:**
+
+```ruby
+text = "Hello world!"
+target_languages = [
+  { short_name: "it", name: "Italian" },
+  { short_name: "fr", name: "French" }
+]
+
+translated = BetterTranslate::TranslationHelper.translate_text_to_languages(
+  text,
+  target_languages,
+  "en",       # source language code
+  :chatgpt    # provider: can be :chatgpt or :gemini
+)
+
+puts translated
+# Expected output:
+# { "it" => "Ciao mondo!", "fr" => "Bonjour le monde!" }
+```
+
+#### Multiple Texts Translation
+
+The `translate_texts_to_languages` helper extends the functionality to translate an array of texts into multiple target languages. It returns a hash where each key is a target language code and the value is an array of translated texts.
+
+**Example Usage:**
+
+```ruby
+texts = ["Hello world!", "How are you?"]
+target_languages = [
+  { short_name: "it", name: "Italian" },
+  { short_name: "fr", name: "French" }
+]
+
+translated_texts = BetterTranslate::TranslationHelper.translate_texts_to_languages(
+  texts,
+  target_languages,
+  "en",       # source language code
+  :chatgpt    # provider: can be :chatgpt or :gemini
+)
+
+puts translated_texts
+# Expected output:
+# {
+#   "it" => ["Ciao mondo!", "Come stai?"],
+#   "fr" => ["Bonjour le monde!", "Comment ça va?"]
+# }
+```
+
 ## Contact & Feature Requests
 
 For suggestions, bug reports, or to request new features, please reach out via email at: **alessio.bussolari@pandev.it**.
-
-## Upcoming Features
-
-- **Helper Methods**: Additional helper methods to integrate BetterTranslate as a translation system for dynamic content.
 
 ## Conclusions
 
