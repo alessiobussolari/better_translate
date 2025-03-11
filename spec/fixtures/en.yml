@@ -1,0 +1,19 @@
+en:
+  welcome:
+    title: "Welcome to our platform!"
+    subtitle: "Welcome to our website!"
+    greeting: "Hello and welcome!"
+  about:
+    title: "About Our Company"
+    description: "We are a leading company in technology"
+    mission: "We are a company focused on innovation"
+  products:
+    title: "Our Products"
+    description: "Discover our amazing products"
+    explore: "Explore our fantastic products"
+  contact:
+    email: "Send us an email"
+    message: "Send us a message"
+    form:
+      name: "Enter your name"
+      full_name: "Enter your full name"

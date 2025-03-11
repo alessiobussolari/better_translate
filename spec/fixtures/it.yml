@@ -1,0 +1,19 @@
+it:
+  welcome:
+    title: "Benvenuto nella nostra piattaforma!"
+    subtitle: "Benvenuto nel nostro sito web!"
+    greeting: "Ciao e benvenuto!"
+  about:
+    title: "Chi Siamo"
+    description: "Siamo un'azienda leader nella tecnologia"
+    mission: "Siamo un'azienda focalizzata sull'innovazione"
+  products:
+    title: "I Nostri Prodotti"
+    description: "Scopri i nostri incredibili prodotti"
+    explore: "Esplora i nostri fantastici prodotti"
+  contact:
+    email: "Inviaci una email"
+    message: "Inviaci un messaggio"
+    form:
+      name: "Inserisci il tuo nome"
+      full_name: "Inserisci il tuo nome completo"

@@ -1,0 +1,25 @@
+fr:
+  welcome:
+    title: "Bienvenue sur notre plateforme!"
+    subtitle: "Bienvenue sur notre site web!"
+    greeting: "Bonjour et bienvenue!"
+  about:
+    title: "À Propos de Nous"
+    description: "Nous sommes une entreprise leader en technologie"
+    mission: "Nous sommes une entreprise axée sur l'innovation"
+    vision: "Nous sommes une entreprise qui vise l'excellence"
+  products:
+    title: "Nos Produits"
+    description: "Découvrez nos produits incroyables"
+    explore: "Explorez nos produits fantastiques"
+    featured: "Découvrez nos meilleurs produits"
+    new: "Découvrez nos nouveaux produits"
+  contact:
+    email: "Envoyez-nous un email"
+    message: "Envoyez-nous un message"
+    support: "Envoyez-nous une demande de support"
+    form:
+      name: "Entrez votre nom"
+      full_name: "Entrez votre nom complet"
+      email: "Entrez votre adresse email"
+      email_confirm: "Confirmez votre adresse email"

@@ -1,0 +1,30 @@
+es:
+  welcome:
+    title: "¡Bienvenido a nuestra plataforma!"
+    subtitle: "¡Bienvenido a nuestro sitio web!"
+    greeting: "¡Hola y bienvenido!"
+  about:
+    title: "Sobre Nosotros"
+    description: "Somos una empresa líder en tecnología"
+    mission: "Somos una empresa enfocada en la innovación"
+    vision: "Somos una empresa que busca la excelencia"
+    history: "Somos una empresa con una rica historia"
+  products:
+    title: "Nuestros Productos"
+    description: "Descubre nuestros increíbles productos"
+    explore: "Explora nuestros fantásticos productos"
+    featured: "Descubre nuestros mejores productos"
+    new: "Descubre nuestros nuevos productos"
+    upcoming: "Descubre nuestros próximos productos"
+  contact:
+    email: "Envíanos un email"
+    message: "Envíanos un mensaje"
+    support: "Envíanos una solicitud de soporte"
+    chat: "Envíanos un mensaje por chat"
+    form:
+      name: "Ingresa tu nombre"
+      full_name: "Ingresa tu nombre completo"
+      email: "Ingresa tu correo electrónico"
+      email_confirm: "Confirma tu correo electrónico"
+      subject: "Ingresa el asunto del mensaje"
+      message: "Ingresa tu mensaje aquí"

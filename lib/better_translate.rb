@@ -7,6 +7,7 @@ require "better_translate/translator"
 require "better_translate/service"
 require "better_translate/writer"
 require "better_translate/helper"
+require "better_translate/similarity_analyzer"
 
 require 'better_translate/providers/base_provider'
 require 'better_translate/providers/chatgpt_provider'

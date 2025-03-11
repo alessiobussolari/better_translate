@@ -5,6 +5,19 @@ All notable changes to BetterTranslate will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-03-11
+
+### Added
+- New Translation Similarity Analyzer:
+  - Identifies similar translations across language files
+  - Generates detailed JSON reports and human-readable summaries
+  - Uses Levenshtein distance for similarity calculation
+  - Configurable similarity threshold
+- New Rails generator: `rails generate better_translate:analyze`
+  - Analyzes all YAML files in the locales directory
+  - Provides immediate feedback in the console
+  - Generates comprehensive similarity reports
+
 ## [0.3.1] - 2025-03-11
 
 ### Added

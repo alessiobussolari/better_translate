@@ -14,6 +14,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
 - 📊 Real-time progress tracking
 - 🧪 Comprehensive test coverage
 - ⚡️ LRU caching for performance
+- 🔍 Translation similarity analysis
 
 ## Why BetterTranslate? 🤔
 
@@ -30,6 +31,10 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
   - Comprehensive test suite
   - LRU caching for performance
   - Progress tracking
+- 🔍 **Translation Analysis**:
+  - Similarity detection
+  - Detailed reports
+  - Optimization suggestions
 - 🔧 **Flexible Helpers**:
   - Single text translation
   - Bulk text translation
@@ -145,6 +150,25 @@ The gem includes generators to simplify tasks:
   ```
 
   The `better_translate:translate` generator will trigger the translation process (via `BetterTranslate.magic`) and display progress in the terminal.
+
+- **Analyze Translations:**
+
+  ```bash
+  rails generate better_translate:analyze
+  ```
+
+  The `better_translate:analyze` generator will:
+  - Scan all YAML files in your locales directory
+  - Find similar translations using Levenshtein distance
+  - Generate two reports:
+    - `translation_similarities.json`: Detailed JSON report
+    - `translation_similarities_summary.txt`: Human-readable summary
+  
+  This helps you:
+  - Identify potentially redundant translations
+  - Maintain consistency across your translations
+  - Optimize your translation files
+  - Reduce translation costs
 
 ### Translation Helpers
 
