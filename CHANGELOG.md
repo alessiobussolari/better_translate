@@ -5,6 +5,19 @@ All notable changes to BetterTranslate will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2025-03-11
+
+### Fixed
+- Migliorati i test RSpec per garantire maggiore affidabilità:
+  - Corretti gli stub per i provider di traduzione
+  - Migliorata la gestione delle richieste HTTP nei test
+  - Ottimizzati i file YAML temporanei per i test di similarità
+- Risolti problemi di compatibilità con WebMock
+
+### Changed
+- Sostituito l'approccio di stubbing specifico con pattern più flessibili
+- Migliorata la struttura dei test per il SimilarityAnalyzer
+
 ## [0.4.0] - 2025-03-11
 
 ### Added
