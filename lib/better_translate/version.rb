@@ -9,5 +9,5 @@ module BetterTranslate
   # - PATCH version for backwards-compatible bug fixes
   #
   # @return [String] The current version in the format "MAJOR.MINOR.PATCH"
-  VERSION = "0.4.2"
+  VERSION = "0.5.0"
 end

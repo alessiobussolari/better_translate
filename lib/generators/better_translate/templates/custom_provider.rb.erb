@@ -1,0 +1,57 @@
+# frozen_string_literal: true
+
+# This is a custom translation provider for BetterTranslate
+# Generated with `rails generate better_translate:provider <%= class_name %>`
+
+module Providers
+  # Custom translation provider that implements the <%= class_name %> API for translations.
+  # Inherits from BetterTranslate::Providers::BaseProvider to leverage common functionality
+  # like rate limiting, validation, and retry logic.
+  #
+  # @example
+  #   provider = Providers::<%= provider_class_name %>.new(ENV['<%= class_name.upcase %>_API_KEY'])
+  #   translated_text = provider.translate("Hello world", "fr", "French")
+  class <%= provider_class_name %> < BetterTranslate::Providers::BaseProvider
+    # Implement the provider-specific translation logic using the <%= class_name %> API.
+    # This method is called by the BaseProvider's translate method after validation and rate limiting.
+    #
+    # @param text [String] The text to translate
+    # @param target_lang_code [String] The target language code (e.g., "fr")
+    # @param target_lang_name [String] The target language name (e.g., "French")
+    # @return [String] The translated text
+    # @raise [StandardError] If the API request fails or returns an error
+    def translate_text(text, target_lang_code, target_lang_name)
+      # TODO: Implement your API call to <%= class_name %> here
+      # 
+      # Example implementation:
+      # 
+      # uri = URI("https://api.example.com/translate")
+      # headers = {
+      #   "Content-Type" => "application/json",
+      #   "Authorization" => "Bearer #{@api_key}"
+      # }
+      # 
+      # body = {
+      #   text: text,
+      #   source_language: BetterTranslate.configuration.source_language,
+      #   target_language: target_lang_code
+      # }
+      # 
+      # http = Net::HTTP.new(uri.host, uri.port)
+      # http.use_ssl = true
+      # request = Net::HTTP::Post.new(uri.path, headers)
+      # request.body = body.to_json
+      # 
+      # response = http.request(request)
+      # if response.is_a?(Net::HTTPSuccess)
+      #   json = JSON.parse(response.body)
+      #   json["translation"]
+      # else
+      #   raise "HTTP Error #{response.code}: #{response.body}"
+      # end
+      
+      # Remove this line and implement your API call
+      raise NotImplementedError, "You need to implement the translate_text method for #{self.class.name}"
+    end
+  end
+end

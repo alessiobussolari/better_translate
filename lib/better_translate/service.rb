@@ -1,6 +1,8 @@
 module BetterTranslate
   # Service class that handles translation requests using the configured provider.
   # Implements a Least Recently Used (LRU) cache to avoid redundant translation requests.
+  # Supports built-in providers (ChatGPT, Gemini) and custom providers registered via
+  # the register_provider class method.
   #
   # @example
   #   service = BetterTranslate::Service.new
@@ -8,6 +10,9 @@ module BetterTranslate
   class Service
     # Maximum number of translations to keep in the LRU cache
     MAX_CACHE_SIZE = 1000
+
+    # Registry for custom providers
+    @@provider_registry = {}
 
     # Initializes a new Service instance.
     # Sets up the translation provider based on configuration and initializes the LRU cache.
@@ -30,22 +35,22 @@ module BetterTranslate
     # @return [String] The translated text
     def translate(text, target_lang_code, target_lang_name)
       cache_key = "#{text}:#{target_lang_code}"
-      
+
       # Prova a recuperare dalla cache
       cached = cache_get(cache_key)
       return cached if cached
-      
+
       # Traduci e salva in cache
       start_time = Time.now
       result = provider_instance.translate_text(text, target_lang_code, target_lang_name)
       duration = Time.now - start_time
-      
+
       BetterTranslate::Utils.track_metric("translation_request_duration", {
         provider: @provider_name,
         text_length: text.length,
         duration: duration
       })
-      
+
       cache_set(cache_key, result)
     end
 
@@ -77,7 +82,7 @@ module BetterTranslate
         oldest_key = @cache_order.shift
         @translation_cache.delete(oldest_key)
       end
-      
+
       @translation_cache[key] = value
       @cache_order.push(key)
       value
@@ -87,7 +92,8 @@ module BetterTranslate
 
     # Creates or returns a cached instance of the translation provider.
     # The provider is determined by the configuration and instantiated with the appropriate API key.
-    # Supports ChatGPT and Gemini providers.
+    # Supports built-in providers (ChatGPT, Gemini) and custom providers registered via
+    # the register_provider class method.
     #
     # @return [BetterTranslate::Providers::BaseProvider] An instance of the configured translation provider
     # @raise [RuntimeError] If the configured provider is not supported
@@ -98,8 +104,41 @@ module BetterTranslate
                              when :gemini
                                Providers::GeminiProvider.new(BetterTranslate.configuration.google_gemini_key)
                              else
-                               raise "Provider non supportato: #{@provider_name}"
+                               if @@provider_registry.key?(@provider_name)
+                                 # Get the API key from configuration dynamically
+                                 api_key_method = "#{@provider_name}_key".to_sym
+                                 if BetterTranslate.configuration.respond_to?(api_key_method)
+                                   api_key = BetterTranslate.configuration.send(api_key_method)
+                                   @@provider_registry[@provider_name].call(api_key)
+                                 else
+                                   raise "API key configuration missing for provider: #{@provider_name}. Add config.#{@provider_name}_key to your BetterTranslate configuration."
+                                 end
+                               else
+                                 raise "Provider not supported: #{@provider_name}. Available providers: #{available_providers.join(', ')}"
+                               end
                              end
+    end
+
+    # Returns a list of all available provider names
+    # @return [Array<Symbol>] List of available provider names
+    def available_providers
+      [:chatgpt, :gemini] + @@provider_registry.keys
+    end
+
+    # Registers a custom provider for use with BetterTranslate
+    # 
+    # @param name [Symbol] The name of the provider to register
+    # @param factory [Proc] A proc that takes an API key and returns a provider instance
+    # @return [Symbol] The name of the registered provider
+    # 
+    # @example Register a custom DeepL provider
+    #   BetterTranslate::Service.register_provider(
+    #     :deepl,
+    #     ->(api_key) { Providers::DeepLProvider.new(api_key) }
+    #   )
+    def self.register_provider(name, factory)
+      @@provider_registry[name] = factory
+      name
     end
   end
 end

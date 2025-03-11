@@ -1,5 +1,5 @@
 BetterTranslate.configure do |config|
-  # Choose the provider to use: :chatgpt or :gemini
+  # Choose the provider to use: :chatgpt, :gemini, or any custom provider registered with BetterTranslate::Service.register_provider
   config.provider = :chatgpt
 
   # API key for OpenAI
@@ -7,6 +7,13 @@ BetterTranslate.configure do |config|
 
   # API key for Google Gemini
   config.google_gemini_key = ENV.fetch("GOOGLE_GEMINI_KEY") { "YOUR_GOOGLE_GEMINI_KEY" }
+  
+  # Custom provider API keys
+  # If you've created a custom provider using 'rails generate better_translate:provider YourProvider',
+  # add its API key here following the naming convention: config.your_provider_key
+  # 
+  # Example for a custom DeepL provider:
+  # config.deepl_key = ENV.fetch("DEEPL_API_KEY") { "YOUR_DEEPL_API_KEY" }
 
   # Source language (for example "en" if the source file is in English)
   config.source_language = "en"

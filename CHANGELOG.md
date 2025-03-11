@@ -5,6 +5,24 @@ All notable changes to BetterTranslate will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2025-03-12
+
+### Added
+- Custom Translation Provider support:
+  - New generator: `rails generate better_translate:provider YourProviderName`
+  - Provider registration system via `BetterTranslate::Service.register_provider`
+  - Dynamic API key configuration for custom providers
+  - Comprehensive documentation and examples for creating custom providers
+  - Template files with implementation instructions
+- Enhanced Service class:
+  - Provider registry for managing custom providers
+  - Improved error handling with better error messages
+  - Method to list all available providers
+- Updated documentation:
+  - New section in README for custom providers
+  - Step-by-step guide for implementing custom translation services
+  - Example implementation for DeepL integration
+
 ## [0.4.2] - 2025-03-11
 
 ### Added

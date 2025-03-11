@@ -19,7 +19,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
 
 ## Why BetterTranslate? 🤔
 
-- 🌐 **AI-Powered Translation**: Leverage ChatGPT and Google Gemini for high-quality translations
+- 🌐 **AI-Powered Translation**: Leverage ChatGPT, Google Gemini, and custom providers for high-quality translations
 - 🔄 **Smart Translation Modes**:
   - `Override`: Full file rewrite
   - `Incremental`: Update only new/modified keys
@@ -29,6 +29,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
   - Dot notation support
 - 🛠 **Developer-Friendly**:
   - Rails generators included
+  - Custom provider support
   - Comprehensive test suite
   - LRU caching for performance
   - Progress tracking
@@ -47,7 +48,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
 Add the gem to your Gemfile:
 
 ```ruby
-gem 'better_translate', '~> 0.4.2'
+gem 'better_translate', '~> 0.5.0'
 ```
 
 Then run:
@@ -159,6 +160,12 @@ The gem includes generators to simplify tasks:
   rails generate better_translate:analyze
   ```
 
+- **Create Custom Provider:**
+
+  ```bash
+  rails generate better_translate:provider YourProviderName
+  ```
+
   The `better_translate:analyze` generator will:
   - Scan all YAML files in your locales directory
   - Find similar translations using Levenshtein distance
@@ -171,6 +178,76 @@ The gem includes generators to simplify tasks:
   - Maintain consistency across your translations
   - Optimize your translation files
   - Reduce translation costs
+
+### Custom Translation Providers
+
+BetterTranslate allows you to create and use custom translation providers, enabling integration with any translation API or service. This feature is particularly useful if you want to use a translation service not natively supported by BetterTranslate, such as DeepL, Microsoft Translator, Amazon Translate, or any other API-based translation service.
+
+1. **Generate a custom provider template:**
+
+   ```bash
+   rails generate better_translate:provider DeepL
+   ```
+
+   This creates a new provider class in `app/providers/deep_l_provider.rb` and a README with implementation instructions.
+
+2. **Implement the translation logic:**
+
+   Edit the generated provider file to implement the `translate_text` method with your API-specific code:
+
+   ```ruby
+   # app/providers/deep_l_provider.rb
+   module Providers
+     class DeepLProvider < BetterTranslate::Providers::BaseProvider
+       def initialize(api_key)
+         @api_key = api_key
+       end
+
+       def translate_text(text, target_lang_code, target_lang_name)
+         # Implement your API call to DeepL here
+         # Return the translated text as a string
+       end
+     end
+   end
+   ```
+
+3. **Register your provider:**
+
+   Create an initializer to register your custom provider:
+
+   ```ruby
+   # config/initializers/better_translate_providers.rb
+   # Require the provider file to ensure it's loaded
+   require Rails.root.join('app', 'providers', 'deep_l_provider')
+   
+   BetterTranslate::Service.register_provider(
+     :deepl,
+     ->(api_key) { Providers::DeepLProvider.new(api_key) }
+   )
+   ```
+   
+   Note: The `require` statement is important to ensure the provider class is loaded before it's used.
+
+4. **Update your configuration:**
+
+   Add your API key to the BetterTranslate configuration:
+
+   ```ruby
+   # config/initializers/better_translate.rb
+   BetterTranslate.configure do |config|
+     config.provider = :deepl
+     config.deepl_key = ENV['DEEPL_API_KEY']
+     # ... other configuration
+   end
+   ```
+
+5. **Use your custom provider:**
+
+   Your custom provider will now be used when you call `BetterTranslate.magic` or any other translation method.
+
+6. **Troubleshooting:**
+
+   If you encounter a `NameError` related to the `Providers` module, make sure the provider file is properly required in your initializer as shown in step 3. The `require` statement ensures that the provider class is loaded before it's used.
 
 ### Translation Helpers
 
