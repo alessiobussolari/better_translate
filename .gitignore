@@ -9,3 +9,13 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Test output files
+translation_similarities.json
+translation_similarities_summary.txt
+spec/fixtures/vcr_cassettes/
