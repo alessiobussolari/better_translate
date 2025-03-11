@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "better_translate"
+require "optparse"
+require_relative "../spec/support/test_cases/translation_test_cases"
+
+module BetterTranslate
+  class ProviderTester
+    include BetterTranslate::TestCases
+    
+    def initialize(options = {})
+      @options = {
+        provider: nil,
+        test_case: :simple,
+        languages: :basic,
+        verbose: true
+      }.merge(options)
+      
+      # Carica le variabili d'ambiente
+      require "dotenv"
+      Dotenv.load(File.expand_path("../.env", __dir__))
+    end
+    
+    def run
+      providers = @options[:provider] ? [@options[:provider].to_sym] : PROVIDERS.keys
+      test_cases = get_test_cases
+      languages = get_languages
+      
+      providers.each do |provider_key|
+        provider_config = PROVIDERS[provider_key]
+        test_provider(provider_key, provider_config, test_cases, languages)
+      end
+    end
+    
+    private
+    
+    def get_test_cases
+      case @options[:test_case]
+      when :all
+        STANDARD_CASES
+      else
+        if STANDARD_CASES.key?(@options[:test_case].to_sym)
+          { @options[:test_case].to_sym => STANDARD_CASES[@options[:test_case].to_sym] }
+        else
+          { simple: STANDARD_CASES[:simple] }
+        end
+      end
+    end
+    
+    def get_languages
+      case @options[:languages]
+      when :all
+        SUPPORTED_LANGUAGES
+      when :basic
+        BASIC_LANGUAGES
+      else
+        BASIC_LANGUAGES
+      end
+    end
+    
+    def test_provider(provider_key, provider_config, test_cases, languages)
+      api_key = ENV[provider_config[:key_env]]
+      
+      unless api_key
+        puts "\n❌ #{provider_config[:name]}: API key non trovata (#{provider_config[:key_env]})"
+        return
+      end
+      
+      puts "\n🔍 Testing #{provider_config[:name]} provider..."
+      provider_config[:config].call(api_key)
+      service = BetterTranslate::Service.new
+      
+      test_cases.each do |test_case_name, text|
+        puts "\n📝 Test case: #{test_case_name}"
+        
+        languages.each do |lang|
+          print "  #{lang[:name]}: "
+          begin
+            start_time = Time.now
+            result = service.translate(text, lang[:code], lang[:name])
+            duration = Time.now - start_time
+            puts "✅ (#{duration.round(2)}s)"
+            puts "    #{result}" if @options[:verbose]
+          rescue => e
+            puts "❌ Errore: #{e.message}"
+          end
+        end
+      end
+    end
+  end
+end
+
+# Parsing delle opzioni
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Utilizzo: bin/test_providers [opzioni]"
+
+  opts.on("--provider=PROVIDER", "Specifica il provider da testare (chatgpt, gemini)") do |provider|
+    options[:provider] = provider
+  end
+
+  opts.on("--test-case=CASE", "Specifica il caso di test (simple, complex, special_chars, html, long, all)") do |test_case|
+    options[:test_case] = test_case.to_sym
+  end
+
+  opts.on("--languages=TYPE", "Specifica le lingue da testare (basic, all)") do |languages|
+    options[:languages] = languages.to_sym
+  end
+
+  opts.on("--quiet", "Non mostra i risultati delle traduzioni") do
+    options[:verbose] = false
+  end
+
+  opts.on_tail("--help", "Mostra questo messaggio di aiuto") do
+    puts opts
+    exit
+  end
+end.parse!
+
+# Esegui i test
+BetterTranslate::ProviderTester.new(options).run

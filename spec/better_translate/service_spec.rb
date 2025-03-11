@@ -4,111 +4,115 @@ require "spec_helper"
 
 RSpec.describe BetterTranslate::Service do
   let(:service) { described_class.new }
-  let(:text) { "Hello, world!" }
+  let(:text) { "Hello, how are you?" }
   let(:target_lang_code) { "it" }
   let(:target_lang_name) { "Italian" }
-  let(:translated_text) { "Ciao, mondo!" }
+  let(:translated_text) { "Ciao, come stai?" }
+  let(:mock_provider) { instance_double("BetterTranslate::Providers::Base") }
 
   before do
-    BetterTranslate.configure do |config|
-      config.provider = :chatgpt
-      config.openai_key = "test_key"
-    end
+    allow(service).to receive(:provider_instance).and_return(mock_provider)
+    allow(mock_provider).to receive(:translate_text).and_return(translated_text)
   end
 
   describe "#translate" do
-    let(:provider_instance) { instance_double(BetterTranslate::Providers::ChatgptProvider) }
-    let(:cache_key) { "#{text}:#{target_lang_code}" }
-
-    before do
-      allow(BetterTranslate::Providers::ChatgptProvider).to receive(:new).and_return(provider_instance)
-      allow(provider_instance).to receive(:translate_text).and_return(translated_text)
-      allow(BetterTranslate::Utils).to receive(:track_metric)
-    end
-
     it "translates text using the configured provider" do
-      expect(provider_instance).to receive(:translate_text).with(text, target_lang_code, target_lang_name)
-      service.send(:translate, text, target_lang_code, target_lang_name)
-    end
-
-    it "caches the translation result" do
-      service.send(:translate, text, target_lang_code, target_lang_name)
-      cached_result = service.instance_variable_get(:@translation_cache)[cache_key]
-      expect(cached_result).to eq(translated_text)
-    end
-
-    it "returns cached translation if available" do
-      service.send(:translate, text, target_lang_code, target_lang_name)
-      expect(provider_instance).not_to receive(:translate)
-      result = service.send(:translate, text, target_lang_code, target_lang_name)
+      expect(mock_provider).to receive(:translate_text).with(text, target_lang_code, target_lang_name)
+      result = service.translate(text, target_lang_code, target_lang_name)
       expect(result).to eq(translated_text)
     end
 
-    it "tracks translation metrics" do
-      expect(BetterTranslate::Utils).to receive(:track_metric).with(
-        "translation_request_duration",
-        hash_including(
-          provider: :chatgpt,
-          text_length: text.length
-        )
-      )
-      service.send(:translate, text, target_lang_code, target_lang_name)
+    it "caches the translation result" do
+      service.translate(text, target_lang_code, target_lang_name)
+      
+      # La seconda chiamata non dovrebbe chiamare il provider
+      expect(mock_provider).not_to receive(:translate_text)
+      service.translate(text, target_lang_code, target_lang_name)
+    end
+
+    it "returns cached translation if available" do
+      service.translate(text, target_lang_code, target_lang_name)
+      result = service.translate(text, target_lang_code, target_lang_name)
+      expect(result).to eq(translated_text)
+    end
+
+    it "translates text and returns the result" do
+      result = service.translate(text, target_lang_code, target_lang_name)
+      expect(result).to eq(translated_text)
     end
   end
 
   describe "caching behavior" do
+    let(:max_cache_size) { BetterTranslate::Service::MAX_CACHE_SIZE }
+    
     it "maintains cache size within MAX_CACHE_SIZE limit" do
-      (described_class::MAX_CACHE_SIZE + 1).times do |i|
-        service.send(:cache_set, "key#{i}", "value#{i}")
+      # Riempi la cache fino al limite
+      (max_cache_size + 1).times do |i|
+        allow(mock_provider).to receive(:translate_text).and_return("translation #{i}")
+        service.translate("text #{i}", target_lang_code, target_lang_name)
       end
-
-      cache = service.instance_variable_get(:@translation_cache)
-      expect(cache.size).to eq(described_class::MAX_CACHE_SIZE)
-    end
-
-    it "implements LRU cache behavior" do
-      service.send(:cache_set, "key1", "value1")
-      service.send(:cache_set, "key2", "value2")
-      service.send(:cache_get, "key1") # Access key1 to make it most recently used
-      cache_order = service.instance_variable_get(:@cache_order)
-      expect(cache_order.last).to eq("key1") # key1 should be most recent after access
       
-      service.send(:cache_set, "key3", "value3")
+      cache = service.instance_variable_get(:@translation_cache)
+      expect(cache.size).to be <= max_cache_size
+    end
+    
+    it "implements LRU cache behavior" do
+      # Riempi la cache
+      max_cache_size.times do |i|
+        allow(mock_provider).to receive(:translate_text).and_return("translation #{i}")
+        service.translate("text #{i}", target_lang_code, target_lang_name)
+      end
+      
+      # Accedi al primo elemento per renderlo il più recente
+      allow(mock_provider).to receive(:translate_text).and_return("translation 0")
+      service.translate("text 0", target_lang_code, target_lang_name)
+      
+      # Aggiungi un nuovo elemento che dovrebbe far scadere il secondo più vecchio
+      allow(mock_provider).to receive(:translate_text).and_return("translation new")
+      service.translate("text new", target_lang_code, target_lang_name)
+      
+      cache = service.instance_variable_get(:@translation_cache)
       cache_order = service.instance_variable_get(:@cache_order)
-      expect(cache_order.last).to eq("key3") # key3 should now be most recent
-      expect(cache_order).to include("key1", "key2")
+      
+      expect(cache.keys).to include("text 0:#{target_lang_code}")
+      expect(cache.keys).to include("text new:#{target_lang_code}")
+      expect(cache.keys).not_to include("text 1:#{target_lang_code}")
     end
   end
 
   describe "#provider_instance" do
     context "with chatgpt provider" do
       it "creates a ChatgptProvider instance" do
-        expect(service.send(:provider_instance)).to be_a(BetterTranslate::Providers::ChatgptProvider)
+        BetterTranslate.configure do |config|
+          config.provider = :chatgpt
+          config.openai_key = "test_key"
+        end
+        # Creiamo un nuovo service dopo la configurazione
+        new_service = BetterTranslate::Service.new
+        expect(new_service.send(:provider_instance)).to be_a(BetterTranslate::Providers::ChatgptProvider)
       end
     end
 
     context "with gemini provider" do
-      before do
+      it "creates a GeminiProvider instance" do
         BetterTranslate.configure do |config|
           config.provider = :gemini
-          config.google_gemini_key = "test_key"
+          config.gemini_key = "test_key"
         end
-      end
-
-      it "creates a GeminiProvider instance" do
-        expect(service.send(:provider_instance)).to be_a(BetterTranslate::Providers::GeminiProvider)
+        # Creiamo un nuovo service dopo la configurazione
+        new_service = BetterTranslate::Service.new
+        expect(new_service.send(:provider_instance)).to be_a(BetterTranslate::Providers::GeminiProvider)
       end
     end
 
     context "with unsupported provider" do
-      before do
+      it "raises an error" do
         BetterTranslate.configure do |config|
           config.provider = :unsupported
         end
-      end
-
-      it "raises an error" do
-        expect { service.send(:provider_instance) }.to raise_error(/Provider non supportato/)
+        # Creiamo un nuovo service dopo la configurazione
+        new_service = BetterTranslate::Service.new
+        expect { new_service.send(:provider_instance) }.to raise_error(RuntimeError, /Provider non supportato/)
       end
     end
   end

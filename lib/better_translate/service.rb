@@ -60,7 +60,7 @@ module BetterTranslate
                              when :chatgpt
                                Providers::ChatgptProvider.new(BetterTranslate.configuration.openai_key)
                              when :gemini
-                               Providers::GeminiProvider.new(BetterTranslate.configuration.google_gemini_key)
+                               Providers::GeminiProvider.new(BetterTranslate.configuration.gemini_key)
                              else
                                raise "Provider non supportato: #{@provider_name}"
                              end

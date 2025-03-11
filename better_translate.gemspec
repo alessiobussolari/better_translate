@@ -65,5 +65,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "yard", "~> 0.9"
   spec.add_development_dependency "simplecov", "~> 0.22"
   spec.add_development_dependency "webmock", "~> 3.19"
-  spec.add_development_dependency "vcr", "~> 6.1"
+  spec.add_development_dependency "dotenv", "~> 2.8"
 end
