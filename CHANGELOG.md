@@ -1,6 +1,18 @@
 # Changelog
 
-## [0.1.0] - 2025-03-08
+## [0.2.0] - 2025-03-11
+
+- Divided the filtering process into two steps:
+    - **Global Exclusions**: Removes keys defined in `global_exclusions` from the entire YAML structure.
+    - **Language-Specific Exclusions**: Applies further filtering using the `exclusions_per_language` map for each target language.
+- This change ensures that exclusions specific to a target language (e.g., `"sample.valid"` for Italian) are applied only when translating that language, without affecting the overall global filtering.
+
+## [0.1.1] - 2025-03-10
+
+- Added a new Rails generator `rails generate better_translate:translate` that triggers the translation process.
+    - The generator executes the translation method (e.g., `BetterTranslate.magic`) and displays progress messages.
+
+## [0.1.0] - 2025-03-10
 
 - Initial release:
 - Traduzione di file YAML da una lingua sorgente verso una o più lingue target.

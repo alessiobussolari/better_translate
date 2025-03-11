@@ -7,19 +7,24 @@ module BetterTranslate
         translations = read_yml_source
 
         # Rimuove le chiavi da escludere (global_exclusions) dalla struttura letta
-        filtered_translations = remove_exclusions(
+        global_filtered_translations = remove_exclusions(
           translations, BetterTranslate.configuration.global_exclusions
         )
 
         BetterTranslate.configuration.target_languages.each do |target_lang|
+
+          # Fase 2: Applica il filtro specifico per la lingua target
+          lang_exclusions = BetterTranslate.configuration.exclusions_per_language[target_lang[:short_name]] || []
+          filtered_translations = remove_exclusions(
+            global_filtered_translations, lang_exclusions
+          )
+
           puts "Inizio traduzione da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
           service = BetterTranslate::Service.new
           translated_data = translate_with_progress(filtered_translations, service, target_lang[:short_name], target_lang[:name])
           BetterTranslate::Writer.write_translations(translated_data, target_lang[:short_name])
           puts "Traduzione completata da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
         end
-
-        "Traduzione iniziata! #{filtered_translations.inspect}"
       end
 
       private
@@ -38,18 +43,18 @@ module BetterTranslate
         YAML.load_file(file_path)
       end
 
-      # Rimuove le chiavi specificate in exclusion_list dalla struttura dati,
+      # Rimuove le chiavi globali da escludere dalla struttura dati,
       # calcolando i percorsi a partire dal contenuto della lingua di partenza.
       #
       # Ad esempio, se il file YAML è:
-      # { "en" => { "sample" => { "valid" => "valid", "excluded" => "Excluded" } } }
-      # e exclusion_list = ["sample.excluded"],
+      #   { "en" => { "sample" => { "valid" => "valid", "excluded" => "Excluded" } } }
+      # e global_exclusions = ["sample.excluded"],
       # il risultato sarà:
-      # { "en" => { "sample" => { "valid" => "valid" } } }
+      #   { "en" => { "sample" => { "valid" => "valid" } } }
       #
       # @param data [Hash, Array, Object] La struttura dati da filtrare.
-      # @param exclusion_list [Array<String>] Lista dei percorsi (in dot notation) da escludere.
-      # @param current_path [Array] Il percorso corrente (usato in maniera ricorsiva).
+      # @param global_exclusions [Array<String>] Lista dei percorsi (in dot notation) da escludere globalmente.
+      # @param current_path [Array] Il percorso corrente (usato in maniera ricorsiva, default: []).
       # @return [Hash, Array, Object] La struttura dati filtrata.
       def remove_exclusions(data, exclusion_list, current_path = [])
         if data.is_a?(Hash)
