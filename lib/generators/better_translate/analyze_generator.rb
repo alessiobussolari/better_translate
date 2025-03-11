@@ -4,9 +4,23 @@ require "rails/generators"
 
 module BetterTranslate
   module Generators
+    # Rails generator for analyzing translation files to find similar content.
+    # Uses the SimilarityAnalyzer to identify potentially redundant translations
+    # across locale files and generates both JSON and human-readable reports.
+    #
+    # @example
+    #   rails generate better_translate:analyze
     class AnalyzeGenerator < Rails::Generators::Base
       desc "Analyze translation files for similarities"
 
+      # Main generator method that analyzes translation files for similarities.
+      # Finds all YAML files in the config/locales directory, runs the analysis,
+      # and displays a summary of the results.
+      #
+      # The analysis uses the Levenshtein distance algorithm to identify strings
+      # that are similar but not identical, which could indicate redundant translations.
+      #
+      # @return [void]
       def analyze_translations
         say "Starting translation similarity analysis...", :blue
 

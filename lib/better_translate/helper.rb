@@ -1,4 +1,16 @@
 module BetterTranslate
+  # Helper class that provides utility methods for translating text and arrays of text
+  # to multiple target languages using different translation providers.
+  # This class simplifies the process of translating content by abstracting away
+  # the provider-specific implementation details.
+  #
+  # @example Translating a single text to multiple languages
+  #   BetterTranslate::Helper.translate_text_to_languages(
+  #     "Hello world!",
+  #     [{ short_name: "it", name: "Italian" }, { short_name: "fr", name: "French" }],
+  #     "en",
+  #     :chatgpt
+  #   )
   class Helper
     class << self
       # Translates a given text into multiple target languages.

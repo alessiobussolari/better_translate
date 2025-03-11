@@ -15,6 +15,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
 - 🧪 Comprehensive test coverage
 - ⚡️ LRU caching for performance
 - 🔍 Translation similarity analysis
+- 📚 Extensive YARD documentation
 
 ## Why BetterTranslate? 🤔
 
@@ -31,6 +32,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
   - Comprehensive test suite
   - LRU caching for performance
   - Progress tracking
+  - Detailed YARD documentation
 - 🔍 **Translation Analysis**:
   - Similarity detection
   - Detailed reports
@@ -45,7 +47,7 @@ BetterTranslate simplifies the translation of YAML files in your Ruby/Rails appl
 Add the gem to your Gemfile:
 
 ```ruby
-gem 'better_translate', '~> 0.1.0'
+gem 'better_translate', '~> 0.4.2'
 ```
 
 Then run:

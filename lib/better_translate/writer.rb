@@ -1,4 +1,8 @@
 module BetterTranslate
+  # Responsible for writing translated content to YAML files.
+  # Supports both incremental and override translation methods.
+  # Incremental mode preserves existing translations and adds new ones,
+  # while override mode completely replaces the target file.
   class Writer
     class << self
       # Writes the translation file for a target language.
@@ -35,14 +39,19 @@ module BetterTranslate
 
       private
 
-      # Metodo di deep merge: unisce in modo ricorsivo i due hash.
-      # Se una chiave esiste in entrambi gli hash e i valori sono hash, li unisce ricorsivamente.
-      # Otherwise, if the key already exists in the existing hash, it keeps it and doesn't overwrite it.
-      # Se la chiave non esiste, la aggiunge.
+      # Recursively merges two hashes while preserving existing values.
+      # If a key exists in both hashes and the values are hashes, they are merged recursively.
+      # If a key exists in both hashes but the values are not hashes, the existing value is preserved.
+      # If a key only exists in the new hash, it is added to the merged result.
       #
-      # @param existing [Hash] existing hash (current file)
-      # @param new_data [Hash] new hash with translations to merge
-      # @return [Hash] merged hash
+      # @param existing [Hash] The existing hash (current file content)
+      # @param new_data [Hash] The new hash with translations to merge
+      # @return [Hash] The merged hash with preserved existing values
+      # @example
+      #   existing = { "en" => { "hello" => "Hello", "nested" => { "key" => "Value" } } }
+      #   new_data = { "en" => { "hello" => "New Hello", "nested" => { "key2" => "Value2" } } }
+      #   deep_merge(existing, new_data)
+      #   # => { "en" => { "hello" => "Hello", "nested" => { "key" => "Value", "key2" => "Value2" } } }
       def deep_merge(existing, new_data)
         merged = existing.dup
         new_data.each do |key, value|

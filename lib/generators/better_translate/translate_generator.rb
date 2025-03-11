@@ -4,9 +4,18 @@ require 'rails/generators'
 
 module BetterTranslate
   module Generators
+    # Rails generator for executing translations with BetterTranslate.
+    # This generator validates the configuration and starts the translation process.
+    #
+    # @example
+    #   rails generate better_translate:translate
     class TranslateGenerator < Rails::Generators::Base
       desc "Starts the translation process configured in BetterTranslate"
 
+      # Main generator method that initiates the translation process.
+      # Validates the configuration before starting and provides status messages.
+      #
+      # @return [void]
       def translate
         say "Starting translation with BetterTranslate...", :blue
         
@@ -22,6 +31,10 @@ module BetterTranslate
       
       private
       
+      # Validates the BetterTranslate configuration.
+      # Checks for required settings and reports any issues found.
+      #
+      # @return [Boolean] true if the configuration is valid, false otherwise
       def validate_configuration
         valid = true
         

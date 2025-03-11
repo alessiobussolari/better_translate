@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.2] - 2025-03-11
 
-### Fixed
-- Risolto il problema con il generatore di traduzione che non funzionava correttamente
-- Aggiunto il supporto per Railtie per garantire che i generatori siano registrati correttamente in Rails
-- Corretta l'incongruenza nei nomi delle chiavi API per il provider Gemini
-- Migliorati i messaggi di errore per una migliore diagnostica dei problemi di configurazione
+### Added
+- Comprehensive YARD-style documentation across the entire codebase:
+  - Added detailed class and method documentation for all core components
+  - Added parameter and return type documentation
+  - Added usage examples for key classes and methods
+  - Improved inline comments for complex logic
+
+### Changed
+- Improved code readability and maintainability through better documentation
+- Enhanced developer experience with clearer API documentation
 
 ## [0.4.1] - 2025-03-11
 

@@ -1,11 +1,9 @@
 module BetterTranslate
   class Translator
     class << self
-      # Esegue il processo di traduzione per tutte le lingue target configurate.
-      #
-      # Questo metodo è il punto di ingresso principale per il processo di traduzione.
-      # Legge il file di input, applica le esclusioni globali e poi traduce il contenuto
-      # in ciascuna delle lingue target configurate.
+      # Main method that orchestrates the translation process.
+      # Reads the source file, applies exclusions, and translates the content
+      # to all configured target languages sequentially.
       #
       # @return [void]
       def work
@@ -63,14 +61,11 @@ module BetterTranslate
 
       private
 
-      # Legge il file YAML di origine delle traduzioni.
+      # Reads the YAML file specified in the configuration.
+      # The file path is taken from BetterTranslate.configuration.input_file.
       #
-      # Questo metodo legge il file YAML specificato nella configurazione e lo carica
-      # in una struttura dati Ruby. Verifica l'esistenza del file prima di tentare
-      # di leggerlo e solleva un'eccezione se il file non esiste.
-      #
-      # @return [Hash] Struttura dati contenente le traduzioni dal file YAML
-      # @raise [StandardError] Se il file specificato non esiste
+      # @return [Hash] The parsed YAML data structure containing the translations
+      # @raise [StandardError] If the input file does not exist or cannot be parsed
       def read_yml_source
         file_path = BetterTranslate.configuration.input_file
         unless File.exist?(file_path)
@@ -88,11 +83,14 @@ module BetterTranslate
       # and global_exclusions = ["sample.excluded"],
       # the result will be:
       #   { "en" => { "sample" => { "valid" => "valid" } } }
+      # Removes specified keys from the translation data structure.
+      # Recursively traverses the data structure and excludes any keys that match the exclusion list.
+      # Keys can be excluded at any nesting level using dot notation paths.
       #
-      # @param data [Hash, Array, Object] The data structure to filter.
-      # @param global_exclusions [Array<String>] List of paths (in dot notation) to exclude globally.
-      # @param current_path [Array] The current path (used recursively, default: []).
-      # @return [Hash, Array, Object] The filtered data structure.
+      # @param data [Hash, Array, Object] The data structure to filter
+      # @param exclusion_list [Array<String>] List of dot-separated key paths to exclude
+      # @param current_path [Array] The current path in the traversal (used recursively, default: [])
+      # @return [Hash, Array, Object] The filtered data structure with excluded keys removed
       def remove_exclusions(data, exclusion_list, current_path = [])
         if data.is_a?(Hash)
           data.each_with_object({}) do |(key, value), result|
@@ -120,24 +118,16 @@ module BetterTranslate
 
       # Recursive method that traverses the structure, translating each string and updating progress.
       #
-      # @param data [Hash, Array, String] The data structure to translate.
-      # @param provider [Object] The provider that responds to the translate method.
-      # @param target_lang_code [String] Target language code (e.g. "en").
-      # @param target_lang_name [String] Target language name (e.g. "English").
-      # @param progress [Hash] A hash with :count and :total keys to monitor progress.
-      # @return [Hash, Array, String] The translated structure.
-      # Traduce una struttura dati utilizzando un approccio ricorsivo profondo.
+      # Recursively translates a data structure by traversing it deeply.
+      # This method is used for smaller datasets (less than 50 strings) and translates each string individually.
+      # It maintains the original structure of the data while replacing string values with their translations.
       #
-      # Questo metodo attraversa ricorsivamente la struttura dati e traduce
-      # ogni stringa individualmente. È più adatto per dataset di piccole dimensioni
-      # o quando è necessaria una traduzione più precisa di ogni elemento.
-      #
-      # @param data [Hash, Array, String] La struttura dati da tradurre
-      # @param service [BetterTranslate::Service] Il servizio da utilizzare per la traduzione
-      # @param target_lang_code [String] Il codice della lingua di destinazione
-      # @param target_lang_name [String] Il nome della lingua di destinazione
-      # @param progress [ProgressBar] L'oggetto barra di progresso per monitorare l'avanzamento
-      # @return [Hash, Array, String] La struttura dati tradotta
+      # @param data [Hash, Array, String] The data structure to translate
+      # @param service [BetterTranslate::Service] The service instance to use for translation
+      # @param target_lang_code [String] The target language code (e.g., 'fr', 'es')
+      # @param target_lang_name [String] The target language name (e.g., 'French', 'Spanish')
+      # @param progress [ProgressBar] A progress bar instance to track translation progress
+      # @return [Hash, Array, String] The translated data structure with the same structure as the input
       def deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
         if data.is_a?(Hash)
           data.each_with_object({}) do |(key, value), result|
@@ -155,22 +145,15 @@ module BetterTranslate
         end
       end
 
-      # Traduce una struttura dati completa con monitoraggio del progresso.
+      # Translates the entire data structure with progress monitoring.
+      # Automatically selects between batch and deep translation methods based on the number of strings.
+      # For datasets with more than 50 strings, batch processing is used for better performance.
       #
-      # Questo metodo è responsabile della traduzione di una struttura dati completa,
-      # che può essere un hash, un array o una stringa. Seleziona automaticamente
-      # il metodo di traduzione più appropriato in base alla dimensione dei dati:
-      # - Per dataset grandi (> 50 stringhe) utilizza il metodo batch
-      # - Per dataset piccoli utilizza il metodo deep
-      #
-      # Mostra una barra di progresso durante la traduzione e registra metriche
-      # sulla durata e il metodo utilizzato.
-      #
-      # @param data [Hash, Array, String] La struttura dati da tradurre
-      # @param service [BetterTranslate::Service] Il servizio da utilizzare per la traduzione
-      # @param target_lang_code [String] Il codice della lingua di destinazione (es. 'it', 'fr')
-      # @param target_lang_name [String] Il nome della lingua di destinazione (es. 'Italian', 'French')
-      # @return [Hash, Array, String] La struttura dati tradotta
+      # @param data [Hash, Array, String] The data structure to translate
+      # @param service [BetterTranslate::Service] The service instance to use for translation
+      # @param target_lang_code [String] The target language code (e.g., 'fr', 'es')
+      # @param target_lang_name [String] The target language name (e.g., 'French', 'Spanish')
+      # @return [Hash, Array, String] The translated data structure with the same structure as the input
       def translate_with_progress(data, service, target_lang_code, target_lang_name)
         total = count_strings(data)
         message = "[BetterTranslate] Found #{total} strings to translate to #{target_lang_name}"
@@ -202,19 +185,16 @@ module BetterTranslate
         result
       end
 
-      # Traduce una struttura dati utilizzando un approccio a batch.
+      # Translates data in batches for improved performance with larger datasets.
+      # This method first extracts all translatable strings, processes them in batches of 10,
+      # and then reinserts the translations back into the original structure.
       #
-      # Questo metodo estrae tutte le stringhe traducibili dalla struttura dati,
-      # le raggruppa in batch e le invia per la traduzione. Questo approccio è
-      # più efficiente per dataset di grandi dimensioni poiché riduce il numero
-      # di chiamate API necessarie.
-      #
-      # @param data [Hash, Array, String] La struttura dati da tradurre
-      # @param service [BetterTranslate::Service] Il servizio da utilizzare per la traduzione
-      # @param target_lang_code [String] Il codice della lingua di destinazione
-      # @param target_lang_name [String] Il nome della lingua di destinazione
-      # @param progress [ProgressBar] L'oggetto barra di progresso per monitorare l'avanzamento
-      # @return [Hash, Array, String] La struttura dati tradotta
+      # @param data [Hash, Array, String] The data structure to translate
+      # @param service [BetterTranslate::Service] The service instance to use for translation
+      # @param target_lang_code [String] The target language code (e.g., 'fr', 'es')
+      # @param target_lang_name [String] The target language name (e.g., 'French', 'Spanish')
+      # @param progress [ProgressBar] A progress bar instance to track translation progress
+      # @return [Hash, Array, String] The translated data structure with the same structure as the input
       def batch_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
         texts = extract_translatable_texts(data)
         translations = {}
@@ -241,15 +221,12 @@ module BetterTranslate
         replace_translations(data, translations)
       end
 
-      # Estrae tutte le stringhe traducibili da una struttura dati complessa.
+      # Extracts all unique translatable strings from a data structure.
+      # This is used by the batch translation method to collect all strings for efficient processing.
+      # Only non-empty strings are included in the result.
       #
-      # Questo metodo utilizza traverse_structure per attraversare ricorsivamente
-      # una struttura dati e raccoglie tutte le stringhe non vuote che devono
-      # essere tradotte. Le stringhe vengono raccolte in un Set per eliminare
-      # i duplicati e poi convertite in un array.
-      #
-      # @param data [Hash, Array, String] La struttura dati da cui estrarre le stringhe
-      # @return [Array<String>] Un array di stringhe traducibili uniche
+      # @param data [Hash, Array, String] The data structure to extract strings from
+      # @return [Array<String>] An array of unique strings found in the data structure
       def extract_translatable_texts(data)
         texts = Set.new
         traverse_structure(data) do |value|
@@ -258,6 +235,13 @@ module BetterTranslate
         texts.to_a
       end
 
+      # Replaces strings in the original data structure with their translations.
+      # Used by the batch translation method to reinsert translated strings into the original structure.
+      # Only non-empty strings that have translations in the provided hash are replaced.
+      #
+      # @param data [Hash, Array, String] The original data structure
+      # @param translations [Hash] A hash mapping original strings to their translations
+      # @return [Hash, Array, String] The data structure with strings replaced by translations
       def replace_translations(data, translations)
         traverse_structure(data) do |value|
           if value.is_a?(String) && !value.strip.empty? && translations.key?(value)
@@ -268,6 +252,13 @@ module BetterTranslate
         end
       end
 
+      # Traverses a nested data structure and applies a block to each element.
+      # This is a utility method used by extract_translatable_texts and replace_translations.
+      # Handles Hash, Array, and scalar values recursively.
+      #
+      # @param data [Hash, Array, Object] The data structure to traverse
+      # @yield [Object] Yields each value in the data structure to the block
+      # @return [Hash, Array, Object] The transformed data structure after applying the block
       def traverse_structure(data, &block)
         case data
         when Hash
@@ -279,14 +270,12 @@ module BetterTranslate
         end
       end
 
-      # Recursively counts the number of translatable strings in the data structure.
-      # Conta il numero totale di stringhe traducibili in una struttura dati.
+      # Counts the number of translatable strings in a data structure.
+      # Used to determine the total number of strings for progress tracking and method selection.
+      # Recursively traverses Hash and Array structures, counting each String as 1.
       #
-      # Questo metodo è utilizzato per determinare la dimensione del dataset
-      # e scegliere il metodo di traduzione più appropriato (batch o deep).
-      #
-      # @param data [Hash, Array, String] La struttura dati da analizzare
-      # @return [Integer] Il numero totale di stringhe traducibili trovate
+      # @param data [Hash, Array, String, Object] The data structure to count strings in
+      # @return [Integer] The total number of strings found in the data structure
       def count_strings(data)
         if data.is_a?(Hash)
           data.values.sum { |v| count_strings(v) }
