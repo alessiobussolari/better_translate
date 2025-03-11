@@ -2,11 +2,8 @@
 
 ## [0.3.0] - 2025-03-11
 
-- Added helper method `translate_texts_to_languages` to translate an array of texts.
-  - This method builds on the existing `translate_text_to_languages` helper.
-  - It accepts an array of texts, target languages, the source language, and the provider.
-  - It returns a hash where each key is a target language code and the value is an array of translated texts.
-
+- Added translation helper method `translate_text_to_languages` for translating a single text into multiple target languages.
+- Added translation helper method `translate_texts_to_languages` for translating an array of texts into multiple target languages.
 
 ## [0.2.0] - 2025-03-11
 
