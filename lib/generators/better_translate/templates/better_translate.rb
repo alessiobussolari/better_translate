@@ -1,17 +1,17 @@
 BetterTranslate.configure do |config|
-  # Scegli il provider da utilizzare: :chatgpt oppure :gemini
+  # Choose the provider to use: :chatgpt or :gemini
   config.provider = :chatgpt
 
-  # API key per OpenAI
+  # API key for OpenAI
   config.openai_key = ENV.fetch("OPENAI_API_KEY") { "YOUR_OPENAI_API_KEY" }
 
-  # API key per Google Gemini
+  # API key for Google Gemini
   config.google_gemini_key = ENV.fetch("GOOGLE_GEMINI_KEY") { "YOUR_GOOGLE_GEMINI_KEY" }
 
-  # Lingua sorgente (ad esempio "en" se il file sorgente è in inglese)
+  # Source language (for example "en" if the source file is in English)
   config.source_language = "en"
 
-  # Lista delle lingue target (short_name e name)
+  # List of target languages (short_name and name)
   config.target_languages = [
     # { short_name: 'es', name: 'spagnolo' },
     # { short_name: 'it', name: 'italiano' },
@@ -21,12 +21,12 @@ BetterTranslate.configure do |config|
     { short_name: "ru", name: "russian" }
   ]
 
-  # Esclusioni globali (percorsi in dot notation) da escludere per tutte le lingue
+  # Global exclusions (paths in dot notation) to exclude for all languages
   config.global_exclusions = [
     "key.value"
   ]
 
-  # Esclusioni specifiche per lingua
+  # Language-specific exclusions
   config.exclusions_per_language = {
     "es" => [],
     "it" => [],
@@ -36,14 +36,14 @@ BetterTranslate.configure do |config|
     "ru" => []
   }
 
-  # Percorso del file di input (ad es. en.yml)
+  # Input file path (e.g. en.yml)
   config.input_file = Rails.root.join("config", "locales", "en.yml").to_s
 
-  # Cartella di output dove verranno salvati i file tradotti
+  # Output folder where translated files will be saved
   config.output_folder = Rails.root.join("config", "locales", "translated").to_s
 
-  # Metodo di traduzione:
-  # - :override => rigenera tutte le traduzioni
-  # - :incremental => aggiorna solo le chiavi mancanti (o quelle che hanno subito modifiche)
+  # Translation method:
+  # - :override => regenerates all translations
+  # - :incremental => updates only missing keys (or those that have been modified)
   config.translation_method = :override
 end

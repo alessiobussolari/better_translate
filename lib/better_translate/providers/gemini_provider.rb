@@ -3,7 +3,7 @@ module BetterTranslate
     class GeminiProvider < BaseProvider
       # Esempio di implementazione per Google Gemini.
       # Nota: L'endpoint e i parametri sono ipotetici e vanno sostituiti con quelli reali secondo la documentazione ufficiale.
-      def translate(text, target_lang_code, target_lang_name)
+      def translate_text(text, target_lang_code, target_lang_name)
         uri = URI("https://gemini.googleapis.com/v1/translate")
         headers = {
           "Content-Type"  => "application/json",

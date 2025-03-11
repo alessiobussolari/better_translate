@@ -2,65 +2,75 @@ module BetterTranslate
   class Translator
     class << self
       def work
-        puts "Avvio della traduzione dei file..."
+        message = "Starting file translation..."
+        BetterTranslate::Utils.logger(message: message)
 
         translations = read_yml_source
 
-        # Rimuove le chiavi da escludere (global_exclusions) dalla struttura letta
+        # Removes the keys to exclude (global_exclusions) from the read structure
         global_filtered_translations = remove_exclusions(
           translations, BetterTranslate.configuration.global_exclusions
         )
 
-        BetterTranslate.configuration.target_languages.each do |target_lang|
+        start_time = Time.now
+        threads = BetterTranslate.configuration.target_languages.map do |target_lang|
+          Thread.new do
 
-          # Fase 2: Applica il filtro specifico per la lingua target
+          # Phase 2: Apply the target language specific filter
           lang_exclusions = BetterTranslate.configuration.exclusions_per_language[target_lang[:short_name]] || []
           filtered_translations = remove_exclusions(
             global_filtered_translations, lang_exclusions
           )
 
-          puts "Inizio traduzione da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
+          message = "Starting translation from #{BetterTranslate.configuration.source_language} to #{target_lang[:short_name]}"
+          BetterTranslate::Utils.logger(message: message)
           service = BetterTranslate::Service.new
           translated_data = translate_with_progress(filtered_translations, service, target_lang[:short_name], target_lang[:name])
           BetterTranslate::Writer.write_translations(translated_data, target_lang[:short_name])
-          puts "Traduzione completata da #{BetterTranslate.configuration.source_language} a #{target_lang[:short_name]}"
+          end_time = Time.now
+          duration = end_time - start_time
+          BetterTranslate::Utils.track_metric("translation_duration", duration)
+          
+          message = "Translation completed from #{BetterTranslate.configuration.source_language} to #{target_lang[:short_name]} in #{duration.round(2)} seconds"
+          BetterTranslate::Utils.logger(message: message)
+        end
         end
       end
 
       private
 
-      # Legge il file YAML in base al percorso fornito.
+      # Reads the YAML file based on the provided path.
       #
-      # @param file_path [String] percorso del file YAML da leggere
-      # @return [Hash] struttura dati contenente le traduzioni
-      # @raise [StandardError] se il file non esiste
+      # @param file_path [String] path of the YAML file to read
+      # @return [Hash] data structure containing the translations
+      # @raise [StandardError] if the file does not exist
       def read_yml_source
         file_path = BetterTranslate.configuration.input_file
         unless File.exist?(file_path)
-          raise "File non trovato: #{file_path}"
+          raise "File not found: #{file_path}"
         end
 
         YAML.load_file(file_path)
       end
 
-      # Rimuove le chiavi globali da escludere dalla struttura dati,
-      # calcolando i percorsi a partire dal contenuto della lingua di partenza.
+      # Removes the global keys to exclude from the data structure,
+      # calculating paths starting from the source language content.
       #
-      # Ad esempio, se il file YAML è:
+      # For example, if the YAML file is:
       #   { "en" => { "sample" => { "valid" => "valid", "excluded" => "Excluded" } } }
-      # e global_exclusions = ["sample.excluded"],
-      # il risultato sarà:
+      # and global_exclusions = ["sample.excluded"],
+      # the result will be:
       #   { "en" => { "sample" => { "valid" => "valid" } } }
       #
-      # @param data [Hash, Array, Object] La struttura dati da filtrare.
-      # @param global_exclusions [Array<String>] Lista dei percorsi (in dot notation) da escludere globalmente.
-      # @param current_path [Array] Il percorso corrente (usato in maniera ricorsiva, default: []).
-      # @return [Hash, Array, Object] La struttura dati filtrata.
+      # @param data [Hash, Array, Object] The data structure to filter.
+      # @param global_exclusions [Array<String>] List of paths (in dot notation) to exclude globally.
+      # @param current_path [Array] The current path (used recursively, default: []).
+      # @return [Hash, Array, Object] The filtered data structure.
       def remove_exclusions(data, exclusion_list, current_path = [])
         if data.is_a?(Hash)
           data.each_with_object({}) do |(key, value), result|
-            # Se siamo al livello top-level e la chiave corrisponde alla lingua di partenza,
-            # resettare il percorso (così da escludere "en" dal percorso finale)
+            # If we are at the top-level and the key matches the source language,
+            # reset the path (to exclude "en" from the final path)
             new_path = if current_path.empty? && key == BetterTranslate.configuration.source_language
                          []
                        else
@@ -81,14 +91,14 @@ module BetterTranslate
         end
       end
 
-      # Metodo ricorsivo che percorre la struttura, traducendo ogni stringa e aggiornando il progresso.
+      # Recursive method that traverses the structure, translating each string and updating progress.
       #
-      # @param data [Hash, Array, String] La struttura dati da tradurre.
-      # @param provider [Object] Il provider che risponde al metodo translate.
-      # @param target_lang_code [String] Codice della lingua target (es. "en").
-      # @param target_lang_name [String] Nome della lingua target (es. "English").
-      # @param progress [Hash] Un hash con le chiavi :count e :total per monitorare il progresso.
-      # @return [Hash, Array, String] La struttura tradotta.
+      # @param data [Hash, Array, String] The data structure to translate.
+      # @param provider [Object] The provider that responds to the translate method.
+      # @param target_lang_code [String] Target language code (e.g. "en").
+      # @param target_lang_name [String] Target language name (e.g. "English").
+      # @param progress [Hash] A hash with :count and :total keys to monitor progress.
+      # @return [Hash, Array, String] The translated structure.
       def deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
         if data.is_a?(Hash)
           data.each_with_object({}) do |(key, value), result|
@@ -106,20 +116,90 @@ module BetterTranslate
         end
       end
 
-      # Metodo principale per tradurre l'intera struttura dati, con monitoraggio del progresso.
+      # Main method to translate the entire data structure, with progress monitoring.
       #
-      # @param data [Hash, Array, String] la struttura dati da tradurre
-      # @param provider [Object] il provider da usare per tradurre (deve implementare translate)
-      # @param target_lang_code [String] codice della lingua target
-      # @param target_lang_name [String] nome della lingua target
-      # @return la struttura tradotta
+      # @param data [Hash, Array, String] the data structure to translate
+      # @param provider [Object] the provider to use for translation (must implement translate)
+      # @param target_lang_code [String] target language code
+      # @param target_lang_name [String] target language name
+      # @return the translated structure
       def translate_with_progress(data, service, target_lang_code, target_lang_name)
         total = count_strings(data)
         progress = ProgressBar.create(total: total, format: '%a %B %p%% %t')
-        deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+
+        start_time = Time.now
+        result = if total > 50 # Usa il batch processing per dataset grandi
+          batch_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+        else
+          deep_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+        end
+
+        duration = Time.now - start_time
+        BetterTranslate::Utils.track_metric("translation_method_duration", {
+          method: total > 50 ? 'batch' : 'deep',
+          duration: duration,
+          total_strings: total
+        })
+
+        result
       end
 
-      # Conta ricorsivamente il numero di stringhe traducibili nella struttura dati.
+      def batch_translate_with_progress(data, service, target_lang_code, target_lang_name, progress)
+        texts = extract_translatable_texts(data)
+        translations = {}
+
+        texts.each_slice(10).each_with_index do |batch, index|
+          batch_start = Time.now
+          
+          batch_translations = batch.map do |text|
+            translated = service.translate(text, target_lang_code, target_lang_name)
+            progress.increment
+            [text, translated]
+          end.to_h
+
+          translations.merge!(batch_translations)
+          
+          batch_duration = Time.now - batch_start
+          BetterTranslate::Utils.track_metric("batch_translation_duration", {
+            batch_number: index + 1,
+            size: batch.size,
+            duration: batch_duration
+          })
+        end
+
+        replace_translations(data, translations)
+      end
+
+      def extract_translatable_texts(data)
+        texts = Set.new
+        traverse_structure(data) do |value|
+          texts.add(value) if value.is_a?(String) && !value.strip.empty?
+        end
+        texts.to_a
+      end
+
+      def replace_translations(data, translations)
+        traverse_structure(data) do |value|
+          if value.is_a?(String) && !value.strip.empty? && translations.key?(value)
+            translations[value]
+          else
+            value
+          end
+        end
+      end
+
+      def traverse_structure(data, &block)
+        case data
+        when Hash
+          data.transform_values { |v| traverse_structure(v, &block) }
+        when Array
+          data.map { |v| traverse_structure(v, &block) }
+        else
+          yield data
+        end
+      end
+
+      # Recursively counts the number of translatable strings in the data structure.
       def count_strings(data)
         if data.is_a?(Hash)
           data.values.sum { |v| count_strings(v) }

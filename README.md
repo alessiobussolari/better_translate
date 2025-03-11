@@ -1,30 +1,39 @@
-# BetterTranslate
+# BetterTranslate 🌍
 
-BetterTranslate is a Ruby gem that enables you to translate YAML files from a source language into one or more target languages using translation providers such as ChatGPT (OpenAI) and Google Gemini. The gem supports two translation modes:
+[![Gem Version](https://badge.fury.io/rb/better_translate.svg)](https://badge.fury.io/rb/better_translate)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 
-- **Override**: Completely rewrites the translated file.
-- **Incremental**: Updates the translated file only with new or modified keys while keeping the existing ones.
+> 🚀 A powerful Ruby gem for seamless YAML file translations using AI providers like ChatGPT and Google Gemini
 
-Configuration is centralized via an initializer (for example, in a Rails app), where you can set API keys, the source language, target languages, key exclusions, the output folder, and the translation mode. Additionally, BetterTranslate integrates progress tracking using the [ruby-progressbar](https://github.com/jfelchner/ruby-progressbar) gem.
+BetterTranslate simplifies the translation of YAML files in your Ruby/Rails applications by leveraging advanced AI models. With support for both ChatGPT (OpenAI) and Google Gemini, it offers:
 
-## Features
+✨ **Key Features**
+- 🔄 Smart translation modes (Override/Incremental)
+- 🎯 Precise key exclusion control
+- 📊 Real-time progress tracking
+- 🧪 Comprehensive test coverage
+- ⚡️ LRU caching for performance
 
-- **Multi-language YAML Translation**: Translates YAML files from a source language into one or more target languages.
-- **Multiple Providers**: Supports ChatGPT (OpenAI) and Google Gemini (with potential for extension to other providers in the future).
-- **Translation Modes**: 
-  - **Override**: Rewrites the file from scratch.
-  - **Incremental**: Updates only missing or modified keys.
-- **Centralized Configuration**: Configured via an initializer with settings for API keys, source language, target languages, exclusions (using dot notation), and the output folder.
-- **Two-Step Exclusion Filtering**: 
-  - **Global Exclusions**: Removes keys defined in `global_exclusions` from the entire YAML structure.
-  - **Language-Specific Exclusions**: Applies additional filtering using the `exclusions_per_language` map for each target language.
-- **Progress Bar**: Displays translation progress using ruby-progressbar.
-- **Rails Generators**: 
-  - `rails generate better_translate:install` to generate the initializer.
-  - `rails generate better_translate:translate` to trigger the translation process directly from your Rails app.
-- **Translation Helpers**: 
-  - `translate_text_to_languages` for translating a single text into multiple target languages.
-  - `translate_texts_to_languages` for translating an array of texts into multiple target languages.
+## Why BetterTranslate? 🤔
+
+- 🌐 **AI-Powered Translation**: Leverage ChatGPT and Google Gemini for high-quality translations
+- 🔄 **Smart Translation Modes**:
+  - `Override`: Full file rewrite
+  - `Incremental`: Update only new/modified keys
+- 🎯 **Precise Control**:
+  - Global key exclusions
+  - Language-specific exclusions
+  - Dot notation support
+- 🛠 **Developer-Friendly**:
+  - Rails generators included
+  - Comprehensive test suite
+  - LRU caching for performance
+  - Progress tracking
+- 🔧 **Flexible Helpers**:
+  - Single text translation
+  - Bulk text translation
+  - Multiple target languages support
 
 ## Installation
 
@@ -194,11 +203,38 @@ puts translated_texts
 # }
 ```
 
-## Contact & Feature Requests
+## Testing 🧪
 
-For suggestions, bug reports, or to request new features, please reach out via email at: **alessio.bussolari@pandev.it**.
+BetterTranslate comes with a comprehensive test suite using RSpec. To run the tests:
 
-## Conclusions
+```bash
+bundle exec rspec
+```
+
+The test suite covers:
+- Core translation functionality
+- Cache implementation (LRU)
+- Provider selection and initialization
+- Error handling
+- Configuration management
+
+## Contributing 🤝
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Contact & Support 📬
+
+- **Email**: alessio.bussolari@pandev.it
+- **Issues**: [GitHub Issues](https://github.com/alessiobussolari/better_translate/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/alessiobussolari/better_translate/discussions)
+
+## License 📄
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 BetterTranslate aims to simplify the translation of YAML files in Ruby projects by providing a flexible, configurable, and extensible system. Whether you need a complete file rewrite or an incremental update, BetterTranslate streamlines the translation process using advanced providers like ChatGPT and Google Gemini. Contributions, feedback, and feature requests are highly encouraged to help improve the gem further.
 

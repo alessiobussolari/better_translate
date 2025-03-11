@@ -1,19 +1,19 @@
 module BetterTranslate
   class Writer
     class << self
-      # Scrive il file di traduzione per una lingua target.
-      # Se il metodo di traduzione è :override, il file viene riscritto da zero;
-      # se è :incremental, il file esistente viene aggiornato inserendo le nuove traduzioni nelle posizioni corrette.
+      # Writes the translation file for a target language.
+      # If the translation method is :override, the file is rewritten from scratch;
+      # if it's :incremental, the existing file is updated by inserting new translations in the correct positions.
       #
-      # @param translated_data [Hash] La struttura dati tradotta (ad es. { "sample" => { "valid" => "tradotto", "new_key" => "nuova traduzione" } }).
-      # @param target_lang_code [String] Codice della lingua target (es. "ru").
+      # @param translated_data [Hash] The translated data structure (e.g. { "sample" => { "valid" => "translated", "new_key" => "new translation" } }).
+      # @param target_lang_code [String] Target language code (e.g. "ru").
       def write_translations(translated_data, target_lang_code)
         output_folder = BetterTranslate.configuration.output_folder
         output_file = File.join(output_folder, "#{target_lang_code}.yml")
 
-        # Riformatta la struttura per utilizzare il codice target come chiave principale.
+        # Reformats the structure to use the target code as the main key.
         output_content = if translated_data.is_a?(Hash) && translated_data.key?(BetterTranslate.configuration.source_language)
-                           # Sostituisce la chiave della lingua di partenza con quella target.
+                           # Replaces the source language key with the target one.
                            { target_lang_code => translated_data[BetterTranslate.configuration.source_language] }
                          else
                            { target_lang_code => translated_data }
@@ -23,11 +23,13 @@ module BetterTranslate
           existing_data = YAML.load_file(output_file)
           merged = deep_merge(existing_data, output_content)
           File.write(output_file, merged.to_yaml(line_width: -1))
-          puts "File aggiornato in modalità incremental: #{output_file}"
+          message = "File updated in incremental mode: #{output_file}"
+          BetterTranslate::Utils.logger(message: message)
         else
           FileUtils.mkdir_p(output_folder) unless Dir.exist?(output_folder)
           File.write(output_file, output_content.to_yaml(line_width: -1))
-          puts "File riscritto in modalità override: #{output_file}"
+          message = "File rewritten in override mode: #{output_file}"
+          BetterTranslate::Utils.logger(message: message)
         end
       end
 
@@ -35,12 +37,12 @@ module BetterTranslate
 
       # Metodo di deep merge: unisce in modo ricorsivo i due hash.
       # Se una chiave esiste in entrambi gli hash e i valori sono hash, li unisce ricorsivamente.
-      # Altrimenti, se la chiave esiste già nell'hash esistente, la mantiene e non la sovrascrive.
+      # Otherwise, if the key already exists in the existing hash, it keeps it and doesn't overwrite it.
       # Se la chiave non esiste, la aggiunge.
       #
-      # @param existing [Hash] hash esistente (file corrente)
-      # @param new_data [Hash] nuovo hash con le traduzioni da unire
-      # @return [Hash] hash unito
+      # @param existing [Hash] existing hash (current file)
+      # @param new_data [Hash] new hash with translations to merge
+      # @return [Hash] merged hash
       def deep_merge(existing, new_data)
         merged = existing.dup
         new_data.each do |key, value|
@@ -48,8 +50,8 @@ module BetterTranslate
             if merged[key].is_a?(Hash) && value.is_a?(Hash)
               merged[key] = deep_merge(merged[key], value)
             else
-              # Se la chiave esiste già, non sovrascrivo il valore (modalità incrementale)
-              # oppure potresti decidere di aggiornare comunque, a seconda delle esigenze.
+              # If the key already exists, don't overwrite the value (incremental mode)
+              # or you might decide to update anyway, depending on the requirements.
               merged[key] = merged[key]
             end
           else

@@ -69,7 +69,3 @@ module BetterTranslate
     end
   end
 end
-
-__END__
-
-translated = BetterTranslate::Helper.translate_text_to_languages("Hello world!",[{ short_name: "it", name: "Italian" }, { short_name: "fr", name: "French" }],"en",:chatgpt)

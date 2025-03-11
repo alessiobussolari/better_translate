@@ -1,19 +1,19 @@
 module BetterTranslate
   module Providers
     class ChatgptProvider < BaseProvider
-      # Utilizza l'API di OpenAI per tradurre il testo.
-      def translate(text, target_lang_code, target_lang_name)
+      # Uses the OpenAI API to translate the text.
+      def translate_text(text, target_lang_code, target_lang_name)
         uri = URI("https://api.openai.com/v1/chat/completions")
         headers = {
           "Content-Type"  => "application/json",
           "Authorization" => "Bearer #{@api_key}"
         }
 
-        # Costruiamo il prompt per tradurre il testo.
+        # Build the prompt to translate the text.
         body = {
           model: "gpt-3.5-turbo",
           messages: [
-            { role: "system", content: "Sei un traduttore professionale. Traduci esattamente il seguente testo da #{BetterTranslate.configuration.source_language} a #{target_lang_name} senza aggiungere commenti, spiegazioni o alternative. Fornisci solamente la traduzione diretta:" },
+            { role: "system", content: "You are a professional translator. Translate the following text exactly from #{BetterTranslate.configuration.source_language} to #{target_lang_name} without adding comments, explanations, or alternatives. Provide only the direct translation:" },
             { role: "user", content: "#{text}" }
           ],
           temperature: 0.3
@@ -30,7 +30,7 @@ module BetterTranslate
           translated_text = json.dig("choices", 0, "message", "content")
           translated_text ? translated_text.strip : text
         else
-          raise "Errore durante la traduzione con ChatGPT: #{response.body}"
+          raise "Error during translation with ChatGPT: #{response.body}"
         end
       end
     end

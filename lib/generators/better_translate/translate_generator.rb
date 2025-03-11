@@ -3,12 +3,14 @@ require 'rails/generators'
 module BetterTranslate
   module Generators
     class TranslateGenerator < Rails::Generators::Base
-      desc "Lancia il processo di traduzione configurato in BetterTranslate"
+      desc "Starts the translation process configured in BetterTranslate"
 
       def run_translation
-        say_status("Starting", "Esecuzione della traduzione con BetterTranslate...", :green)
+        message = "Starting translation with BetterTranslate..."
+        BetterTranslate::Utils.logger(message: message)
         BetterTranslate.magic
-        say_status("Done", "Traduzione completata.", :green)
+        message = "Translation completed."
+        BetterTranslate::Utils.logger(message: message)
       end
     end
   end
