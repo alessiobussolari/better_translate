@@ -1,60 +1,64 @@
-# RubyGems Trusted Publishing Setup
+# RubyGems Publishing Setup
 
-This guide explains how to configure RubyGems Trusted Publishing for automatic gem releases via GitHub Actions.
+This guide explains how to configure automatic gem releases to RubyGems.org via GitHub Actions using an API token.
 
-## What is Trusted Publishing?
+## What You'll Need
 
-Trusted Publishing uses GitHub's OIDC identity provider to authenticate GitHub Actions workflows with RubyGems.org, eliminating the need for API keys.
+- A RubyGems.org account
+- A GitHub repository with push access
+- 5 minutes to set up
 
 **Benefits**:
-- ✅ **No API keys to manage** - More secure
-- ✅ **Automatic authentication** - Works seamlessly with GitHub Actions
-- ✅ **Official method** - Recommended by RubyGems team
-- ✅ **Free** - No additional cost
+- ✅ **Automatic publishing** - On GitHub release creation
+- ✅ **Works with MFA** - Token bypasses 2FA requirement
+- ✅ **Secure** - Token stored in GitHub Secrets (encrypted)
+- ✅ **Minimal permissions** - Token only has "push" scope
 
 ## Setup Instructions
 
-### Step 1: Publish Your First Version Manually
+### Step 1: Create RubyGems API Token
 
-Before setting up trusted publishing, you need to publish at least one version of your gem manually:
+1. **Go to RubyGems API Keys page**: https://rubygems.org/profile/api_keys
+
+2. **Click "New API Key"**
+
+3. **Configure the token**:
+   - **Name**: `GitHub Actions - better_translate`
+   - **Scopes**: Check **only** "Push rubygems"
+   - **Index rubygems**: ✅ Check this if you want the token to work for all your gems
+   - **MFA**: The token will bypass MFA for automated operations
+
+4. **Click "Create"**
+
+5. **Copy the token immediately** - You'll only see it once!
+   - It will look like: `rubygems_xxxxxxxxxxxx`
+
+### Step 2: Add Token to GitHub Secrets
+
+1. **Go to your repository secrets**: https://github.com/alessiobussolari/better_translate/settings/secrets/actions
+
+2. **Click "New repository secret"**
+
+3. **Configure the secret**:
+   - **Name**: `RUBYGEMS_API_KEY` (must match exactly!)
+   - **Secret**: (paste the token you copied from RubyGems)
+
+4. **Click "Add secret"**
+
+### Step 3: Publish First Version Manually
+
+Before the automated workflow can work, you need to create the gem on RubyGems:
 
 ```bash
 # Build the gem
 bundle exec rake build
 
-# Publish to RubyGems (requires account)
+# Publish to RubyGems
+# This will prompt for OTP if you have MFA enabled
 gem push pkg/better_translate-1.0.0.gem
 ```
 
-**Note**: You'll need a RubyGems account. Create one at https://rubygems.org/sign_up if you don't have one.
-
-### Step 2: Configure Trusted Publishing on RubyGems.org
-
-1. **Go to your gem page**: https://rubygems.org/gems/better_translate
-
-2. **Navigate to Settings**:
-   - Click on "Edit" or your gem's settings page
-   - Or go directly to: https://rubygems.org/gems/better_translate/trusted_publishers
-
-3. **Add Trusted Publisher**:
-   - Click "Add Trusted Publisher"
-   - Fill in the form:
-     - **Repository owner**: `alessiobussolari`
-     - **Repository name**: `better_translate`
-     - **Workflow filename**: `release.yml`
-     - **Environment name**: (leave empty or use `rubygems`)
-
-4. **Save** the configuration
-
-### Step 3: Verify GitHub Actions Workflow
-
-The workflow is already configured in `.github/workflows/release.yml` with:
-
-```yaml
-permissions:
-  contents: write
-  id-token: write  # Required for trusted publishing
-```
+**Note**: After this first manual push, all future versions will be published automatically via GitHub Actions!
 
 ### Step 4: Test the Workflow
 
@@ -63,49 +67,63 @@ permissions:
    VERSION = "1.0.1"
    ```
 
-2. **Commit and tag**:
+2. **Commit and push**:
    ```bash
    git add -A
    git commit -m "chore: Bump version to 1.0.1"
    git push origin main
-
-   git tag v1.0.1
-   git push origin v1.0.1
    ```
 
-3. **Watch GitHub Actions**:
+3. **Create a GitHub Release**:
+   - Go to: https://github.com/alessiobussolari/better_translate/releases/new
+   - **Tag**: `v1.0.1` (create new tag)
+   - **Title**: `v1.0.1 - Your release title`
+   - **Description**: Add release notes
+   - Click **"Publish release"**
+
+4. **Watch GitHub Actions**:
    - Go to https://github.com/alessiobussolari/better_translate/actions
-   - The "Release Gem to RubyGems" workflow should run automatically
+   - The "Publish Gem to RubyGems" workflow will run automatically
    - It will:
-     - ✅ Run tests
+     - ✅ Run unit tests
      - ✅ Run RuboCop
      - ✅ Build the gem
-     - ✅ Publish to RubyGems.org
-     - ✅ Create GitHub Release
+     - ✅ Publish to RubyGems.org (using your API token)
+     - ✅ Attach gem file to GitHub release
 
-4. **Verify on RubyGems**:
+5. **Verify on RubyGems**:
    - Check https://rubygems.org/gems/better_translate
-   - New version should appear within minutes
+   - New version should appear within 2-3 minutes
 
 ## Troubleshooting
 
-### "Trusted publisher not configured" Error
+### "Invalid API key" Error
 
-**Problem**: GitHub Actions fails with error about trusted publishing.
+**Problem**: GitHub Actions fails with "Invalid credentials" or "Unauthorized" error.
 
 **Solution**:
-1. Ensure you've completed Step 2 above
-2. Verify the repository name and workflow filename match exactly
-3. Wait a few minutes for RubyGems.org to sync
+1. Verify you've created the RubyGems API token (Step 1)
+2. Check the token is added to GitHub Secrets as `RUBYGEMS_API_KEY` (Step 2)
+3. Ensure the secret name matches exactly in the workflow file
+4. Try regenerating the API token on RubyGems.org
+
+### "Gem not found" Error
+
+**Problem**: GitHub Actions can't find the gem file to push.
+
+**Solution**:
+1. Check the gem builds successfully: `bundle exec rake build`
+2. Verify `*.gem` file is created in the repository root
+3. Ensure the gemspec file name matches: `better_translate.gemspec`
 
 ### "Permission denied" Error
 
-**Problem**: Workflow doesn't have permission to publish.
+**Problem**: Workflow doesn't have permission to attach gem to release.
 
 **Solution**:
-1. Check that `id-token: write` permission is set in workflow
-2. Verify GitHub Actions is enabled for your repository
-3. Check repository settings → Actions → General → Workflow permissions
+1. Verify GitHub Actions is enabled for your repository
+2. Check repository settings → Actions → General → Workflow permissions
+3. Ensure "Read and write permissions" is selected
 
 ### First Manual Publish Fails
 
@@ -116,52 +134,32 @@ permissions:
 2. Enter your RubyGems credentials
 3. Try push again: `gem push pkg/better_translate-1.0.0.gem`
 
-## Alternative: Using API Token
-
-If you prefer not to use trusted publishing, you can use an API token:
-
-1. **Generate API token**:
-   - Go to https://rubygems.org/profile/api_keys
-   - Click "New API Key"
-   - Name: "GitHub Actions"
-   - Scopes: "Push rubygems" only
-   - Copy the token
-
-2. **Add to GitHub Secrets**:
-   - Go to https://github.com/alessiobussolari/better_translate/settings/secrets/actions
-   - Click "New repository secret"
-   - Name: `RUBYGEMS_API_KEY`
-   - Value: (paste your token)
-
-3. **Update workflow** (`.github/workflows/release.yml`):
-   ```yaml
-   - name: Publish to RubyGems
-     env:
-       GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-     run: |
-       bundle exec rake build
-       gem push pkg/*.gem
-   ```
-
 ## Release Workflow
 
 Once setup is complete, your release workflow is:
 
 ```bash
 # 1. Update version
-vim lib/better_translate/version.rb
+vim lib/better_translate/version.rb  # VERSION = "1.0.1"
 
 # 2. Update CHANGELOG
 vim CHANGELOG.md
 
-# 3. Commit
+# 3. Commit and push
 git add -A
 git commit -m "chore: Release v1.0.1"
-
-# 4. Tag and push
-git tag v1.0.1
 git push origin main
-git push origin v1.0.1
+
+# 4. Create GitHub Release (via web or CLI)
+# Option A - Web:
+# Go to: https://github.com/alessiobussolari/better_translate/releases/new
+# Tag: v1.0.1, Title: v1.0.1, Description: release notes
+# Click "Publish release"
+
+# Option B - CLI (if gh is installed):
+gh release create v1.0.1 \
+  --title "v1.0.1" \
+  --notes "See CHANGELOG.md for details"
 
 # 5. GitHub Actions does the rest automatically! 🎉
 ```
@@ -169,7 +167,7 @@ git push origin v1.0.1
 Within 2-3 minutes:
 - ✅ Tests run on GitHub Actions
 - ✅ Gem published to RubyGems.org
-- ✅ GitHub Release created
+- ✅ Gem file attached to GitHub Release
 - ✅ Users can `gem install better_translate`
 
 ## Resources

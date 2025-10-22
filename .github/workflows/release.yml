@@ -1,16 +1,14 @@
-name: Release Gem to RubyGems
+name: Publish Gem to RubyGems
 
 on:
-  push:
-    tags:
-      - 'v*'  # Trigger on version tags (v1.0.0, v1.0.1, etc.)
+  release:
+    types: [created]  # Trigger when you create a GitHub release
 
 permissions:
-  contents: write      # Required for creating GitHub releases
-  id-token: write      # Required for RubyGems trusted publishing
+  contents: read
 
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,62 +28,25 @@ jobs:
         run: bundle exec rspec spec/better_translate/
         continue-on-error: false
 
-      - name: Run RuboCop
+      - name: Run RuboCop linter
         run: bundle exec rubocop
         continue-on-error: false
 
       - name: Build gem
-        run: bundle exec rake build
+        run: gem build better_translate.gemspec
 
-      - name: Publish gem to RubyGems
-        uses: rubygems/release-gem@v1
-        # Uses OIDC trusted publishing - no API key needed!
-        # Setup trusted publishing at: https://rubygems.org/gems/better_translate/trusted_publishers
+      - name: Publish to RubyGems
+        run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+          gem push *.gem
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
 
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
+      - name: Attach gem to GitHub release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: pkg/*.gem
-          body: |
-            # BetterTranslate v${{ steps.version.outputs.VERSION }}
-
-            AI-powered YAML locale file translator for Rails and Ruby projects.
-
-            ## 🚀 Installation
-
-            ```bash
-            gem install better_translate
-            ```
-
-            Or add to your Gemfile:
-
-            ```ruby
-            gem 'better_translate', '~> ${{ steps.version.outputs.VERSION }}'
-            ```
-
-            ## 📖 Documentation
-
-            - [README](https://github.com/alessiobussolari/better_translate#readme)
-            - [CHANGELOG](https://github.com/alessiobussolari/better_translate/blob/main/CHANGELOG.md)
-            - [Usage Guide](https://github.com/alessiobussolari/better_translate/blob/main/spec/dummy/USAGE_GUIDE.md)
-
-            ## 🎬 Try the Demo
-
-            ```bash
-            git clone https://github.com/alessiobussolari/better_translate.git
-            cd better_translate
-            bundle install
-            export OPENAI_API_KEY=your_key_here
-            ruby spec/dummy/demo_translation.rb
-            ```
-
-            ---
-
-            **Full release notes**: See [CHANGELOG.md](https://github.com/alessiobussolari/better_translate/blob/main/CHANGELOG.md)
-          draft: false
-          prerelease: false
-          generate_release_notes: true  # Auto-generate from commits
+          files: '*.gem'
