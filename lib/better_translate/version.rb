@@ -2,5 +2,5 @@
 
 module BetterTranslate
   # Current version of BetterTranslate gem
-  VERSION = "1.0.0.1"
+  VERSION = "1.0.0.2"
 end
