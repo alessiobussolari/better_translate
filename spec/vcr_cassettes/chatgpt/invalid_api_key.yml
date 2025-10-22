@@ -1,0 +1,213 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer invalid_key_12345
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 15:10:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '267'
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin
+      X-Request-Id:
+      - req_4b2903bfbe384a81bc647c270894d4f4
+      X-Envoy-Upstream-Service-Time:
+      - '21'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=8kmGl8wd0shFgPgbr62zPbS8aTCTtzoFerOlhHXN78I-1761145853-1.0.1.1-.2kpekgwElLtoTLwjc6wJcuQ07uVOca9KY1j17Drgz.nC6is_5shiLrEz3rHO_Xjz7CUzaJQa79blj.XPG7tpCiPziIHJPImnX21E6rtEoY;
+        path=/; expires=Wed, 22-Oct-25 15:40:53 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=jGlw1tQvPHGBgGGl0mp6prNRh4CA54H0ldTMOYX8wDQ-1761145853517-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9929ec8f6a040e3e-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |
+        {
+            "error": {
+                "message": "Incorrect API key provided: invalid_*****2345. You can find your API key at https://platform.openai.com/account/api-keys.",
+                "type": "invalid_request_error",
+                "param": null,
+                "code": "invalid_api_key"
+            }
+        }
+  recorded_at: Wed, 22 Oct 2025 15:10:53 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer invalid_key_12345
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 15:10:56 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '267'
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin
+      X-Request-Id:
+      - req_fafb1168241c4f80981d1548b1bc035b
+      X-Envoy-Upstream-Service-Time:
+      - '37'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=S59l9Ufx0ReqonvXUaGqFfOLc.QZBTVl2SL_UfaSiyY-1761145856-1.0.1.1-EPJS3kIYfpKJonL6yysNtNgSpFkkOJu9kWxMyzjsvlHbfuA1XOPmOgQ.66tCP.gNSzF91wISvquRYtCWCppAnW_D6PqnFOQMWO02dCr.seQ;
+        path=/; expires=Wed, 22-Oct-25 15:40:56 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=2k9.FmZC8Ds_89LYXbAjMddrm296nPssiRC_aXzcxuo-1761145856300-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9929eca09e69ed45-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |
+        {
+            "error": {
+                "message": "Incorrect API key provided: invalid_*****2345. You can find your API key at https://platform.openai.com/account/api-keys.",
+                "type": "invalid_request_error",
+                "param": null,
+                "code": "invalid_api_key"
+            }
+        }
+  recorded_at: Wed, 22 Oct 2025 15:10:56 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer invalid_key_12345
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 15:11:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '267'
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin
+      X-Request-Id:
+      - req_521d3567514a4cd2bd300e7e5a49db4b
+      X-Envoy-Upstream-Service-Time:
+      - '1'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=2Vd44Ujn.f7_u9S_wPmRuRqpZ523FPSuyVeALDjptkk-1761145861-1.0.1.1-KIvG6zMQaSCF7MQf7i.HlR8qhsI_izeT3VKDeECJ0_wlqJ53uDZ84fVZR5Iw8B4tQB1gIU.Ipl5HFYshomY05JZRwBbQCCcQSBBH91EWdjg;
+        path=/; expires=Wed, 22-Oct-25 15:41:01 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=EMga8FifFSGc.j.L6eT8Diyegx66Y0iO_DPa6pfCjWs-1761145861319-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9929ecc01d7beddc-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |
+        {
+            "error": {
+                "message": "Incorrect API key provided: invalid_*****2345. You can find your API key at https://platform.openai.com/account/api-keys.",
+                "type": "invalid_request_error",
+                "param": null,
+                "code": "invalid_api_key"
+            }
+        }
+  recorded_at: Wed, 22 Oct 2025 15:11:01 GMT
+recorded_with: VCR 6.3.1

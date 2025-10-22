@@ -1,0 +1,25 @@
+module BetterTranslate
+  module Providers
+    # OpenAI ChatGPT translation provider
+    #
+    # Uses GPT-5-nano model with temperature=1.0 for natural translations.
+    class ChatGPTProvider < BaseHttpProvider
+      API_URL: String
+      MODEL: String
+      TEMPERATURE: Float
+
+      def translate_text: (String text, String target_lang_code, String target_lang_name) -> String
+
+      def translate_batch: (Array[String] texts, String target_lang_code, String target_lang_name) -> Array[String]
+
+      # Private methods
+      def build_messages: (String text, String target_lang_name) -> Array[Hash[Symbol, String]]
+
+      def build_system_message: (String target_lang_name) -> String
+
+      def make_chat_completion_request: (Array[Hash[Symbol, String]] messages) -> Faraday::Response
+
+      def extract_translation: (Faraday::Response response) -> String
+    end
+  end
+end

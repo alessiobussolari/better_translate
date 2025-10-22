@@ -1,0 +1,11 @@
+module BetterTranslate
+  module Strategies
+    # Deep translation strategy
+    #
+    # Translates each string individually with detailed progress tracking.
+    # Used for smaller files (< 50 strings) to provide more granular progress.
+    class DeepStrategy < BaseStrategy
+      def translate: (Hash[String, String] strings, String target_lang_code, String target_lang_name) -> Hash[String, String]
+    end
+  end
+end

@@ -1,0 +1,22 @@
+# Minimal Faraday type definitions for BetterTranslate
+module Faraday
+  class Response
+    def status: () -> Integer
+    def body: () -> String
+  end
+
+  class Options
+    def timeout=: (Integer value) -> Integer
+    def open_timeout=: (Integer value) -> Integer
+  end
+
+  class Connection
+    def send: (Symbol method, String url) { (untyped) -> void } -> Response
+    def options: () -> Options
+    def adapter: (untyped adapter) -> void
+  end
+
+  def self.new: () { (Connection) -> void } -> Connection
+
+  def self.default_adapter: () -> untyped
+end

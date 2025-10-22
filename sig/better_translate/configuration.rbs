@@ -1,0 +1,70 @@
+module BetterTranslate
+  # Configuration class for BetterTranslate
+  #
+  # Manages all configuration options with type safety and validation.
+  class Configuration
+    type target_language = { short_name: String, name: String }
+
+    @provider: Symbol?
+    @openai_key: String?
+    @google_gemini_key: String?
+    @anthropic_key: String?
+    @source_language: String?
+    @target_languages: Array[target_language]
+    @input_file: String?
+    @output_folder: String?
+    @translation_mode: Symbol
+    @translation_context: String?
+    @max_concurrent_requests: Integer
+    @request_timeout: Integer
+    @max_retries: Integer
+    @retry_delay: Float
+    @cache_enabled: bool
+    @cache_size: Integer
+    @cache_ttl: Integer?
+    @verbose: bool
+    @dry_run: bool
+    @global_exclusions: Array[String]
+    @exclusions_per_language: Hash[String, Array[String]]
+    @preserve_variables: bool
+
+    attr_accessor provider: (Symbol | nil)
+    attr_accessor openai_key: String?
+    attr_accessor google_gemini_key: String?
+    attr_accessor anthropic_key: String?
+    attr_accessor source_language: String?
+    attr_accessor target_languages: Array[target_language]
+    attr_accessor input_file: String?
+    attr_accessor output_folder: String?
+    attr_accessor translation_mode: Symbol
+    attr_accessor translation_context: String?
+    attr_accessor max_concurrent_requests: Integer
+    attr_accessor request_timeout: Integer
+    attr_accessor max_retries: Integer
+    attr_accessor retry_delay: Float
+    attr_accessor cache_enabled: bool
+    attr_accessor cache_size: Integer
+    attr_accessor cache_ttl: Integer?
+    attr_accessor verbose: bool
+    attr_accessor dry_run: bool
+    attr_accessor global_exclusions: Array[String]
+    attr_accessor exclusions_per_language: Hash[String, Array[String]]
+    attr_accessor preserve_variables: bool
+
+    def initialize: () -> void
+
+    def validate!: () -> true
+
+    private
+
+    def validate_provider!: () -> void
+
+    def validate_api_keys!: () -> void
+
+    def validate_languages!: () -> void
+
+    def validate_files!: () -> void
+
+    def validate_optional_settings!: () -> void
+  end
+end

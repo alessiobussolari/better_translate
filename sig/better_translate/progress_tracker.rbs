@@ -1,0 +1,29 @@
+module BetterTranslate
+  # Tracks and displays translation progress
+  #
+  # Shows real-time progress updates with colored console output.
+  class ProgressTracker
+    @enabled: bool
+    @start_time: Time
+
+    attr_reader enabled: bool
+
+    def initialize: (?enabled: bool) -> void
+
+    def update: (language: String, current_key: String, progress: Float) -> void
+
+    def complete: (String language, Integer total_strings) -> void
+
+    def error: (String language, StandardError error) -> void
+
+    def reset: () -> void
+
+    private
+
+    def format_time: (Float seconds) -> String
+
+    def truncate: (String text, Integer max_length) -> String
+
+    def colorize: (String text, Symbol color) -> String
+  end
+end

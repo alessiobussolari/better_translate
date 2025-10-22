@@ -1,0 +1,14 @@
+module BetterTranslate
+  # Input validation utilities
+  #
+  # Validates language codes, text, paths, and other inputs.
+  class Validator
+    def self.validate_language_code!: (String? code) -> true
+
+    def self.validate_text!: (String? text) -> true
+
+    def self.validate_file_exists!: (String? path) -> true
+
+    def self.validate_api_key!: (String? key, provider: Symbol) -> true
+  end
+end

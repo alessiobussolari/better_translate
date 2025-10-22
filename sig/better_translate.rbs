@@ -1,0 +1,34 @@
+# BetterTranslate - AI-powered YAML locale file translator
+#
+# Automatically translate YAML locale files using AI providers (ChatGPT, Gemini, Claude).
+# Features intelligent caching, batch processing, and Rails integration.
+module BetterTranslate
+  type translation_results = { success_count: Integer, failure_count: Integer, errors: Array[Hash[Symbol, untyped]] }
+
+  @configuration: Configuration?
+
+  # Configure BetterTranslate
+  #
+  # Yields the configuration object for setting up the gem.
+  def self.configure: () { (Configuration) -> void } -> Configuration
+
+  # Get current configuration
+  #
+  # Returns the configuration instance, creating it if needed.
+  def self.configuration: () -> Configuration
+
+  # Translate files using current configuration
+  #
+  # Performs translation based on configured settings.
+  def self.translate_files: () -> translation_results
+
+  # Reset configuration
+  #
+  # Clears the current configuration.
+  def self.reset!: () -> void
+
+  # Get gem version
+  #
+  # Returns the version string.
+  def self.version: () -> String
+end

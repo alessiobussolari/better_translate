@@ -1,0 +1,86 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"parts":[{"text":"Translate the following text to Italian.
+        Return ONLY the translated text, without any explanations.\n\nText: Hello
+        %{name}, welcome!"}]}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Date:
+      - Wed, 22 Oct 2025 15:09:27 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=550
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Ciao %{name}, benvenuto/a!\n"
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "avgLogprobs": -0.088601493835449213
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 26,
+            "candidatesTokenCount": 10,
+            "totalTokenCount": 36,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 26
+              }
+            ],
+            "candidatesTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 10
+              }
+            ]
+          },
+          "modelVersion": "gemini-2.0-flash-exp",
+          "responseId": "pvP4aJaOKcLisgK03vHpDA"
+        }
+  recorded_at: Wed, 22 Oct 2025 15:09:27 GMT
+recorded_with: VCR 6.3.1

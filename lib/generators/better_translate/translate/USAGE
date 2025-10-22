@@ -1,0 +1,13 @@
+Description:
+    Runs BetterTranslate translation based on existing configuration.
+
+    This will translate your YAML locale files using the configuration
+    in config/better_translate.yml.
+
+Example:
+    bin/rails generate better_translate:translate
+
+    This will execute the translation task.
+
+Options:
+    --dry-run    Run in dry-run mode (no files will be written)

@@ -1,0 +1,18 @@
+module BetterTranslate
+  # Direct text translator for non-YAML workflows
+  #
+  # Provides convenience methods for translating individual strings or batches
+  # without requiring YAML files. Useful for runtime translation needs.
+  class DirectTranslator
+    @config: Configuration
+    @provider: Providers::BaseHttpProvider
+
+    attr_reader config: Configuration
+
+    def initialize: (Configuration config) -> void
+
+    def translate: (String text, to: (String | Symbol), language_name: String) -> String
+
+    def translate_batch: (Array[String] texts, to: (String | Symbol), language_name: String, ?skip_errors: bool) -> Array[String?]
+  end
+end

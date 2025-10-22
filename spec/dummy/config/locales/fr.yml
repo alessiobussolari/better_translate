@@ -1,0 +1,22 @@
+---
+fr:
+  hello: Bonjour
+  world: Monde
+  welcome: Bienvenue dans notre application
+  goodbye: Au revoir
+  messages:
+    success: Opération réussie
+    error: Une erreur est survenue.
+    warning: Veuillez vérifier votre saisie.
+  users:
+    greeting: Bonjour %{name}
+    profile: Profil utilisateur
+    settings: Paramètres du compte
+  navigation:
+    home: Accueil
+    about: À propos
+    contact: Nous contacter
+  forms:
+    submit: Soumettre
+    cancel: Annuler
+    save: Enregistrer les modifications

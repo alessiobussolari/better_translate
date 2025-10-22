@@ -1,0 +1,10 @@
+module BetterTranslate
+  module Generators
+    # Rails generator for running translations
+    #
+    # Executes translation based on existing configuration.
+    class TranslateGenerator < Rails::Generators::Base
+      def run_translation: () -> void
+    end
+  end
+end

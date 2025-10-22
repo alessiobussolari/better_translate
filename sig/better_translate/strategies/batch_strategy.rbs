@@ -1,0 +1,13 @@
+module BetterTranslate
+  module Strategies
+    # Batch translation strategy
+    #
+    # Translates strings in batches for improved performance.
+    # Used for larger files (>= 50 strings).
+    class BatchStrategy < BaseStrategy
+      BATCH_SIZE: Integer
+
+      def translate: (Hash[String, String] strings, String target_lang_code, String target_lang_name) -> Hash[String, String]
+    end
+  end
+end

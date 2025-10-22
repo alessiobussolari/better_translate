@@ -1,0 +1,20 @@
+module BetterTranslate
+  # Thread-safe rate limiter
+  #
+  # Ensures requests are spaced out by a minimum delay.
+  class RateLimiter
+    @delay: Float
+    @last_request_time: Time?
+    @mutex: Thread::Mutex
+
+    attr_reader delay: Float
+
+    def initialize: (?delay: Float) -> void
+
+    def wait: () -> void
+
+    def record_request: () -> void
+
+    def reset: () -> void
+  end
+end

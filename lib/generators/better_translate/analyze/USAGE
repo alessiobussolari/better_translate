@@ -1,0 +1,12 @@
+Description:
+    Analyzes YAML locale file structure and provides statistics.
+
+    This will show you:
+    - Total number of translation strings
+    - File structure with nested keys
+    - String counts per section
+
+Example:
+    bin/rails generate better_translate:analyze config/locales/en.yml
+
+    This will analyze the en.yml file and display statistics.

@@ -1,0 +1,8 @@
+# Minimal OptionParser type definitions for BetterTranslate
+class OptionParser
+  def initialize: () { (OptionParser) -> void } -> void
+  def banner=: (String) -> String
+  def on: (String, String) -> void
+        | (String, String, String) -> void
+  def parse!: () -> void
+end

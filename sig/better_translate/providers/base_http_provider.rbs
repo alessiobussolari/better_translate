@@ -1,0 +1,44 @@
+module BetterTranslate
+  # Translation provider implementations
+  module Providers
+    # Base class for HTTP-based translation providers
+    #
+    # Implements common functionality:
+    # - Faraday HTTP client with retry logic
+    # - Exponential backoff with jitter
+    # - Rate limiting
+    # - Caching
+    # - Error handling
+    class BaseHttpProvider
+      @config: Configuration
+      @cache: Cache
+      @rate_limiter: RateLimiter
+      @http_client: Faraday::Connection?
+
+      attr_reader config: Configuration
+      attr_reader cache: Cache
+      attr_reader rate_limiter: RateLimiter
+
+      def initialize: (Configuration config) -> void
+
+      def translate_text: (String text, String target_lang_code, String target_lang_name) -> String
+
+      def translate_batch: (Array[String] texts, String target_lang_code, String target_lang_name) -> Array[String]
+
+      # Protected methods (used by subclasses)
+      def make_request: (Symbol method, String url, ?body: Hash[untyped, untyped]?, ?headers: Hash[String, String]) -> Faraday::Response
+
+      def handle_response: (Faraday::Response response) -> void
+
+      def calculate_backoff: (Integer attempt) -> Float
+
+      def log_retry: (Integer attempt, Float delay, StandardError error) -> void
+
+      def http_client: () -> Faraday::Connection
+
+      def with_cache: [T] (String cache_key) { () -> T } -> T
+
+      def build_cache_key: (String text, String target_lang_code) -> String
+    end
+  end
+end

@@ -1,0 +1,14 @@
+module BetterTranslate
+  module Generators
+    # Rails generator for installing BetterTranslate
+    #
+    # Creates initializer and config files for Rails applications.
+    class InstallGenerator < Rails::Generators::Base
+      def create_initializer_file: () -> void
+
+      def create_config_file: () -> void
+
+      def show_readme: () -> void
+    end
+  end
+end

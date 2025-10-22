@@ -1,0 +1,28 @@
+module BetterTranslate
+  # LRU (Least Recently Used) Cache implementation
+  #
+  # Thread-safe cache with configurable capacity and optional TTL.
+  class Cache
+    type cache_entry = { value: String, timestamp: Time }
+
+    @capacity: Integer
+    @ttl: Integer?
+    @cache: Hash[String, cache_entry]
+    @mutex: Thread::Mutex
+
+    attr_reader capacity: Integer
+    attr_reader ttl: Integer?
+
+    def initialize: (?capacity: Integer, ?ttl: Integer?) -> void
+
+    def get: (String key) -> String?
+
+    def set: (String key, String value) -> String
+
+    def clear: () -> void
+
+    def size: () -> Integer
+
+    def key?: (String key) -> bool
+  end
+end

@@ -1,0 +1,47 @@
+# frozen_string_literal: true
+
+# BetterTranslate Configuration
+#
+# For more configuration options, see config/better_translate.yml
+
+BetterTranslate.configure do |config|
+  # Provider: :chatgpt, :gemini, or :anthropic
+  config.provider = :chatgpt
+
+  # API Keys (alternatively set via ENV variables)
+  config.openai_key = ENV["OPENAI_API_KEY"]
+  config.gemini_key = ENV["GEMINI_API_KEY"]
+  config.anthropic_key = ENV["ANTHROPIC_API_KEY"]
+
+  # Source and target languages
+  config.source_language = "en"
+  config.target_languages = [
+    { short_name: "it", name: "Italian" },
+    { short_name: "es", name: "Spanish" },
+    { short_name: "fr", name: "French" }
+  ]
+
+  # File paths
+  config.input_file = Rails.root.join("config", "locales", "en.yml").to_s
+  config.output_folder = Rails.root.join("config", "locales").to_s
+
+  # Options
+  config.verbose = true
+  config.dry_run = false # Set to true for testing
+  config.translation_mode = :override # or :incremental
+  config.preserve_variables = true
+
+  # Optional: Provider-specific settings
+  # config.model = "gpt-5-nano" # ChatGPT model
+  # config.temperature = 0.3
+  # config.max_tokens = 2000
+  # config.timeout = 30
+  # config.max_retries = 3
+  # config.rate_limit = 10
+
+  # Optional: Exclusions
+  # config.global_exclusions = ["excluded_key", "another_key"]
+  # config.exclusions_per_language = {
+  #   "it" => ["italy_specific_exclusion"]
+  # }
+end

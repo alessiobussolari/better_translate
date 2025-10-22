@@ -1,0 +1,24 @@
+module BetterTranslate
+  # Command-line interface for BetterTranslate
+  #
+  # Provides standalone CLI commands for translation without Rails.
+  class CLI
+    @args: Array[String]
+
+    attr_reader args: Array[String]
+
+    def initialize: (Array[String] args) -> void
+
+    def run: () -> void
+
+    private
+
+    def show_help: () -> void
+
+    def run_translate: () -> void
+
+    def run_generate: () -> void
+
+    def run_direct: () -> void
+  end
+end

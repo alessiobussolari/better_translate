@@ -1,0 +1,27 @@
+module BetterTranslate
+  module Providers
+    # Anthropic Claude translation provider
+    #
+    # Uses claude-3-5-sonnet-20241022 model for high-quality translations.
+    class AnthropicProvider < BaseHttpProvider
+      API_URL: String
+      MODEL: String
+      API_VERSION: String
+
+      type message_data = { system: String, messages: Array[Hash[Symbol, String]] }
+
+      def translate_text: (String text, String target_lang_code, String target_lang_name) -> String
+
+      def translate_batch: (Array[String] texts, String target_lang_code, String target_lang_name) -> Array[String]
+
+      # Private methods
+      def build_messages: (String text, String target_lang_name) -> message_data
+
+      def build_system_message: (String target_lang_name) -> String
+
+      def make_messages_request: (message_data message_data) -> Faraday::Response
+
+      def extract_translation: (Faraday::Response response) -> String
+    end
+  end
+end

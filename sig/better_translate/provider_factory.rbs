@@ -1,0 +1,8 @@
+module BetterTranslate
+  # Factory for creating translation providers
+  #
+  # Creates the appropriate provider instance based on configuration.
+  class ProviderFactory
+    def self.create: (Symbol provider_name, Configuration config) -> Providers::BaseHttpProvider
+  end
+end

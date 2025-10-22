@@ -1,0 +1,19 @@
+module BetterTranslate
+  # Translation strategy implementations
+  module Strategies
+    # Base class for translation strategies
+    class BaseStrategy
+      @config: Configuration
+      @provider: Providers::BaseHttpProvider
+      @progress_tracker: ProgressTracker
+
+      attr_reader config: Configuration
+      attr_reader provider: Providers::BaseHttpProvider
+      attr_reader progress_tracker: ProgressTracker
+
+      def initialize: (Configuration config, Providers::BaseHttpProvider provider, ProgressTracker progress_tracker) -> void
+
+      def translate: (Hash[String, String] strings, String target_lang_code, String target_lang_name) -> Hash[String, String]
+    end
+  end
+end

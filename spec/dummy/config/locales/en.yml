@@ -1,0 +1,25 @@
+en:
+  hello: "Hello"
+  world: "World"
+  welcome: "Welcome to our application"
+  goodbye: "Goodbye"
+
+  messages:
+    success: "Operation completed successfully"
+    error: "An error occurred"
+    warning: "Please check your input"
+
+  users:
+    greeting: "Hello %{name}"
+    profile: "User Profile"
+    settings: "Account Settings"
+
+  navigation:
+    home: "Home"
+    about: "About"
+    contact: "Contact Us"
+
+  forms:
+    submit: "Submit"
+    cancel: "Cancel"
+    save: "Save Changes"

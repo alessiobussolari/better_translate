@@ -1,0 +1,14 @@
+module BetterTranslate
+  # Utility classes and helpers
+  module Utils
+    # Utilities for flattening and unflattening nested hashes
+    #
+    # Used to convert nested YAML structures to flat key-value pairs
+    # and back again.
+    class HashFlattener
+      def self.flatten: (Hash[untyped, untyped] hash, ?String parent_key, ?String separator) -> Hash[String, untyped]
+
+      def self.unflatten: (Hash[String, untyped] hash, ?String separator) -> Hash[String, untyped]
+    end
+  end
+end

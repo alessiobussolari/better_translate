@@ -1,0 +1,24 @@
+module BetterTranslate
+  # Main translator class
+  #
+  # Coordinates the translation process using configuration, providers,
+  # strategies, and YAML handling.
+  class Translator
+    type translation_results = { success_count: Integer, failure_count: Integer, errors: Array[Hash[Symbol, untyped]] }
+
+    @config: Configuration
+    @provider: Providers::BaseHttpProvider
+    @yaml_handler: YAMLHandler
+    @progress_tracker: ProgressTracker
+
+    attr_reader config: Configuration
+
+    def initialize: (Configuration config) -> void
+
+    def translate_all: () -> translation_results
+
+    private
+
+    def translate_language: (Hash[String, untyped] source_strings, Hash[Symbol, String] lang) -> void
+  end
+end

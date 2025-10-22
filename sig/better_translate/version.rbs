@@ -1,0 +1,4 @@
+module BetterTranslate
+  # Current version of BetterTranslate gem
+  VERSION: String
+end

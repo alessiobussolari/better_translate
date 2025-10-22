@@ -1,0 +1,29 @@
+module BetterTranslate
+  # Handles YAML file operations
+  #
+  # Provides methods for:
+  # - Reading and parsing YAML files
+  # - Writing YAML files with proper formatting
+  # - Merging translations (incremental mode)
+  # - Handling exclusions
+  # - Flattening/unflattening nested structures
+  class YAMLHandler
+    @config: Configuration
+
+    attr_reader config: Configuration
+
+    def initialize: (Configuration config) -> void
+
+    def read_yaml: (String file_path) -> Hash[untyped, untyped]
+
+    def write_yaml: (String file_path, Hash[untyped, untyped] data, ?diff_preview: untyped) -> (Hash[untyped, untyped] | nil)
+
+    def get_source_strings: () -> Hash[String, untyped]
+
+    def filter_exclusions: (Hash[String, untyped] strings, String target_lang_code) -> Hash[String, untyped]
+
+    def merge_translations: (String file_path, Hash[String, untyped] new_translations) -> Hash[String, untyped]
+
+    def build_output_path: (String target_lang_code) -> String
+  end
+end

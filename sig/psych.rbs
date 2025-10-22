@@ -1,0 +1,5 @@
+# Minimal Psych type definitions
+module Psych
+  class SyntaxError < StandardError
+  end
+end

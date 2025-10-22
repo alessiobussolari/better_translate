@@ -1,0 +1,13 @@
+Description:
+    Installs BetterTranslate configuration files for Rails application.
+
+    This will create:
+    - config/initializers/better_translate.rb (Ruby configuration)
+    - config/better_translate.yml (YAML configuration)
+
+Example:
+    bin/rails generate better_translate:install
+
+    This will create:
+        config/initializers/better_translate.rb
+        config/better_translate.yml

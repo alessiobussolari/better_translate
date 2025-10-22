@@ -1,0 +1,40 @@
+module BetterTranslate
+  # Extracts and preserves interpolation variables during translation
+  #
+  # Supports multiple variable formats:
+  # - Rails I18n: %{name}, %{count}
+  # - I18n.js: {{user}}, {{email}}
+  # - ES6 templates: ${var}
+  # - Simple braces: {name}
+  class VariableExtractor
+    VARIABLE_PATTERNS: Hash[Symbol, Regexp]
+    COMBINED_PATTERN: Regexp
+    PLACEHOLDER_PREFIX: String
+    PLACEHOLDER_SUFFIX: String
+
+    @original_text: String
+    @variables: Array[String]
+    @placeholder_map: Hash[String, String]
+    @reverse_map: Hash[String, String]
+
+    attr_reader original_text: String
+    attr_reader variables: Array[String]
+    attr_reader placeholder_map: Hash[String, String]
+
+    def initialize: (String text) -> void
+
+    def extract: () -> String
+
+    def restore: (String translated_text, ?strict: bool) -> String
+
+    def variables?: () -> bool
+
+    def variable_count: () -> Integer
+
+    def validate_variables!: (String text) -> true
+
+    def self.find_variables: (String? text) -> Array[String]
+
+    def self.contains_variables?: (String? text) -> bool
+  end
+end

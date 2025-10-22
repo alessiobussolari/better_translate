@@ -1,0 +1,10 @@
+module BetterTranslate
+  module Strategies
+    # Selects the appropriate translation strategy based on content size
+    class StrategySelector
+      DEEP_STRATEGY_THRESHOLD: Integer
+
+      def self.select: (Integer strings_count, Configuration config, Providers::BaseHttpProvider provider, ProgressTracker progress_tracker) -> BaseStrategy
+    end
+  end
+end

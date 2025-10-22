@@ -1,0 +1,16 @@
+module BetterTranslate
+  module Generators
+    # Rails generator for analyzing YAML locale files
+    #
+    # Provides statistics about translation files: string count, structure, etc.
+    class AnalyzeGenerator < Rails::Generators::Base
+      def analyze_file: () -> void
+
+      private
+
+      def show_structure: (Hash[untyped, untyped] hash, Integer level) -> void
+
+      def count_strings: (Hash[untyped, untyped] hash) -> Integer
+    end
+  end
+end

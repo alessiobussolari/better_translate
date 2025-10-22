@@ -1,0 +1,22 @@
+module BetterTranslate
+  module Providers
+    # Google Gemini translation provider
+    #
+    # Uses gemini-2.0-flash-exp model for fast, high-quality translations.
+    class GeminiProvider < BaseHttpProvider
+      API_URL: String
+      MODEL: String
+
+      def translate_text: (String text, String target_lang_code, String target_lang_name) -> String
+
+      def translate_batch: (Array[String] texts, String target_lang_code, String target_lang_name) -> Array[String]
+
+      # Private methods
+      def build_prompt: (String text, String target_lang_name) -> String
+
+      def make_generation_request: (String prompt) -> Faraday::Response
+
+      def extract_translation: (Faraday::Response response) -> String
+    end
+  end
+end

@@ -1,0 +1,34 @@
+# Minimal Rails type definitions for BetterTranslate
+module Rails
+  class Railtie
+    # Rake tasks registration
+    def self.rake_tasks: () { () -> void } -> void
+  end
+
+  module Generators
+    class Base
+      # Class methods
+      def self.source_root: (String path) -> String
+      def self.desc: (String description) -> String
+      def self.argument: (Symbol name, ?type: Symbol, ?required: bool, ?default: untyped, ?desc: String) -> void
+      def self.class_option: (Symbol name, ?type: Symbol, ?default: untyped, ?desc: String) -> void
+
+      # Instance methods
+      def template: (String source, String destination) -> void
+      def create_file: (String path, String content) -> void
+      def readme: (String file) -> void
+      def say: (String message, ?Symbol color) -> void
+      def behavior: () -> Symbol
+      def options: () -> Hash[Symbol, untyped]
+    end
+  end
+
+  # Rails root
+  def self.root: () -> Pathname
+end
+
+# Pathname support for Rails.root
+class Pathname
+  def join: (*String | Pathname paths) -> Pathname
+  def to_s: () -> String
+end

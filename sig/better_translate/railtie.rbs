@@ -1,0 +1,7 @@
+module BetterTranslate
+  # Rails integration
+  #
+  # Automatically loads Rake tasks when used in a Rails application.
+  class Railtie < Rails::Railtie
+  end
+end
