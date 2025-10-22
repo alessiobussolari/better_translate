@@ -5,6 +5,7 @@
 [![Ruby Version](https://img.shields.io/badge/ruby-%3E%3D%203.0.0-ruby.svg)](https://www.ruby-lang.org/en/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
 [![Gem Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://rubygems.org/gems/better_translate)
+[![codecov](https://codecov.io/gh/alessiobussolari/better_translate/branch/main/graph/badge.svg)](https://codecov.io/gh/alessiobussolari/better_translate)
 
 BetterTranslate automatically translates your YAML locale files using cutting-edge AI providers (ChatGPT, Google Gemini, and Anthropic Claude). It's designed for Rails applications but works with any Ruby project that uses YAML-based internationalization.
 

@@ -1,5 +1,28 @@
 # frozen_string_literal: true
 
+# SimpleCov must be loaded before any application code
+require "simplecov"
+require "simplecov-cobertura"
+
+SimpleCov.start do
+  add_filter "/spec/"
+  add_filter "/vendor/"
+  add_filter "/gemfiles/"
+
+  # Generate both HTML (for local viewing) and Cobertura (for Codecov)
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::CoberturaFormatter
+  ])
+
+  # Require 90% minimum coverage
+  minimum_coverage 90
+  refuse_coverage_drop
+
+  # Track all files in lib/
+  track_files "lib/**/*.rb"
+end
+
 require "better_translate"
 require "vcr"
 require "webmock/rspec"
