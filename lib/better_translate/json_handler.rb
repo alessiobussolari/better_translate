@@ -1,64 +1,66 @@
 # frozen_string_literal: true
 
-require "yaml"
+require "json"
 require "fileutils"
 
 module BetterTranslate
-  # Handles YAML file operations
+  # Handles JSON file operations
   #
   # Provides methods for:
-  # - Reading and parsing YAML files
-  # - Writing YAML files with proper formatting
+  # - Reading and parsing JSON files
+  # - Writing JSON files with proper formatting
   # - Merging translations (incremental mode)
   # - Handling exclusions
   # - Flattening/unflattening nested structures
   #
-  # @example Reading a YAML file
-  #   handler = YAMLHandler.new(config)
-  #   data = handler.read_yaml("config/locales/en.yml")
+  # @example Reading a JSON file
+  #   handler = JsonHandler.new(config)
+  #   data = handler.read_json("config/locales/en.json")
   #
   # @example Writing translations
-  #   handler.write_yaml("config/locales/it.yml", { "it" => { "greeting" => "Ciao" } })
+  #   handler.write_json("config/locales/it.json", { "it" => { "greeting" => "Ciao" } })
   #
-  class YAMLHandler
+  class JsonHandler
     # @return [Configuration] Configuration object
     attr_reader :config
 
-    # Initialize YAML handler
+    # Initialize JSON handler
     #
     # @param config [Configuration] Configuration object
     #
     # @example
     #   config = Configuration.new
-    #   handler = YAMLHandler.new(config)
+    #   handler = JsonHandler.new(config)
     #
     def initialize(config)
       @config = config
     end
 
-    # Read and parse YAML file
+    # Read and parse JSON file
     #
-    # @param file_path [String] Path to YAML file
-    # @return [Hash] Parsed YAML content
+    # @param file_path [String] Path to JSON file
+    # @return [Hash] Parsed JSON content
     # @raise [FileError] if file cannot be read
-    # @raise [YamlError] if YAML is invalid
+    # @raise [JsonError] if JSON is invalid
     #
     # @example
-    #   data = handler.read_yaml("config/locales/en.yml")
+    #   data = handler.read_json("config/locales/en.json")
     #   #=> { "en" => { "greeting" => "Hello" } }
     #
-    def read_yaml(file_path)
+    def read_json(file_path)
       Validator.validate_file_exists!(file_path)
 
       content = File.read(file_path)
-      YAML.safe_load(content) || {}
+      return {} if content.strip.empty?
+
+      JSON.parse(content)
     rescue Errno::ENOENT => e
-      raise FileError.new("File not found: #{file_path}", context: { error: e.message })
-    rescue Psych::SyntaxError => e
-      raise YamlError.new("Invalid YAML syntax in #{file_path}", context: { error: e.message })
+      raise FileError.new("File does not exist: #{file_path}", context: { error: e.message })
+    rescue JSON::ParserError => e
+      raise JsonError.new("Invalid JSON syntax in #{file_path}", context: { error: e.message })
     end
 
-    # Write hash to YAML file
+    # Write hash to JSON file
     #
     # @param file_path [String] Output file path
     # @param data [Hash] Data to write
@@ -67,15 +69,14 @@ module BetterTranslate
     # @raise [FileError] if file cannot be written
     #
     # @example
-    #   handler.write_yaml("config/locales/it.yml", { "it" => { "greeting" => "Ciao" } })
+    #   handler.write_json("config/locales/it.json", { "it" => { "greeting" => "Ciao" } })
     #
-    def write_yaml(file_path, data, diff_preview: nil)
+    def write_json(file_path, data, diff_preview: nil)
       summary = nil
 
       # Show diff preview if in dry run mode
       if config.dry_run && diff_preview
-        # @type var existing_data: Hash[String, untyped]
-        existing_data = File.exist?(file_path) ? read_yaml(file_path) : {}
+        existing_data = File.exist?(file_path) ? read_json(file_path) : {}
         summary = diff_preview.show_diff(existing_data, data, file_path)
       end
 
@@ -87,16 +88,17 @@ module BetterTranslate
       # Ensure output directory exists
       FileUtils.mkdir_p(File.dirname(file_path))
 
-      File.write(file_path, YAML.dump(data))
+      # Write JSON with proper indentation
+      File.write(file_path, JSON.pretty_generate(data))
 
       nil
     rescue Errno::EACCES => e
       raise FileError.new("Permission denied: #{file_path}", context: { error: e.message })
     rescue StandardError => e
-      raise FileError.new("Failed to write YAML: #{file_path}", context: { error: e.message })
+      raise FileError.new("Failed to write JSON: #{file_path}", context: { error: e.message })
     end
 
-    # Get translatable strings from source YAML
+    # Get translatable strings from source JSON
     #
     # Reads the input file and returns a flattened hash of strings.
     # Removes the root language key if present.
@@ -110,7 +112,7 @@ module BetterTranslate
     def get_source_strings
       return {} unless config.input_file
 
-      source_data = read_yaml(config.input_file)
+      source_data = read_json(config.input_file)
       # Remove root language key if present (e.g., "en:")
       source_data = source_data[config.source_language] || source_data
 
@@ -140,11 +142,18 @@ module BetterTranslate
     # @return [Hash] Merged translations (nested)
     #
     # @example
-    #   merged = handler.merge_translations("config/locales/it.yml", new_translations)
+    #   merged = handler.merge_translations("config/locales/it.json", new_translations)
     #
     def merge_translations(file_path, new_translations)
-      # @type var existing: Hash[String, untyped]
-      existing = File.exist?(file_path) ? read_yaml(file_path) : {}
+      if File.exist?(file_path)
+        existing = read_json(file_path)
+        # Extract actual translations (remove language wrapper if present)
+        target_lang = config.target_languages.first[:short_name]
+        existing = existing[target_lang] || existing
+      else
+        existing = {}
+      end
+
       existing_flat = Utils::HashFlattener.flatten(existing)
 
       # Merge: existing takes precedence
@@ -160,12 +169,12 @@ module BetterTranslate
     #
     # @example
     #   path = handler.build_output_path("it")
-    #   #=> "config/locales/it.yml"
+    #   #=> "config/locales/it.json"
     #
     def build_output_path(target_lang_code)
-      return "#{target_lang_code}.yml" unless config.output_folder
+      return "#{target_lang_code}.json" unless config.output_folder
 
-      File.join(config.output_folder, "#{target_lang_code}.yml")
+      File.join(config.output_folder, "#{target_lang_code}.json")
     end
 
     private
@@ -189,11 +198,6 @@ module BetterTranslate
 
     # Rotate backup files, keeping only max_backups
     #
-    # Rotation strategy:
-    # - .bak is always the most recent
-    # - .bak.1, .bak.2, etc. are progressively older
-    # - When we reach max_backups, oldest is deleted
-    #
     # @param file_path [String] Base file path
     # @return [void]
     # @api private
@@ -203,16 +207,12 @@ module BetterTranslate
       return unless File.exist?(primary_backup)
 
       # Clean up ANY backups that would exceed max_backups after rotation
-      # max_backups includes .bak itself, so numbered backups go from 1 to max_backups-1
-      # After rotation, .bak -> .bak.1, so we can have at most .bak.1 through .bak.(max_backups-1)
       10.downto(config.max_backups) do |i|
         numbered_backup = "#{file_path}.bak.#{i}"
         FileUtils.rm_f(numbered_backup) if File.exist?(numbered_backup)
       end
 
       # Rotate numbered backups from high to low to avoid overwrites
-      # max_backups=2: nothing to rotate (only .bak -> .bak.1)
-      # max_backups=3: .bak.1 -> .bak.2 (if exists)
       (config.max_backups - 2).downto(1) do |i|
         old_path = "#{file_path}.bak.#{i}"
         new_path = "#{file_path}.bak.#{i + 1}"

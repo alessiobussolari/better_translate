@@ -165,4 +165,139 @@ RSpec.describe BetterTranslate::CLI do
       expect { cli.run }.to output(/--provider is required/).to_stdout
     end
   end
+
+  describe "analyze command" do
+    let(:yaml_file) { File.join(locales_dir, "en.yml") }
+    let(:scan_path) { File.join(Dir.tmpdir, "app") }
+    let(:controller_file) { File.join(scan_path, "controllers", "users_controller.rb") }
+
+    before do
+      FileUtils.mkdir_p(File.dirname(controller_file))
+
+      # Create sample YAML file
+      File.write(yaml_file, {
+        "en" => {
+          "users" => {
+            "greeting" => "Hello",
+            "welcome" => "Welcome"
+          },
+          "orphan_key" => "Unused"
+        }
+      }.to_yaml)
+
+      # Create sample controller
+      File.write(controller_file, <<~RUBY)
+        class UsersController < ApplicationController
+          def index
+            @greeting = t('users.greeting')
+          end
+        end
+      RUBY
+    end
+
+    after do
+      FileUtils.rm_rf(scan_path)
+    end
+
+    it "runs analyze command with text format" do
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", yaml_file,
+                                  "--scan-path", scan_path
+                                ])
+
+      output = capture_output { cli.run }
+
+      expect(output).to include("Orphan Keys Analysis")
+      expect(output).to include("orphan_key")
+    end
+
+    it "generates JSON format report" do
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", yaml_file,
+                                  "--scan-path", scan_path,
+                                  "--format", "json"
+                                ])
+
+      output = capture_output { cli.run }
+
+      expect(output).to include('"orphans"')
+      expect(output).to include('"orphan_key"')
+    end
+
+    it "generates CSV format report" do
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", yaml_file,
+                                  "--scan-path", scan_path,
+                                  "--format", "csv"
+                                ])
+
+      output = capture_output { cli.run }
+
+      expect(output).to include("Key,Value")
+      expect(output).to include("orphan_key")
+    end
+
+    it "saves report to file when --output specified" do
+      output_file = File.join(Dir.tmpdir, "orphan_report.txt")
+
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", yaml_file,
+                                  "--scan-path", scan_path,
+                                  "--output", output_file
+                                ])
+
+      begin
+        expect { cli.run }.to output(/Report saved/).to_stdout
+        expect(File.exist?(output_file)).to be true
+
+        content = File.read(output_file)
+        expect(content).to include("Orphan Keys Analysis")
+      ensure
+        FileUtils.rm_f(output_file)
+      end
+    end
+
+    it "requires --source option" do
+      cli = described_class.new(["analyze", "--scan-path", scan_path])
+      expect { cli.run }.to output(/--source is required/).to_stdout
+    end
+
+    it "requires --scan-path option" do
+      cli = described_class.new(["analyze", "--source", yaml_file])
+      expect { cli.run }.to output(/--scan-path is required/).to_stdout
+    end
+
+    it "validates source file exists" do
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", "/nonexistent/file.yml",
+                                  "--scan-path", scan_path
+                                ])
+
+      expect { cli.run }.to output(/Source file not found/).to_stdout
+    end
+
+    it "validates scan path exists" do
+      cli = described_class.new([
+                                  "analyze",
+                                  "--source", yaml_file,
+                                  "--scan-path", "/nonexistent/path"
+                                ])
+
+      expect { cli.run }.to output(/Scan path not found/).to_stdout
+    end
+
+    def capture_output
+      old_stdout = $stdout
+      $stdout = StringIO.new
+      yield
+      $stdout.string
+    ensure
+      $stdout = old_stdout
+    end
+  end
 end

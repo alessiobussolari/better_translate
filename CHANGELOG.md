@@ -5,6 +5,94 @@ All notable changes to BetterTranslate will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-10-22
+
+### Added
+
+#### Enhanced Configuration
+- **Provider-Specific Options**: Fine-tune AI provider behavior
+  - `model`: Specify which AI model to use (e.g., "gpt-5-nano", "gemini-2.0-flash-exp")
+  - `temperature`: Control creativity/randomness (0.0-2.0, default: 0.3)
+  - `max_tokens`: Limit response length (default: 2000)
+  - Configurable via CLI, configuration file, or programmatically
+
+#### Automatic Backups
+- **Backup System**: Automatic backup creation before overwriting translation files
+  - `create_backup`: Enable/disable automatic backups (default: true)
+  - `max_backups`: Keep up to N backup files with rotation (default: 3)
+  - Backup format: `.bak`, `.bak.1`, `.bak.2`, etc.
+  - Automatic cleanup of old backups beyond `max_backups`
+  - Works with both YAML and JSON files
+
+#### JSON File Support
+- **JSON Handler**: Complete support for JSON translation files
+  - Read and write JSON locale files
+  - Automatic format detection based on file extension (.json vs .yml)
+  - Same feature set as YAML (incremental mode, backups, exclusions)
+  - Pretty-printed output with proper indentation
+  - Compatible with modern JavaScript frameworks (React, Vue, etc.)
+
+#### Parallel Translation
+- **Concurrent Processing**: Translate multiple languages simultaneously
+  - `max_concurrent_requests`: Control concurrency level (default: 3)
+  - Thread-based parallel execution for improved performance
+  - Automatic fallback to sequential processing when `max_concurrent_requests = 1`
+  - Thread-safe error handling
+  - Significant time savings for projects with many target languages
+
+#### Multiple Files Support
+- **Batch Translation**: Translate multiple files in a single run
+  - `input_files`: Accept array of file paths or glob patterns
+  - Glob pattern support: `config/locales/**/*.en.yml`
+  - Preserves directory structure in output
+  - Smart filename handling: `common.en.yml` → `common.it.yml`
+  - Works with both YAML and JSON files
+  - Backward compatible with single `input_file` attribute
+
+### Examples
+
+#### Provider-Specific Options
+```ruby
+config.model = "gpt-5-nano"           # Use specific model
+config.temperature = 0.7              # More creative translations
+config.max_tokens = 1500              # Limit response length
+```
+
+#### Automatic Backups
+```ruby
+config.create_backup = true           # Enable backups (default)
+config.max_backups = 5                # Keep up to 5 backup versions
+```
+
+#### JSON Support
+```ruby
+config.input_file = "config/locales/en.json"
+config.output_folder = "config/locales"
+# Automatically detects JSON format and uses JsonHandler
+```
+
+#### Parallel Translation
+```ruby
+config.target_languages = [
+  { short_name: "it", name: "Italian" },
+  { short_name: "fr", name: "French" },
+  { short_name: "es", name: "Spanish" }
+]
+config.max_concurrent_requests = 3   # Translate 3 languages at once
+```
+
+#### Multiple Files
+```ruby
+# Array of specific files
+config.input_files = [
+  "config/locales/common.en.yml",
+  "config/locales/errors.en.yml"
+]
+
+# Or use glob patterns
+config.input_files = "config/locales/**/*.en.yml"
+```
+
 ## [1.0.0] - 2025-10-22
 
 ### Complete Rewrite 🎉

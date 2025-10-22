@@ -4,7 +4,7 @@
 
 [![Ruby Version](https://img.shields.io/badge/ruby-%3E%3D%203.0.0-ruby.svg)](https://www.ruby-lang.org/en/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
-[![Gem Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://rubygems.org/gems/better_translate)
+[![Gem Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://rubygems.org/gems/better_translate)
 
 BetterTranslate automatically translates your YAML locale files using cutting-edge AI providers (ChatGPT, Google Gemini, and Anthropic Claude). It's designed for Rails applications but works with any Ruby project that uses YAML-based internationalization.
 
@@ -31,6 +31,14 @@ BetterTranslate automatically translates your YAML locale files using cutting-ed
 - 🚫 **Flexible Exclusions**: Global exclusions for all languages + language-specific exclusions for fine-grained control
 - 🎨 **Translation Context**: Provide domain-specific context for medical, legal, financial, or technical terminology
 - 📊 **Similarity Analysis**: Built-in Levenshtein distance analyzer to identify similar translations
+- 🔍 **Orphan Key Analyzer**: Find unused translation keys in your codebase with comprehensive reports (text, JSON, CSV)
+
+### New in v1.1.0 🎉
+- 🎛️ **Provider-Specific Options**: Fine-tune AI behavior with `model`, `temperature`, and `max_tokens`
+- 💾 **Automatic Backups**: Configurable backup rotation before overwriting files (`.bak`, `.bak.1`, `.bak.2`)
+- 📦 **JSON Support**: Full support for JSON locale files (React, Vue, modern JS frameworks)
+- ⚡ **Parallel Translation**: Translate multiple languages concurrently with thread-based execution
+- 📁 **Multiple Files**: Translate multiple files with arrays or glob patterns (`**/*.en.yml`)
 
 ### Development & Quality
 - 🧪 **Comprehensive Testing**: Unit tests + integration tests with VCR cassettes (18 cassettes, 260KB)
@@ -160,6 +168,11 @@ BetterTranslate.configure do |config|
   config.request_timeout = 30      # seconds
   config.max_retries = 3
   config.retry_delay = 2.0         # seconds
+
+  # 🆕 v1.1.0: Provider-specific options
+  config.model = "gpt-5-nano"      # Specify model (optional)
+  config.temperature = 0.3         # Creativity (0.0-2.0, default: 0.3)
+  config.max_tokens = 2000         # Response length limit
 end
 ```
 
@@ -194,6 +207,90 @@ end
 ```
 
 Get your API key from [Anthropic Console](https://console.anthropic.com/).
+
+### New Features (v1.1.0)
+
+#### Automatic Backups
+
+Protect your translation files with automatic backup creation:
+
+```ruby
+config.create_backup = true    # Enable backups (default: true)
+config.max_backups = 5          # Keep up to 5 backup versions
+```
+
+Backup files are created with rotation:
+- First backup: `it.yml.bak`
+- Second backup: `it.yml.bak.1`
+- Third backup: `it.yml.bak.2`
+- Older backups are automatically deleted
+
+#### JSON File Support
+
+Translate JSON locale files for modern JavaScript frameworks:
+
+```ruby
+# Automatically detects JSON format from file extension
+config.input_file = "config/locales/en.json"
+config.output_folder = "config/locales"
+
+# All features work with JSON: backups, incremental mode, exclusions, etc.
+```
+
+Example JSON file:
+```json
+{
+  "en": {
+    "common": {
+      "greeting": "Hello %{name}"
+    }
+  }
+}
+```
+
+#### Parallel Translation
+
+Translate multiple languages concurrently for faster processing:
+
+```ruby
+config.target_languages = [
+  { short_name: "it", name: "Italian" },
+  { short_name: "fr", name: "French" },
+  { short_name: "es", name: "Spanish" },
+  { short_name: "de", name: "German" }
+]
+
+config.max_concurrent_requests = 4  # Translate 4 languages at once
+```
+
+**Performance improvement:** With 4 languages and `max_concurrent_requests = 4`, translation time is reduced by ~75% compared to sequential processing.
+
+#### Multiple Files Support
+
+Translate multiple files in a single run:
+
+```ruby
+# Array of specific files
+config.input_files = [
+  "config/locales/common.en.yml",
+  "config/locales/errors.en.yml",
+  "config/locales/admin.en.yml"
+]
+
+# Or use glob patterns (recommended)
+config.input_files = "config/locales/**/*.en.yml"
+
+# Or combine both approaches
+config.input_files = [
+  "config/locales/**/*.en.yml",
+  "app/javascript/translations/*.en.json"
+]
+```
+
+Output files preserve the original structure:
+- `common.en.yml` → `common.it.yml`
+- `errors.en.yml` → `errors.it.yml`
+- `admin/settings.en.yml` → `admin/settings.it.yml`
 
 ### Language Configuration
 
@@ -443,6 +540,142 @@ Enable detailed logging for debugging:
 ```ruby
 config.verbose = true
 ```
+
+## 🔍 Orphan Key Analyzer
+
+The Orphan Key Analyzer helps you find unused translation keys in your codebase. It scans your YAML locale files and compares them against your actual code usage, generating comprehensive reports.
+
+### CLI Usage
+
+Find orphan keys from the command line:
+
+```bash
+# Basic text report (default)
+better_translate analyze \
+  --source config/locales/en.yml \
+  --scan-path app/
+
+# JSON format (great for CI/CD)
+better_translate analyze \
+  --source config/locales/en.yml \
+  --scan-path app/ \
+  --format json
+
+# CSV format (easy to share with team)
+better_translate analyze \
+  --source config/locales/en.yml \
+  --scan-path app/ \
+  --format csv
+
+# Save to file
+better_translate analyze \
+  --source config/locales/en.yml \
+  --scan-path app/ \
+  --output orphan_report.txt
+```
+
+### Sample Output
+
+**Text format:**
+```
+============================================================
+Orphan Keys Analysis Report
+============================================================
+
+Statistics:
+  Total keys: 50
+  Used keys: 45
+  Orphan keys: 5
+  Usage: 90.0%
+
+Orphan Keys (5):
+------------------------------------------------------------
+
+  Key: users.old_message
+  Value: This feature was removed
+
+  Key: products.deprecated_label
+  Value: Old Label
+...
+============================================================
+```
+
+**JSON format:**
+```json
+{
+  "orphans": ["users.old_message", "products.deprecated_label"],
+  "orphan_details": {
+    "users.old_message": "This feature was removed",
+    "products.deprecated_label": "Old Label"
+  },
+  "orphan_count": 5,
+  "total_keys": 50,
+  "used_keys": 45,
+  "usage_percentage": 90.0
+}
+```
+
+### Programmatic Usage
+
+Use the analyzer in your Ruby code:
+
+```ruby
+# Scan YAML file
+key_scanner = BetterTranslate::Analyzer::KeyScanner.new("config/locales/en.yml")
+all_keys = key_scanner.scan  # Returns Hash of all keys
+
+# Scan code for used keys
+code_scanner = BetterTranslate::Analyzer::CodeScanner.new("app/")
+used_keys = code_scanner.scan  # Returns Set of used keys
+
+# Detect orphans
+detector = BetterTranslate::Analyzer::OrphanDetector.new(all_keys, used_keys)
+orphans = detector.detect
+
+# Get statistics
+puts "Orphan count: #{detector.orphan_count}"
+puts "Usage: #{detector.usage_percentage}%"
+
+# Generate report
+reporter = BetterTranslate::Analyzer::Reporter.new(
+  orphans: orphans,
+  orphan_details: detector.orphan_details,
+  total_keys: all_keys.size,
+  used_keys: used_keys.size,
+  usage_percentage: detector.usage_percentage,
+  format: :text
+)
+
+puts reporter.generate
+reporter.save_to_file("orphan_report.txt")
+```
+
+### Supported Translation Patterns
+
+The analyzer recognizes these i18n patterns:
+
+- `t('key')` - Rails short form
+- `t("key")` - Rails short form with double quotes
+- `I18n.t(:key)` - Symbol syntax
+- `I18n.t('key')` - String syntax
+- `I18n.translate('key')` - Full method name
+- `<%= t('key') %>` - ERB templates
+- `I18n.t('key', param: value)` - With parameters
+
+**Nested keys:**
+```yaml
+en:
+  users:
+    profile:
+      title: "Profile"  # Detected as: users.profile.title
+```
+
+**Use cases:**
+- Clean up unused translations before deployment
+- Identify dead code after refactoring
+- Reduce locale file size
+- Improve translation maintenance
+- Generate reports for translation teams
 
 ## 🧪 Development & Testing
 

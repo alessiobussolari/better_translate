@@ -1,0 +1,13 @@
+en:
+  users:
+    greeting: "Hello"
+    welcome: "Welcome %{name}"
+    profile:
+      title: "User Profile"
+      edit: "Edit Profile"
+  products:
+    list: "Product List"
+    show: "Product Details"
+  orphan_key: "This key is never used"
+  another:
+    orphan: "Another unused key"

@@ -80,6 +80,100 @@ RSpec.describe BetterTranslate::YAMLHandler do
       handler.write_yaml(output_path, data)
       expect(File.exist?(output_path)).to be false
     end
+
+    context "with backup enabled" do
+      before { config.create_backup = true }
+
+      it "creates backup file when overwriting existing file" do
+        # Create existing file
+        existing_data = { "it" => { "greeting" => "Salve" } }
+        File.write(output_path, existing_data.to_yaml)
+
+        # Overwrite with new data
+        handler.write_yaml(output_path, data)
+
+        # Check backup was created with original content
+        backup_path = "#{output_path}.bak"
+        expect(File.exist?(backup_path)).to be true
+        backup_content = YAML.load_file(backup_path)
+        expect(backup_content).to eq(existing_data)
+
+        FileUtils.rm_f(backup_path)
+      end
+
+      it "does not create backup for new file" do
+        handler.write_yaml(output_path, data)
+
+        backup_path = "#{output_path}.bak"
+        expect(File.exist?(backup_path)).to be false
+      end
+
+      it "rotates backups when max_backups > 1" do
+        config.max_backups = 3
+
+        # First write
+        data1 = { "it" => { "greeting" => "Salve" } }
+        File.write(output_path, data1.to_yaml)
+
+        # Second write (creates .bak)
+        data2 = { "it" => { "greeting" => "Ciao" } }
+        handler.write_yaml(output_path, data2)
+
+        # Third write (creates .bak.1, moves .bak to .bak.2)
+        data3 = { "it" => { "greeting" => "Buongiorno" } }
+        handler.write_yaml(output_path, data3)
+
+        # Check backups exist
+        expect(File.exist?("#{output_path}.bak")).to be true
+        expect(File.exist?("#{output_path}.bak.1")).to be true
+
+        # Check content order (most recent backup is .bak)
+        bak_content = YAML.load_file("#{output_path}.bak")
+        expect(bak_content).to eq(data2)
+
+        bak1_content = YAML.load_file("#{output_path}.bak.1")
+        expect(bak1_content).to eq(data1)
+
+        FileUtils.rm_f("#{output_path}.bak")
+        FileUtils.rm_f("#{output_path}.bak.1")
+      end
+
+      it "deletes oldest backup when exceeding max_backups" do
+        config.max_backups = 2
+
+        # Create initial file
+        File.write(output_path, { "it" => { "v" => "1" } }.to_yaml)
+
+        # Write 3 times (should keep only 2 backups)
+        3.times do |i|
+          handler.write_yaml(output_path, { "it" => { "v" => (i + 2).to_s } })
+        end
+
+        # Should have only .bak and .bak.1
+        expect(File.exist?("#{output_path}.bak")).to be true
+        expect(File.exist?("#{output_path}.bak.1")).to be true
+        expect(File.exist?("#{output_path}.bak.2")).to be false
+
+        FileUtils.rm_f("#{output_path}.bak")
+        FileUtils.rm_f("#{output_path}.bak.1")
+      end
+    end
+
+    context "with backup disabled" do
+      before { config.create_backup = false }
+
+      it "does not create backup file" do
+        # Create existing file
+        File.write(output_path, { "it" => { "greeting" => "Salve" } }.to_yaml)
+
+        # Overwrite
+        handler.write_yaml(output_path, data)
+
+        # No backup should be created
+        backup_path = "#{output_path}.bak"
+        expect(File.exist?(backup_path)).to be false
+      end
+    end
   end
 
   describe "#get_source_strings" do

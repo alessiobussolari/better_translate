@@ -90,6 +90,15 @@ module BetterTranslate
   #   )
   class YamlError < Error; end
 
+  # Raised when JSON parsing fails
+  #
+  # @example JSON syntax error
+  #   raise JsonError.new(
+  #     "Invalid JSON syntax",
+  #     context: { file_path: "config/locales/en.json", error: "unexpected token" }
+  #   )
+  class JsonError < Error; end
+
   # Raised when a provider is not found
   #
   # @example Provider not found

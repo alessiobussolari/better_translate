@@ -3,11 +3,11 @@
 require "tmpdir"
 require "webmock/rspec"
 
-RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
+RSpec.describe BetterTranslate::Providers::GeminiProvider do
   let(:config) do
     config = BetterTranslate::Configuration.new
-    config.provider = :chatgpt
-    config.openai_key = "test_key"
+    config.provider = :gemini
+    config.google_gemini_key = "test_key"
     config.source_language = "en"
     config.target_languages = [{ short_name: "it", name: "Italian" }]
     config.input_file = __FILE__
@@ -19,14 +19,28 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
   subject(:provider) { described_class.new(config) }
 
+  describe "constants" do
+    it "has correct API_URL" do
+      expect(described_class::API_URL).to eq(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent"
+      )
+    end
+
+    it "has correct MODEL" do
+      expect(described_class::MODEL).to eq("gemini-2.5-flash-lite")
+    end
+  end
+
   describe "#translate_text" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url_pattern) { %r{https://generativelanguage.googleapis.com/v1beta/models/.*\?key=test_key} }
     let(:response_body) do
       {
-        choices: [
+        candidates: [
           {
-            message: {
-              content: "Ciao"
+            content: {
+              parts: [
+                { text: "Ciao" }
+              ]
             }
           }
         ]
@@ -34,7 +48,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
     end
 
     before do
-      stub_request(:post, api_url)
+      stub_request(:post, api_url_pattern)
         .to_return(status: 200, body: response_body, headers: { "Content-Type" => "application/json" })
     end
 
@@ -55,49 +69,56 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
       end.to raise_error(BetterTranslate::ValidationError)
     end
 
-    it "sends correct request to OpenAI API" do
+    it "includes API key in URL" do
       provider.translate_text("Hello", "it", "Italian")
 
-      expect(WebMock).to(have_requested(:post, api_url).with do |req|
-        body = JSON.parse(req.body)
-        body["model"] == "gpt-5-nano" &&
-          body["temperature"] == 1.0 &&
-          body["messages"].is_a?(Array)
-      end)
+      expect(WebMock).to have_requested(:post, api_url_pattern)
     end
 
-    it "includes authorization header" do
+    it "sends correct request body structure" do
       provider.translate_text("Hello", "it", "Italian")
 
-      expect(WebMock).to have_requested(:post, api_url).with(
-        headers: { "Authorization" => "Bearer test_key" }
-      )
+      expect(WebMock).to(have_requested(:post, api_url_pattern).with do |req|
+        body = JSON.parse(req.body)
+        body["contents"].is_a?(Array) &&
+          body["contents"][0]["parts"].is_a?(Array) &&
+          body["contents"][0]["parts"][0]["text"].is_a?(String)
+      end)
     end
 
     it "includes translation context if provided" do
       config.translation_context = "Technical documentation"
       provider.translate_text("Hello", "it", "Italian")
 
-      expect(WebMock).to(have_requested(:post, api_url).with do |req|
+      expect(WebMock).to(have_requested(:post, api_url_pattern).with do |req|
         body = JSON.parse(req.body)
-        system_message = body["messages"].find { |m| m["role"] == "system" }
-        system_message["content"].include?("Technical documentation")
+        prompt = body["contents"][0]["parts"][0]["text"]
+        prompt.include?("Technical documentation")
       end)
     end
 
-    it "includes placeholder instructions in system message" do
+    it "includes placeholder instructions in prompt" do
       provider.translate_text("Hello", "it", "Italian")
 
-      expect(WebMock).to(have_requested(:post, api_url).with do |req|
+      expect(WebMock).to(have_requested(:post, api_url_pattern).with do |req|
         body = JSON.parse(req.body)
-        system_message = body["messages"].find { |m| m["role"] == "system" }
-        system_message["content"].include?("VARIABLE_") &&
-          system_message["content"].include?("placeholder")
+        prompt = body["contents"][0]["parts"][0]["text"]
+        prompt.include?("VARIABLE_") && prompt.include?("placeholder")
+      end)
+    end
+
+    it "includes target language in prompt" do
+      provider.translate_text("Hello", "it", "Italian")
+
+      expect(WebMock).to(have_requested(:post, api_url_pattern).with do |req|
+        body = JSON.parse(req.body)
+        prompt = body["contents"][0]["parts"][0]["text"]
+        prompt.include?("Italian")
       end)
     end
 
     it "raises TranslationError on API error" do
-      stub_request(:post, api_url).to_return(status: 500, body: "Error")
+      stub_request(:post, api_url_pattern).to_return(status: 500, body: "Error")
 
       expect do
         provider.translate_text("Hello", "it", "Italian")
@@ -105,7 +126,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
     end
 
     it "raises TranslationError on invalid JSON response" do
-      stub_request(:post, api_url).to_return(status: 200, body: "invalid json")
+      stub_request(:post, api_url_pattern).to_return(status: 200, body: "invalid json")
 
       expect do
         provider.translate_text("Hello", "it", "Italian")
@@ -113,9 +134,9 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
     end
 
     it "raises TranslationError when no translation in response" do
-      stub_request(:post, api_url).to_return(
+      stub_request(:post, api_url_pattern).to_return(
         status: 200,
-        body: { choices: [] }.to_json,
+        body: { candidates: [] }.to_json,
         headers: { "Content-Type" => "application/json" }
       )
 
@@ -126,13 +147,13 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
   end
 
   describe "#translate_batch" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url_pattern) { %r{https://generativelanguage.googleapis.com/v1beta/models/.*\?key=test_key} }
 
     before do
-      stub_request(:post, api_url)
+      stub_request(:post, api_url_pattern)
         .to_return(
-          { status: 200, body: { choices: [{ message: { content: "Ciao" } }] }.to_json },
-          { status: 200, body: { choices: [{ message: { content: "Mondo" } }] }.to_json }
+          { status: 200, body: { candidates: [{ content: { parts: [{ text: "Ciao" }] } }] }.to_json },
+          { status: 200, body: { candidates: [{ content: { parts: [{ text: "Mondo" }] } }] }.to_json }
         )
     end
 
@@ -147,59 +168,50 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
     end
 
     it "translates single text in array" do
-      stub_request(:post, api_url)
-        .to_return(status: 200, body: { choices: [{ message: { content: "Ciao" } }] }.to_json)
+      stub_request(:post, api_url_pattern)
+        .to_return(status: 200, body: { candidates: [{ content: { parts: [{ text: "Ciao" }] } }] }.to_json)
 
       results = provider.translate_batch(["Hello"], "it", "Italian")
       expect(results).to eq(["Ciao"])
     end
   end
 
-  describe "constants" do
-    it "has correct API_URL" do
-      expect(described_class::API_URL).to eq("https://api.openai.com/v1/chat/completions")
+  describe "#build_prompt" do
+    it "creates correct prompt structure" do
+      prompt = provider.send(:build_prompt, "Hello", "Italian")
+
+      expect(prompt).to include("Italian")
+      expect(prompt).to include("Hello")
+      expect(prompt).to include("Text:")
     end
 
-    it "has correct MODEL" do
-      expect(described_class::MODEL).to eq("gpt-5-nano")
-    end
-
-    it "has correct TEMPERATURE" do
-      expect(described_class::TEMPERATURE).to eq(1.0)
-    end
-  end
-
-  describe "#build_messages" do
-    it "creates correct message structure" do
-      messages = provider.send(:build_messages, "Hello", "Italian")
-
-      expect(messages).to be_an(Array)
-      expect(messages.size).to eq(2)
-      expect(messages[0][:role]).to eq("system")
-      expect(messages[0][:content]).to include("Italian")
-      expect(messages[1][:role]).to eq("user")
-      expect(messages[1][:content]).to eq("Hello")
-    end
-
-    it "includes context in system message when provided" do
+    it "includes context when provided" do
       config.translation_context = "Medical terminology"
-      messages = provider.send(:build_messages, "Hello", "Italian")
+      prompt = provider.send(:build_prompt, "Hello", "Italian")
 
-      expect(messages[0][:content]).to include("Medical terminology")
+      expect(prompt).to include("Medical terminology")
+      expect(prompt).to include("Context:")
     end
 
     it "does not include context when not provided" do
       config.translation_context = nil
-      messages = provider.send(:build_messages, "Hello", "Italian")
+      prompt = provider.send(:build_prompt, "Hello", "Italian")
 
-      expect(messages[0][:content]).not_to include("Context:")
+      expect(prompt).not_to include("Context:")
+    end
+
+    it "includes placeholder instructions" do
+      prompt = provider.send(:build_prompt, "Hello", "Italian")
+
+      expect(prompt).to include("VARIABLE_")
+      expect(prompt).to include("placeholder")
     end
   end
 
   describe "#extract_translation" do
     it "extracts translation from valid response" do
       response = double("response", body: {
-        choices: [{ message: { content: "Ciao" } }]
+        candidates: [{ content: { parts: [{ text: "Ciao" }] } }]
       }.to_json)
 
       result = provider.send(:extract_translation, response)
@@ -208,7 +220,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
     it "strips whitespace from translation" do
       response = double("response", body: {
-        choices: [{ message: { content: "  Ciao  \n" } }]
+        candidates: [{ content: { parts: [{ text: "  Ciao  \n" }] } }]
       }.to_json)
 
       result = provider.send(:extract_translation, response)
@@ -217,7 +229,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
     it "raises error for empty translation" do
       response = double("response", body: {
-        choices: [{ message: { content: "" } }]
+        candidates: [{ content: { parts: [{ text: "" }] } }]
       }.to_json)
 
       expect do
@@ -227,7 +239,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
     it "raises error for nil translation" do
       response = double("response", body: {
-        choices: [{ message: { content: nil } }]
+        candidates: [{ content: { parts: [{ text: nil }] } }]
       }.to_json)
 
       expect do
@@ -235,8 +247,16 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
       end.to raise_error(BetterTranslate::TranslationError, /No translation/)
     end
 
-    it "raises error for missing choices" do
+    it "raises error for missing candidates" do
       response = double("response", body: {}.to_json)
+
+      expect do
+        provider.send(:extract_translation, response)
+      end.to raise_error(BetterTranslate::TranslationError, /No translation/)
+    end
+
+    it "raises error for empty candidates array" do
+      response = double("response", body: { candidates: [] }.to_json)
 
       expect do
         provider.send(:extract_translation, response)
@@ -264,13 +284,13 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
   end
 
   describe "caching behavior" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url_pattern) { %r{https://generativelanguage.googleapis.com/v1beta/models/.*\?key=test_key} }
 
     before do
       config.cache_enabled = true
-      stub_request(:post, api_url)
+      stub_request(:post, api_url_pattern)
         .to_return(status: 200, body: {
-          choices: [{ message: { content: "Ciao" } }]
+          candidates: [{ content: { parts: [{ text: "Ciao" }] } }]
         }.to_json)
     end
 
@@ -282,33 +302,33 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
       result = provider.translate_text("Hello", "it", "Italian")
 
       expect(result).to eq("Ciao")
-      expect(WebMock).to have_requested(:post, api_url).once
+      expect(WebMock).to have_requested(:post, api_url_pattern).once
     end
 
     it "uses different cache keys for different languages" do
-      stub_request(:post, api_url)
+      stub_request(:post, api_url_pattern)
         .to_return(
-          { status: 200, body: { choices: [{ message: { content: "Ciao" } }] }.to_json },
-          { status: 200, body: { choices: [{ message: { content: "Bonjour" } }] }.to_json }
+          { status: 200, body: { candidates: [{ content: { parts: [{ text: "Ciao" }] } }] }.to_json },
+          { status: 200, body: { candidates: [{ content: { parts: [{ text: "Bonjour" }] } }] }.to_json }
         )
 
       provider.translate_text("Hello", "it", "Italian")
       provider.translate_text("Hello", "fr", "French")
 
-      expect(WebMock).to have_requested(:post, api_url).twice
+      expect(WebMock).to have_requested(:post, api_url_pattern).twice
     end
   end
 
   describe "error handling with context" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url_pattern) { %r{https://generativelanguage.googleapis.com/v1beta/models/.*\?key=test_key} }
 
     it "includes original error context in TranslationError" do
-      stub_request(:post, api_url).to_return(status: 500, body: "Server error")
+      stub_request(:post, api_url_pattern).to_return(status: 500, body: "Server error")
 
       begin
         provider.translate_text("Hello", "it", "Italian")
       rescue BetterTranslate::TranslationError => e
-        expect(e.message).to include("Failed to translate text with ChatGPT")
+        expect(e.message).to include("Failed to translate text with Gemini")
         expect(e.context[:text]).to eq("Hello")
         expect(e.context[:target_lang]).to eq("it")
         expect(e.context[:original_error]).to be_a(BetterTranslate::ApiError)

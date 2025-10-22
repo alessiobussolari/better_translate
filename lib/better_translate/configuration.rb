@@ -13,6 +13,15 @@ module BetterTranslate
   #   config.target_languages = [{ short_name: "it", name: "Italian" }]
   #   config.validate!
   #
+  # @example Provider-specific options
+  #   config.model = "gpt-5-nano"           # Specify model (optional, provider-specific)
+  #   config.temperature = 0.7              # Control creativity (0.0-2.0, default: 0.3)
+  #   config.max_tokens = 1500              # Limit response length (default: 2000)
+  #
+  # @example Backup configuration
+  #   config.create_backup = true           # Enable automatic backups (default: true)
+  #   config.max_backups = 5                # Keep up to 5 backup files (default: 3)
+  #
   class Configuration
     # @return [Symbol] The translation provider (:chatgpt, :gemini, :anthropic)
     attr_accessor :provider
@@ -40,8 +49,11 @@ module BetterTranslate
     # @return [Array<Hash>] Target languages with :short_name and :name
     attr_accessor :target_languages
 
-    # @return [String] Path to input YAML file
+    # @return [String] Path to input YAML file (for backward compatibility, use input_files for multiple files)
     attr_accessor :input_file
+
+    # @return [Array<String>, String] Multiple input files (array or glob pattern)
+    attr_accessor :input_files
 
     # @return [String] Output folder for translated files
     attr_accessor :output_folder
@@ -88,6 +100,21 @@ module BetterTranslate
     # @return [Boolean] Preserve interpolation variables during translation (default: true)
     attr_accessor :preserve_variables
 
+    # @return [String, nil] AI model to use (provider-specific, e.g., "gpt-5-nano", "gemini-2.0-flash-exp")
+    attr_accessor :model
+
+    # @return [Float] Temperature for AI generation (0.0-2.0, higher = more creative)
+    attr_accessor :temperature
+
+    # @return [Integer] Maximum tokens for AI response
+    attr_accessor :max_tokens
+
+    # @return [Boolean] Create backup files before overwriting (default: true)
+    attr_accessor :create_backup
+
+    # @return [Integer] Maximum number of backup files to keep (default: 3)
+    attr_accessor :max_backups
+
     # Initialize a new configuration with defaults
     def initialize
       @translation_mode = :override
@@ -104,6 +131,11 @@ module BetterTranslate
       @exclusions_per_language = {}
       @target_languages = []
       @preserve_variables = true
+      @model = nil
+      @temperature = 0.3
+      @max_tokens = 2000
+      @create_backup = true
+      @max_backups = 3
     end
 
     # Validate the configuration
@@ -176,8 +208,14 @@ module BetterTranslate
     # @return [void]
     # @api private
     def validate_files!
-      raise ConfigurationError, "Input file must be set" if input_file.nil? || input_file.empty?
+      # Check if either input_file or input_files is set
+      has_input = (input_file && !input_file.empty?) || input_files
+
+      raise ConfigurationError, "Input file or input_files must be set" unless has_input
       raise ConfigurationError, "Output folder must be set" if output_folder.nil? || output_folder.empty?
+
+      # Only validate input_file exists if using single file mode (not glob pattern or array)
+      return unless input_file && !input_file.empty? && !input_files
       raise ConfigurationError, "Input file does not exist: #{input_file}" unless File.exist?(input_file)
     end
 
@@ -196,6 +234,14 @@ module BetterTranslate
       raise ConfigurationError, "Request timeout must be positive" if request_timeout <= 0
       raise ConfigurationError, "Max retries must be non-negative" if max_retries.negative?
       raise ConfigurationError, "Cache size must be positive" if cache_size <= 0
+
+      # Validate temperature range (AI providers typically accept 0.0-2.0)
+      if temperature && (temperature < 0.0 || temperature > 2.0)
+        raise ConfigurationError, "Temperature must be between 0.0 and 2.0"
+      end
+
+      # Validate max_tokens is positive
+      raise ConfigurationError, "Max tokens must be positive" if max_tokens && max_tokens <= 0
     end
   end
 end

@@ -21,6 +21,11 @@ RSpec.describe BetterTranslate::Configuration do
       expect(config.exclusions_per_language).to eq({})
       expect(config.target_languages).to eq([])
       expect(config.preserve_variables).to be true
+      expect(config.model).to be_nil
+      expect(config.temperature).to eq(0.3)
+      expect(config.max_tokens).to eq(2000)
+      expect(config.create_backup).to be true
+      expect(config.max_backups).to eq(3)
     end
   end
 
@@ -153,7 +158,7 @@ RSpec.describe BetterTranslate::Configuration do
         config.output_folder = Dir.tmpdir
         expect do
           config.validate!
-        end.to raise_error(BetterTranslate::ConfigurationError, /Input file must be set/)
+        end.to raise_error(BetterTranslate::ConfigurationError, /Input file or input_files must be set/)
       end
 
       it "requires output_folder" do
@@ -216,6 +221,93 @@ RSpec.describe BetterTranslate::Configuration do
           config.validate!
         end.to raise_error(BetterTranslate::ConfigurationError, /Cache size must be positive/)
       end
+    end
+  end
+
+  describe "provider-specific attributes" do
+    it "allows setting model" do
+      config.model = "gpt-5-nano"
+      expect(config.model).to eq("gpt-5-nano")
+    end
+
+    it "allows setting temperature" do
+      config.temperature = 0.7
+      expect(config.temperature).to eq(0.7)
+    end
+
+    it "allows setting max_tokens" do
+      config.max_tokens = 1500
+      expect(config.max_tokens).to eq(1500)
+    end
+  end
+
+  describe "temperature validation" do
+    before do
+      config.provider = :chatgpt
+      config.openai_key = "test_key"
+      config.source_language = "en"
+      config.target_languages = [{ short_name: "it", name: "Italian" }]
+      config.input_file = __FILE__
+      config.output_folder = Dir.tmpdir
+    end
+
+    it "accepts temperature within valid range (0.0-2.0)" do
+      config.temperature = 1.0
+      expect(config.validate!).to be true
+    end
+
+    it "accepts temperature at lower bound (0.0)" do
+      config.temperature = 0.0
+      expect(config.validate!).to be true
+    end
+
+    it "accepts temperature at upper bound (2.0)" do
+      config.temperature = 2.0
+      expect(config.validate!).to be true
+    end
+
+    it "raises error when temperature is negative" do
+      config.temperature = -0.1
+      expect do
+        config.validate!
+      end.to raise_error(BetterTranslate::ConfigurationError, /Temperature must be between 0.0 and 2.0/)
+    end
+
+    it "raises error when temperature is above 2.0" do
+      config.temperature = 2.1
+      expect do
+        config.validate!
+      end.to raise_error(BetterTranslate::ConfigurationError, /Temperature must be between 0.0 and 2.0/)
+    end
+  end
+
+  describe "max_tokens validation" do
+    before do
+      config.provider = :chatgpt
+      config.openai_key = "test_key"
+      config.source_language = "en"
+      config.target_languages = [{ short_name: "it", name: "Italian" }]
+      config.input_file = __FILE__
+      config.output_folder = Dir.tmpdir
+    end
+
+    it "accepts positive max_tokens" do
+      config.max_tokens = 1000
+      expect(config.validate!).to be true
+    end
+
+    it "raises error when max_tokens is zero" do
+      config.max_tokens = 0
+      expect do
+        config.validate!
+      end.to raise_error(BetterTranslate::ConfigurationError, /Max tokens must be positive/)
+    end
+
+    it "raises error when max_tokens is negative" do
+      config.max_tokens = -100
+      expect do
+        config.validate!
+      end.to raise_error(BetterTranslate::ConfigurationError, /Max tokens must be positive/)
     end
   end
 end

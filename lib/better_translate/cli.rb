@@ -53,6 +53,8 @@ module BetterTranslate
         run_generate
       when "direct"
         run_direct
+      when "analyze"
+        run_analyze
       when "--version", "-v"
         puts "BetterTranslate version #{VERSION}"
       when "--help", "-h", nil
@@ -79,6 +81,7 @@ module BetterTranslate
           translate              Translate YAML files using config file
           generate OUTPUT_FILE   Generate sample config file
           direct TEXT            Translate text directly
+          analyze                Analyze YAML files for orphan keys
 
         Options:
           --help, -h             Show this help message
@@ -88,6 +91,7 @@ module BetterTranslate
           better_translate translate --config config.yml
           better_translate generate config.yml
           better_translate direct "Hello" --to it --provider chatgpt --api-key KEY
+          better_translate analyze --source config/locales/en.yml --scan-path app/
       HELP
     end
 
@@ -297,6 +301,81 @@ module BetterTranslate
       )
 
       puts result
+    rescue StandardError => e
+      puts "Error: #{e.message}"
+    end
+
+    # Run analyze command
+    #
+    # @return [void]
+    # @api private
+    #
+    def run_analyze
+      # @type var options: Hash[Symbol, String]
+      options = {}
+      OptionParser.new do |opts|
+        opts.on("--source FILE", "Source YAML file path") { |v| options[:source] = v }
+        opts.on("--scan-path PATH", "Path to scan for code files") { |v| options[:scan_path] = v }
+        opts.on("--format FORMAT", "Output format (text, json, csv)") { |v| options[:format] = v }
+        opts.on("--output FILE", "Output file path") { |v| options[:output] = v }
+      end.parse!(args[1..])
+
+      # Validate required options
+      unless options[:source]
+        puts "Error: --source is required"
+        return
+      end
+
+      unless options[:scan_path]
+        puts "Error: --scan-path is required"
+        return
+      end
+
+      # Validate paths exist
+      unless File.exist?(options[:source])
+        puts "Error: Source file not found: #{options[:source]}"
+        return
+      end
+
+      unless File.exist?(options[:scan_path])
+        puts "Error: Scan path not found: #{options[:scan_path]}"
+        return
+      end
+
+      # Default format
+      format = (options[:format] || "text").to_sym
+
+      # Scan keys from YAML
+      key_scanner = Analyzer::KeyScanner.new(options[:source])
+      all_keys = key_scanner.scan
+
+      # Scan code for used keys
+      code_scanner = Analyzer::CodeScanner.new(options[:scan_path])
+      used_keys = code_scanner.scan
+
+      # Detect orphans
+      detector = Analyzer::OrphanDetector.new(all_keys, used_keys)
+      orphans = detector.detect
+
+      # Generate report
+      reporter = Analyzer::Reporter.new(
+        orphans: orphans,
+        orphan_details: detector.orphan_details,
+        total_keys: all_keys.size,
+        used_keys: used_keys.size,
+        usage_percentage: detector.usage_percentage,
+        format: format
+      )
+
+      report = reporter.generate
+
+      # Output or save
+      if options[:output]
+        reporter.save_to_file(options[:output])
+        puts "Report saved to #{options[:output]}"
+      else
+        puts report
+      end
     rescue StandardError => e
       puts "Error: #{e.message}"
     end
