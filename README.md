@@ -685,7 +685,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/alessi
 5. **HTTP Client**: Use Faraday for all HTTP requests (never Net::HTTP or HTTParty)
 6. **VCR Cassettes**: Record integration tests with real API responses for CI/CD
 
-### Workflow
+### Development Workflow
 
 ```bash
 # 1. Clone and setup
@@ -713,6 +713,33 @@ git push origin my-feature
 
 # 7. Create a Pull Request
 ```
+
+### Release Workflow
+
+Releases are automated via GitHub Actions:
+
+```bash
+# 1. Update version
+vim lib/better_translate/version.rb  # VERSION = "1.0.1"
+
+# 2. Update CHANGELOG
+vim CHANGELOG.md
+
+# 3. Commit and tag
+git add -A
+git commit -m "chore: Release v1.0.1"
+git tag v1.0.1
+git push origin main
+git push origin v1.0.1
+
+# 4. GitHub Actions automatically:
+#    ✅ Runs tests
+#    ✅ Builds gem
+#    ✅ Publishes to RubyGems.org
+#    ✅ Creates GitHub Release
+```
+
+**Setup**: See [`.github/RUBYGEMS_SETUP.md`](.github/RUBYGEMS_SETUP.md) for configuring RubyGems trusted publishing (no API keys needed!).
 
 ## 📄 License
 

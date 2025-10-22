@@ -36,7 +36,7 @@ module BetterTranslate
 
       def http_client: () -> Faraday::Connection
 
-      def with_cache: [T] (String cache_key) { () -> T } -> T
+      def with_cache: (String cache_key) { () -> String } -> String
 
       def build_cache_key: (String text, String target_lang_code) -> String
     end

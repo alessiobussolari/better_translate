@@ -52,7 +52,10 @@ module BetterTranslate
       @mutex.synchronize do
         return if @last_request_time.nil?
 
-        elapsed = Time.now - @last_request_time
+        last_time = @last_request_time
+        return unless last_time
+
+        elapsed = Time.now - last_time
         sleep_time = @delay - elapsed.to_f
 
         sleep(sleep_time) if sleep_time.positive?

@@ -62,7 +62,11 @@ module BetterTranslate
       rescue StandardError => e
         results[:failure_count] += 1
         # @type var error_context: Hash[Symbol, untyped]
-        error_context = e.respond_to?(:context) ? e.context : {}
+        error_context = if e.is_a?(BetterTranslate::Error)
+                          e.context
+                        else
+                          {}
+                        end
         results[:errors] << {
           language: lang[:name],
           error: e.message,

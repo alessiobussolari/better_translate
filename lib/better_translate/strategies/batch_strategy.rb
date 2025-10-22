@@ -37,7 +37,7 @@ module BetterTranslate
           progress_tracker.update(
             language: target_lang_name,
             current_key: "Batch #{batch_index + 1}/#{total_batches}",
-            progress: ((batch_index + 1).to_f / total_batches * 100.0).round(1)
+            progress: ((batch_index + 1).to_f / total_batches * 100.0).round(1).to_f
           )
 
           translated_batch = provider.translate_batch(batch, target_lang_code, target_lang_name)

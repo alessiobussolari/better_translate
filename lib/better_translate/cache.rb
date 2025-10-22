@@ -52,7 +52,8 @@ module BetterTranslate
         entry = @cache[key]
 
         # Check TTL
-        if @ttl && entry && Time.now - entry[:timestamp] > @ttl
+        ttl_value = @ttl
+        if ttl_value && entry && Time.now - entry[:timestamp] > ttl_value
           @cache.delete(key)
           return nil
         end

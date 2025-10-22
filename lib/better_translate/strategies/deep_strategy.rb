@@ -32,7 +32,7 @@ module BetterTranslate
           progress_tracker.update(
             language: target_lang_name,
             current_key: key,
-            progress: ((index + 1).to_f / total * 100.0).round(1)
+            progress: ((index + 1).to_f / total * 100.0).round(1).to_f
           )
 
           translated[key] = provider.translate_text(value, target_lang_code, target_lang_name)

@@ -33,7 +33,7 @@ module BetterTranslate
 
     def validate_variables!: (String text) -> true
 
-    def self.find_variables: (String? text) -> Array[String]
+    def self.find_variables: (String? text) -> Array[String | Array[String?]]
 
     def self.contains_variables?: (String? text) -> bool
   end
