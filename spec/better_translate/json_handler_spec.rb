@@ -108,6 +108,30 @@ RSpec.describe BetterTranslate::JsonHandler do
         expect(backup_content).to eq(existing_data)
       end
     end
+
+    it "returns diff summary when dry_run mode with diff_preview" do
+      config.dry_run = true
+
+      diff_preview = double("diff_preview")
+      expect(diff_preview).to receive(:show_diff).with({}, data, output_path).and_return({ added: 1 })
+
+      result = handler.write_json(output_path, data, diff_preview: diff_preview)
+      expect(result).to eq({ added: 1 })
+    end
+
+    it "reads existing file when showing diff in dry_run mode" do
+      config.dry_run = true
+
+      # Create existing file
+      existing_data = { "it" => { "greeting" => "Salve" } }
+      File.write(output_path, JSON.generate(existing_data))
+
+      diff_preview = double("diff_preview")
+      expect(diff_preview).to receive(:show_diff).with(existing_data, data, output_path).and_return({ modified: 1 })
+
+      result = handler.write_json(output_path, data, diff_preview: diff_preview)
+      expect(result).to eq({ modified: 1 })
+    end
   end
 
   describe "#get_source_strings" do

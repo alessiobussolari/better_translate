@@ -146,5 +146,19 @@ RSpec.describe BetterTranslate::ProgressTracker do
         expect(result).to eq("this is...")
       end
     end
+
+    describe "#colorize" do
+      it "returns plain text when not a TTY" do
+        allow($stdout).to receive(:tty?).and_return(false)
+        result = tracker.send(:colorize, "test", :red)
+        expect(result).to eq("test")
+      end
+
+      it "adds color codes when is a TTY" do
+        allow($stdout).to receive(:tty?).and_return(true)
+        result = tracker.send(:colorize, "test", :red)
+        expect(result).to eq("\e[31mtest\e[0m")
+      end
+    end
   end
 end

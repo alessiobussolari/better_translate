@@ -112,6 +112,22 @@ RSpec.describe BetterTranslate::VariableExtractor do
     end
   end
 
+  describe "#variables?" do
+    it "returns true when variables are present" do
+      extractor = described_class.new("Hello %<name>s")
+      extractor.extract
+
+      expect(extractor.variables?).to be true
+    end
+
+    it "returns false when no variables are present" do
+      extractor = described_class.new("Hello world")
+      extractor.extract
+
+      expect(extractor.variables?).to be false
+    end
+  end
+
   describe ".find_variables" do
     it "finds all variables in text" do
       text = "Hi %<name>s, {{count}} items"

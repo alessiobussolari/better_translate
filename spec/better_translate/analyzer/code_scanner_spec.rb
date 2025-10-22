@@ -67,6 +67,36 @@ RSpec.describe BetterTranslate::Analyzer::CodeScanner do
       expect(keys).to include("users.greeting")
       expect(keys).not_to include("products.show") # from view.erb
     end
+
+    it "returns empty array for non-scannable file" do
+      # Create a non-scannable file (not .rb, .erb, .haml, .slim)
+      non_scannable = File.join(Dir.tmpdir, "test.txt")
+      File.write(non_scannable, "some content")
+
+      scanner = described_class.new(non_scannable)
+      keys = scanner.scan
+
+      expect(keys).to be_empty
+
+      FileUtils.rm_f(non_scannable)
+    end
+
+    it "skips files that cannot be read and warns if VERBOSE is set" do
+      file_path = File.join(fixtures_path, "controller.rb")
+      scanner = described_class.new(file_path)
+
+      # Simulate a file read error
+      allow(File).to receive(:read).with(anything).and_raise(Errno::EACCES, "Permission denied")
+
+      # Set VERBOSE mode
+      ENV["VERBOSE"] = "true"
+
+      expect do
+        scanner.scan
+      end.to output(/Warning: Could not scan/).to_stderr
+
+      ENV.delete("VERBOSE")
+    end
   end
 
   describe "#key_count" do

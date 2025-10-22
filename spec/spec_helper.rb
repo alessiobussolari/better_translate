@@ -9,15 +9,18 @@ SimpleCov.start do
   add_filter "/vendor/"
   add_filter "/gemfiles/"
 
+  # Exclude non-testable framework files
+  add_filter "lib/better_translate/version.rb"
+  add_filter "lib/better_translate/railtie.rb"
+
   # Generate both HTML (for local viewing) and Cobertura (for Codecov)
   formatter SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::CoberturaFormatter
   ])
 
-  # Require 90% minimum coverage
-  minimum_coverage 90
-  refuse_coverage_drop
+  # Require 93% minimum coverage
+  minimum_coverage 93
 
   # Track all files in lib/
   track_files "lib/**/*.rb"

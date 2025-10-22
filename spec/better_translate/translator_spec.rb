@@ -69,6 +69,15 @@ RSpec.describe BetterTranslate::Translator do
       FileUtils.rm_f(json_file1)
       FileUtils.rm_f(json_file2)
     end
+
+    it "raises error when no input files are specified" do
+      config.input_file = nil
+      config.input_files = []
+
+      expect do
+        described_class.new(config)
+      end.to raise_error(BetterTranslate::FileError, /No input files specified/)
+    end
   end
 
   describe "#translate_all" do

@@ -169,6 +169,15 @@ RSpec.describe BetterTranslate::Providers::BaseHttpProvider do
       end.to raise_error(BetterTranslate::ApiError, /Server error: 503/)
     end
 
+    it "raises ApiError for unexpected status codes" do
+      allow(response).to receive(:status).and_return(301) # Moved Permanently (3xx not handled)
+      allow(response).to receive(:body).and_return("unexpected")
+
+      expect do
+        provider.send(:handle_response, response)
+      end.to raise_error(BetterTranslate::ApiError, /Unexpected status: 301/)
+    end
+
     it "includes context in RateLimitError" do
       allow(response).to receive(:status).and_return(429)
       allow(response).to receive(:body).and_return("rate limit details")
@@ -287,8 +296,9 @@ RSpec.describe BetterTranslate::Providers::BaseHttpProvider do
       expect(sleep_delays[1]).to be_between(4.0, 5.2)
 
       # Second delay should be roughly double the first (exponential)
+      # With 0-30% jitter, ratio can range from ~1.54 (4.0/2.6) to ~2.6 (5.2/2.0)
       ratio = sleep_delays[1] / sleep_delays[0]
-      expect(ratio).to be_between(1.8, 2.2) # Allow some variance due to jitter
+      expect(ratio).to be_between(1.5, 2.7) # Allow variance due to jitter
     end
 
     it "retries on ApiError (500) and eventually succeeds" do
@@ -305,6 +315,25 @@ RSpec.describe BetterTranslate::Providers::BaseHttpProvider do
       result = provider.send(:make_request, :post, "https://api.test.com")
       expect(result.status).to eq(200)
       expect(call_count).to eq(2)
+    end
+
+    it "logs retry attempts when verbose mode is enabled" do
+      config.verbose = true
+      rate_limit_response = double("response", status: 429, body: "Rate limit")
+      success_response = double("response", status: 200, body: "OK")
+
+      call_count = 0
+      allow(http_client).to receive(:post) do |_url, &block|
+        call_count += 1
+        block&.call(request)
+        call_count < 2 ? rate_limit_response : success_response
+      end
+
+      allow(provider).to receive(:sleep) # Don't actually sleep
+
+      expect do
+        provider.send(:make_request, :post, "https://api.test.com")
+      end.to output(/Retry 1\/3/).to_stdout
     end
   end
 end
