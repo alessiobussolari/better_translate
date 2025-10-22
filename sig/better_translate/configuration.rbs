@@ -31,6 +31,7 @@ module BetterTranslate
     attr_accessor provider: (Symbol | nil)
     attr_accessor openai_key: String?
     attr_accessor google_gemini_key: String?
+    attr_accessor gemini_key: String?
     attr_accessor anthropic_key: String?
     attr_accessor source_language: String?
     attr_accessor target_languages: Array[target_language]
@@ -50,6 +51,13 @@ module BetterTranslate
     attr_accessor global_exclusions: Array[String]
     attr_accessor exclusions_per_language: Hash[String, Array[String]]
     attr_accessor preserve_variables: bool
+
+    # Provider-specific options
+    attr_accessor model: String?
+    attr_accessor temperature: Float?
+    attr_accessor max_tokens: Integer?
+    attr_accessor timeout: Integer?
+    attr_accessor rate_limit: (Integer | Float)?
 
     def initialize: () -> void
 

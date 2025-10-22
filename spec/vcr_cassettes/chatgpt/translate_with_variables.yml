@@ -26,99 +26,48 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:40:53 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '496'
-      Connection:
-      - keep-alive
-      Vary:
-      - Origin
-      X-Request-Id:
-      - req_18cd4ad5702f4059abf2c70d735810ae
-      X-Envoy-Upstream-Service-Time:
-      - '0'
-      X-Openai-Proxy-Wasm:
-      - v0.1
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=CzPlxOG_36nEk8f8cikODAMZv8.shOyEBT36NqQmIFE-1761147653-1.0.1.1-uxY.Dh4Kn7z5EPxPdw6Lo_hI_ylahbeAHetGoHUl4mlWyMb6GQGB8SwH8cutoeXBam9Fg.xh25QS8YWzfzCU6N.n7bhdtehCiTssppXcWlI;
-        path=/; expires=Wed, 22-Oct-25 16:10:53 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=86HZPB5CLisqeq7EG69ysLdKmEc0vwFZ8POoteRrjxU-1761147653188-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 992a187f5a904c3f-MXP
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: UTF-8
-      string: |
-        {
-            "error": {
-                "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.",
-                "type": "invalid_request_error",
-                "param": null,
-                "code": null
-            }
-        }
-  recorded_at: Wed, 22 Oct 2025 15:40:53 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
-        a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello
-        %<name>s, welcome!"}],"temperature":1.0}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
+      - Wed, 22 Oct 2025 15:10:49 GMT
       Content-Type:
       - application/json
-      Authorization:
-      - Bearer
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 401
-      message: Unauthorized
-    headers:
-      Date:
-      - Wed, 22 Oct 2025 15:40:55 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '496'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Vary:
-      - Origin
-      X-Request-Id:
-      - req_b4fbeae083d8491790af11b55274941f
+      Access-Control-Expose-Headers:
+      - X-Request-ID
+      Openai-Organization:
+      - pandev-s-r-l
+      Openai-Processing-Ms:
+      - '3384'
+      Openai-Project:
+      - proj_NFvopmGfUTkSamqPCCc1eObh
+      Openai-Version:
+      - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '0'
+      - '4684'
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '2000000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '1999953'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 1ms
+      X-Request-Id:
+      - req_49f443afd83d4e119ebab01202e1e549
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=R2he00gc4pftCRW33JmA3XuMd4huMIIgD12affuAGM4-1761147655-1.0.1.1-UeE222YKn8HDE5ALQPZhFBTyzQevwSf9dAhwSp4TOgBmNGsgm6kLp6B2xUE1ioVRjQgrsj7OeaRE9yoRSeNC5pzcQfMJlKB3J3VgnWxMFDg;
-        path=/; expires=Wed, 22-Oct-25 16:10:55 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=ExJLYHX_Zha6sXvmzVqc5llPA7Hb4J.bh7Q3u.jbbbo-1761145849-1.0.1.1-XMdaKm9C0VMXr0p1Pw4Glm38nnVMYuFer9tyXJDoHgxjTMk8Fhh1L1euSrjDRRPxqQRu9UmosObTEL240u82jpbNQhhy9CQ7tXel2EU2iM4;
+        path=/; expires=Wed, 22-Oct-25 15:40:49 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=o1Nx0HXmKmcDT.n8NxNx6Xx86A38wiNkk9VMLnlEjms-1761147655524-0.0.1.1-604800000;
+      - _cfuvid=a2LDwKfUl_B1cPD_IZ2qxacXR7refxAj5ruxAQBQwVc-1761145849944-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -127,90 +76,46 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 992a188e2f615a13-MXP
+      - 9929ec58aa2c5254-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
-      encoding: UTF-8
+      encoding: ASCII-8BIT
       string: |
         {
-            "error": {
-                "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.",
-                "type": "invalid_request_error",
-                "param": null,
-                "code": null
+          "id": "chatcmpl-CTUm6cqQsjP69rRbfAQhVzOmmALF2",
+          "object": "chat.completion",
+          "created": 1761145846,
+          "model": "gpt-5-nano-2025-08-07",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Ciao %<name>s, benvenuto!",
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "stop"
             }
-        }
-  recorded_at: Wed, 22 Oct 2025 15:40:55 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
-        a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello
-        %<name>s, welcome!"}],"temperature":1.0}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 401
-      message: Unauthorized
-    headers:
-      Date:
-      - Wed, 22 Oct 2025 15:41:00 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '496'
-      Connection:
-      - keep-alive
-      Vary:
-      - Origin
-      X-Request-Id:
-      - req_4413da442a6d4235842631d57174e2a8
-      X-Envoy-Upstream-Service-Time:
-      - '0'
-      X-Openai-Proxy-Wasm:
-      - v0.1
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=bQmSMZ.eGv2uucLONWmkz0wBB.I_UJTTACpLYzgfQ4A-1761147660-1.0.1.1-qbVNyDCb0bzc9Q.aYIuZDemNvJjB4E9avLwnpND.lP6st9.n7p.7pu8Bc3.DCVLjbA0cu.boeDgj2n4qhh4noxByMT8Z.Gk.kBOGybr4WP0;
-        path=/; expires=Wed, 22-Oct-25 16:11:00 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=XimPIxplAbFexBymX_HbJmYxppB6i0Kvz9dl691l448-1761147660698-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 992a18ae7d3bee76-MXP
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: UTF-8
-      string: |
-        {
-            "error": {
-                "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.",
-                "type": "invalid_request_error",
-                "param": null,
-                "code": null
+          ],
+          "usage": {
+            "prompt_tokens": 42,
+            "completion_tokens": 210,
+            "total_tokens": 252,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 192,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
             }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
         }
   recorded_at: Wed, 22 Oct 2025 15:41:00 GMT
 recorded_with: VCR 6.3.1

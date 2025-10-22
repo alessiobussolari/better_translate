@@ -5,7 +5,8 @@
 module BetterTranslate
   type translation_results = { success_count: Integer, failure_count: Integer, errors: Array[Hash[Symbol, untyped]] }
 
-  @configuration: Configuration?
+  # Module-level instance variable (for singleton methods)
+  self.@configuration: Configuration?
 
   # Configure BetterTranslate
   #

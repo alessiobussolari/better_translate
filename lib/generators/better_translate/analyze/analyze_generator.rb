@@ -12,7 +12,8 @@ module BetterTranslate
     #   rails generate better_translate:analyze config/locales/en.yml
     #
     class AnalyzeGenerator < Rails::Generators::Base
-      source_root File.expand_path("templates", __dir__)
+      dir = __dir__
+      source_root File.expand_path("templates", dir) if dir
 
       desc "Analyze YAML locale file structure and statistics"
 

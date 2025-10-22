@@ -11,7 +11,8 @@ module BetterTranslate
   #
   class Railtie < Rails::Railtie
     rake_tasks do
-      rake_file = File.expand_path("../tasks/better_translate.rake", __dir__)
+      dir = __dir__
+      rake_file = File.expand_path("../tasks/better_translate.rake", dir) if dir
       load rake_file if rake_file
     end
   end

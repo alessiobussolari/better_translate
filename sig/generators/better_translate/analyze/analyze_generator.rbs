@@ -4,6 +4,8 @@ module BetterTranslate
     #
     # Provides statistics about translation files: string count, structure, etc.
     class AnalyzeGenerator < Rails::Generators::Base
+      attr_reader file_path: String
+
       def analyze_file: () -> void
 
       private
