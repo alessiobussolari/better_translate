@@ -4,6 +4,16 @@ require "better_translate"
 require "vcr"
 require "webmock/rspec"
 require "dotenv/load"
+require "json"
+
+# Disable HTML escaping in JSON to ensure consistent encoding
+# This prevents %<name>s from becoming %\u003cname\u003es
+JSON.instance_eval do
+  def generate(obj, opts = nil)
+    opts = (opts || JSON::SAFE_STATE_PROTOTYPE.dup).merge(escape_html: false)
+    super(obj, opts)
+  end
+end
 
 # Configure VCR for recording API interactions
 VCR.configure do |config|

@@ -7,7 +7,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -25,7 +27,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:10:53 GMT
+      - Wed, 22 Oct 2025 17:31:27 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -35,18 +37,18 @@ http_interactions:
       Vary:
       - Origin
       X-Request-Id:
-      - req_4b2903bfbe384a81bc647c270894d4f4
+      - req_067f120c72c042dead5a32542f244646
       X-Envoy-Upstream-Service-Time:
-      - '21'
+      - '5'
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=8kmGl8wd0shFgPgbr62zPbS8aTCTtzoFerOlhHXN78I-1761145853-1.0.1.1-.2kpekgwElLtoTLwjc6wJcuQ07uVOca9KY1j17Drgz.nC6is_5shiLrEz3rHO_Xjz7CUzaJQa79blj.XPG7tpCiPziIHJPImnX21E6rtEoY;
-        path=/; expires=Wed, 22-Oct-25 15:40:53 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=he8tcIeRBJHJk8FgGLLhL5sCnJ17dMMY1ZNIKnd3D5o-1761154287-1.0.1.1-3mk2SV_axn.Ec1S8RFCZRdYMoSTZaywqm2auXa.8lwWWYS8g0JxBLycwWx9gOTsQGhSiM7aBHJp4qlivdZ84oxSTjrqCP8rayNq7roHhUU8;
+        path=/; expires=Wed, 22-Oct-25 18:01:27 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=jGlw1tQvPHGBgGGl0mp6prNRh4CA54H0ldTMOYX8wDQ-1761145853517-0.0.1.1-604800000;
+      - _cfuvid=7dWrXIBcqDWJqDS16xgjKc9.RQKD94ItEfvO8TTHjlE-1761154287188-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -55,7 +57,7 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929ec8f6a040e3e-MXP
+      - 992aba75e9335254-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
@@ -69,7 +71,7 @@ http_interactions:
                 "code": "invalid_api_key"
             }
         }
-  recorded_at: Wed, 22 Oct 2025 15:10:53 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:27 GMT
 - request:
     method: post
     uri: https://api.openai.com/v1/chat/completions
@@ -77,7 +79,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -95,7 +99,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:10:56 GMT
+      - Wed, 22 Oct 2025 17:31:29 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -105,77 +109,7 @@ http_interactions:
       Vary:
       - Origin
       X-Request-Id:
-      - req_fafb1168241c4f80981d1548b1bc035b
-      X-Envoy-Upstream-Service-Time:
-      - '37'
-      X-Openai-Proxy-Wasm:
-      - v0.1
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=S59l9Ufx0ReqonvXUaGqFfOLc.QZBTVl2SL_UfaSiyY-1761145856-1.0.1.1-EPJS3kIYfpKJonL6yysNtNgSpFkkOJu9kWxMyzjsvlHbfuA1XOPmOgQ.66tCP.gNSzF91wISvquRYtCWCppAnW_D6PqnFOQMWO02dCr.seQ;
-        path=/; expires=Wed, 22-Oct-25 15:40:56 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=2k9.FmZC8Ds_89LYXbAjMddrm296nPssiRC_aXzcxuo-1761145856300-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 9929eca09e69ed45-MXP
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: UTF-8
-      string: |
-        {
-            "error": {
-                "message": "Incorrect API key provided: invalid_*****2345. You can find your API key at https://platform.openai.com/account/api-keys.",
-                "type": "invalid_request_error",
-                "param": null,
-                "code": "invalid_api_key"
-            }
-        }
-  recorded_at: Wed, 22 Oct 2025 15:10:56 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
-        a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer invalid_key_12345
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 401
-      message: Unauthorized
-    headers:
-      Date:
-      - Wed, 22 Oct 2025 15:11:01 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '267'
-      Connection:
-      - keep-alive
-      Vary:
-      - Origin
-      X-Request-Id:
-      - req_521d3567514a4cd2bd300e7e5a49db4b
+      - req_2b17a168bfc24b10bb399d804b2f08e5
       X-Envoy-Upstream-Service-Time:
       - '1'
       X-Openai-Proxy-Wasm:
@@ -183,10 +117,10 @@ http_interactions:
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=2Vd44Ujn.f7_u9S_wPmRuRqpZ523FPSuyVeALDjptkk-1761145861-1.0.1.1-KIvG6zMQaSCF7MQf7i.HlR8qhsI_izeT3VKDeECJ0_wlqJ53uDZ84fVZR5Iw8B4tQB1gIU.Ipl5HFYshomY05JZRwBbQCCcQSBBH91EWdjg;
-        path=/; expires=Wed, 22-Oct-25 15:41:01 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=aaXb1p5xxqydA9eTnmFt7FcJPrMZepphOfG.KLBhWG0-1761154289-1.0.1.1-_hm1hwfRRAkZgVbGvJ5DQO2txjQkdlv1a31bk3UY20fn9oUjsgfzpRpJHr2ufdSFsjiSCeF0FfQ2vT_4nHJHQ.jHxkTbjSHfm4cm3pBdxtU;
+        path=/; expires=Wed, 22-Oct-25 18:01:29 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=EMga8FifFSGc.j.L6eT8Diyegx66Y0iO_DPa6pfCjWs-1761145861319-0.0.1.1-604800000;
+      - _cfuvid=CC0JPCp1AFiOZnrGC5VF1T2SkZe5hLWf9_VLxeBlPCk-1761154289904-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -195,7 +129,7 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929ecc01d7beddc-MXP
+      - 992aba86fbaced43-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
@@ -209,5 +143,77 @@ http_interactions:
                 "code": "invalid_api_key"
             }
         }
-  recorded_at: Wed, 22 Oct 2025 15:11:01 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:29 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer invalid_key_12345
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:31:35 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '267'
+      Connection:
+      - keep-alive
+      Vary:
+      - Origin
+      X-Request-Id:
+      - req_5ebc04bf0a7c4848a3f1be903f1dbfe0
+      X-Envoy-Upstream-Service-Time:
+      - '1'
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=VfgwfHvtdvF6kT5zI6J04tSv8V2xs5re5iH5pQ6SLz8-1761154295-1.0.1.1-etepFAOEl8Pz13uKKoaXoUvTtVctawddP130EtR_etj9wL9u9khdODH9XAWzVQQtfqExvVqzvjN_1cJ4lHp5MTVvFxMdtBAyROU8VcIOc_g;
+        path=/; expires=Wed, 22-Oct-25 18:01:35 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=1R.E2x6EvTyfBt.ZgnjWPwZQEa6wVd9pzpkmVF4qMuk-1761154295009-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 992abaa6ef85edab-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |
+        {
+            "error": {
+                "message": "Incorrect API key provided: invalid_*****2345. You can find your API key at https://platform.openai.com/account/api-keys.",
+                "type": "invalid_request_error",
+                "param": null,
+                "code": "invalid_api_key"
+            }
+        }
+  recorded_at: Wed, 22 Oct 2025 17:31:34 GMT
 recorded_with: VCR 6.3.1

@@ -7,7 +7,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -25,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:10:35 GMT
+      - Wed, 22 Oct 2025 17:31:14 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -37,13 +39,13 @@ http_interactions:
       Openai-Organization:
       - pandev-s-r-l
       Openai-Processing-Ms:
-      - '2596'
+      - '2765'
       Openai-Project:
       - proj_NFvopmGfUTkSamqPCCc1eObh
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '2960'
+      - '2989'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -51,22 +53,22 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '4999'
       X-Ratelimit-Remaining-Tokens:
-      - '1999957'
+      - '1999931'
       X-Ratelimit-Reset-Requests:
       - 12ms
       X-Ratelimit-Reset-Tokens:
-      - 1ms
+      - 2ms
       X-Request-Id:
-      - req_9dd5d29b98d949fd9505c03bbc71bc1e
+      - req_f7b6ae38a4514461a930c52f0eec7986
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=rS9jFdGRlnAiF5LHHPyejlsi.R8FZ8j.ZmzqgMBXKdc-1761145835-1.0.1.1-JaKXslz2R48tw8c8_lEfQvKKZ2TLRjp7BHuMKPPxTbet_wIYJqqio9TWCGcQ41KE6pzFwnyYD_HZE9c95X4aw9iinC9ecVPACjLGMoaHhLo;
-        path=/; expires=Wed, 22-Oct-25 15:40:35 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=tPzIC0_vREMYNd31MyRM7115FVylz0K4ii1ASVSAXxI-1761154274-1.0.1.1-3WhBlGCG.HWu1i0M4KcTQTkQrr9Ufx_XP6CHZEg8Q64OhM_NUHC1iQE6Azt0.NB2W.BERu7RhKdM_qR1.Rc.hEUcVFLIghK1cTlcwJb1CUc;
+        path=/; expires=Wed, 22-Oct-25 18:01:14 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=FdJ9t536QhH9PnzDXPvjDrqr6P_Ylqe6RZwgMY0FoSo-1761145835743-0.0.1.1-604800000;
+      - _cfuvid=yYoRCCWZpXZzCHaCQ_R0syuSW5SHA.1FfDzkxBfsYro-1761154274323-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -75,16 +77,16 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929ec0b8aedf671-MXP
+      - 992aba114a12b5aa-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-CTUltbNV2OAEj3KYMPoof5LHkoJ7Y",
+          "id": "chatcmpl-CTWxzfHKYDWpcAeSqSZQNT68Iw9mq",
           "object": "chat.completion",
-          "created": 1761145833,
+          "created": 1761154271,
           "model": "gpt-5-nano-2025-08-07",
           "choices": [
             {
@@ -99,243 +101,9 @@ http_interactions:
             }
           ],
           "usage": {
-            "prompt_tokens": 37,
-            "completion_tokens": 139,
-            "total_tokens": 176,
-            "prompt_tokens_details": {
-              "cached_tokens": 0,
-              "audio_tokens": 0
-            },
-            "completion_tokens_details": {
-              "reasoning_tokens": 128,
-              "audio_tokens": 0,
-              "accepted_prediction_tokens": 0,
-              "rejected_prediction_tokens": 0
-            }
-          },
-          "service_tier": "default",
-          "system_fingerprint": null
-        }
-  recorded_at: Wed, 22 Oct 2025 15:10:35 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
-        a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"World"}],"temperature":1.0}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <OPENAI_API_KEY>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 22 Oct 2025 15:10:40 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Access-Control-Expose-Headers:
-      - X-Request-ID
-      Openai-Organization:
-      - pandev-s-r-l
-      Openai-Processing-Ms:
-      - '4383'
-      Openai-Project:
-      - proj_NFvopmGfUTkSamqPCCc1eObh
-      Openai-Version:
-      - '2020-10-01'
-      X-Envoy-Upstream-Service-Time:
-      - '4402'
-      X-Ratelimit-Limit-Requests:
-      - '5000'
-      X-Ratelimit-Limit-Tokens:
-      - '2000000'
-      X-Ratelimit-Remaining-Requests:
-      - '4999'
-      X-Ratelimit-Remaining-Tokens:
-      - '1999957'
-      X-Ratelimit-Reset-Requests:
-      - 12ms
-      X-Ratelimit-Reset-Tokens:
-      - 1ms
-      X-Request-Id:
-      - req_cf1533bda8d84647ac0ad2603ae44e8f
-      X-Openai-Proxy-Wasm:
-      - v0.1
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=6Z8fXUXNB5TMVXUcb.phky1.jNjKodkjYUKmrHQ1AZE-1761145840-1.0.1.1-DqoErKT4hPfNHAt0YFcpOmElhUM4xNennnLFnvW8NaeODmdHtY2_uFH5Wc_JVI3EVdHmG3nRjDLMWWfZMMCJNOiZ8J2mu1Ms3e_cFx.cEwA;
-        path=/; expires=Wed, 22-Oct-25 15:40:40 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=mFgVLekJs1M3meeNKWWiJBAFLIZYqLwVw7jaAmFQdwY-1761145840826-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 9929ec24eb03ee6c-MXP
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "id": "chatcmpl-CTUlwkVZpX82U16v3YFWTA2QEovTz",
-          "object": "chat.completion",
-          "created": 1761145836,
-          "model": "gpt-5-nano-2025-08-07",
-          "choices": [
-            {
-              "index": 0,
-              "message": {
-                "role": "assistant",
-                "content": "Mondo",
-                "refusal": null,
-                "annotations": []
-              },
-              "finish_reason": "stop"
-            }
-          ],
-          "usage": {
-            "prompt_tokens": 37,
-            "completion_tokens": 459,
-            "total_tokens": 496,
-            "prompt_tokens_details": {
-              "cached_tokens": 0,
-              "audio_tokens": 0
-            },
-            "completion_tokens_details": {
-              "reasoning_tokens": 448,
-              "audio_tokens": 0,
-              "accepted_prediction_tokens": 0,
-              "rejected_prediction_tokens": 0
-            }
-          },
-          "service_tier": "default",
-          "system_fingerprint": null
-        }
-  recorded_at: Wed, 22 Oct 2025 15:10:40 GMT
-- request:
-    method: post
-    uri: https://api.openai.com/v1/chat/completions
-    body:
-      encoding: UTF-8
-      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
-        a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Goodbye"}],"temperature":1.0}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <OPENAI_API_KEY>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Wed, 22 Oct 2025 15:10:44 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Access-Control-Expose-Headers:
-      - X-Request-ID
-      Openai-Organization:
-      - pandev-s-r-l
-      Openai-Processing-Ms:
-      - '2932'
-      Openai-Project:
-      - proj_NFvopmGfUTkSamqPCCc1eObh
-      Openai-Version:
-      - '2020-10-01'
-      X-Envoy-Upstream-Service-Time:
-      - '2970'
-      X-Ratelimit-Limit-Requests:
-      - '5000'
-      X-Ratelimit-Limit-Tokens:
-      - '2000000'
-      X-Ratelimit-Remaining-Requests:
-      - '4999'
-      X-Ratelimit-Remaining-Tokens:
-      - '1999957'
-      X-Ratelimit-Reset-Requests:
-      - 12ms
-      X-Ratelimit-Reset-Tokens:
-      - 1ms
-      X-Request-Id:
-      - req_607512edcd174f9d98bc726ed9d2af97
-      X-Openai-Proxy-Wasm:
-      - v0.1
-      Cf-Cache-Status:
-      - DYNAMIC
-      Set-Cookie:
-      - __cf_bm=CFvVT2YFDV2Eb2f.jegfUx0fwfVv_bwX9ubEy8TVYxQ-1761145844-1.0.1.1-FUFcyMN7lwO5DHqA0c5NLx5Etb93IsQyFBrl4PQrD48L.NIs70DdH6ZZcbcrZCdDgRRxQMssD2BRa1WgfS2.fOw_mcCuN5IN9tN2I6ksAQY;
-        path=/; expires=Wed, 22-Oct-25 15:40:44 GMT; domain=.api.openai.com; HttpOnly;
-        Secure; SameSite=None
-      - _cfuvid=UcpxMakLJULz5iLbhjbXBgVv5eIA0L2J8MDYjGkZKhI-1761145844509-0.0.1.1-604800000;
-        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      X-Content-Type-Options:
-      - nosniff
-      Server:
-      - cloudflare
-      Cf-Ray:
-      - 9929ec44cff4ed56-MXP
-      Alt-Svc:
-      - h3=":443"; ma=86400
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "id": "chatcmpl-CTUm1N70SpsrW2sBHERFj3DgXCd2o",
-          "object": "chat.completion",
-          "created": 1761145841,
-          "model": "gpt-5-nano-2025-08-07",
-          "choices": [
-            {
-              "index": 0,
-              "message": {
-                "role": "assistant",
-                "content": "Arrivederci",
-                "refusal": null,
-                "annotations": []
-              },
-              "finish_reason": "stop"
-            }
-          ],
-          "usage": {
-            "prompt_tokens": 38,
-            "completion_tokens": 205,
-            "total_tokens": 243,
+            "prompt_tokens": 60,
+            "completion_tokens": 203,
+            "total_tokens": 263,
             "prompt_tokens_details": {
               "cached_tokens": 0,
               "audio_tokens": 0
@@ -350,5 +118,243 @@ http_interactions:
           "service_tier": "default",
           "system_fingerprint": null
         }
-  recorded_at: Wed, 22 Oct 2025 15:10:44 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:14 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"World"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:31:17 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Expose-Headers:
+      - X-Request-ID
+      Openai-Organization:
+      - pandev-s-r-l
+      Openai-Processing-Ms:
+      - '2108'
+      Openai-Project:
+      - proj_NFvopmGfUTkSamqPCCc1eObh
+      Openai-Version:
+      - '2020-10-01'
+      X-Envoy-Upstream-Service-Time:
+      - '2126'
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '2000000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '1999931'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 2ms
+      X-Request-Id:
+      - req_560c4381dfbf425fb7de53a2c19e133c
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=YQSPMVEV0afMQnqtAD1Fa.mOwW34fE1ydrcTSMeZlUQ-1761154277-1.0.1.1-KGNQ.H3DVIcng2JQZb1vZ.Q8FaNfbK7MDHEiwy187VR103IVCJbm8D6hSST7J9y9RKyudj4Gnn69POwLiW_Z01e2ACqt3KXBOl_o3pDiBNY;
+        path=/; expires=Wed, 22-Oct-25 18:01:17 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=oDkSpf4R2MSpNMvfyd7nm8D5UEmN1b3bF65R35tFa0w-1761154277209-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 992aba2a7f1fbafa-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-CTWy39ub1nHZQVzfXo48VLdTVZB4u",
+          "object": "chat.completion",
+          "created": 1761154275,
+          "model": "gpt-5-nano-2025-08-07",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Mondo",
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 60,
+            "completion_tokens": 139,
+            "total_tokens": 199,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 128,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Wed, 22 Oct 2025 17:31:17 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
+        a professional translator. Translate the following text to Italian. Return
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Goodbye"}],"temperature":1.0}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:31:21 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Expose-Headers:
+      - X-Request-ID
+      Openai-Organization:
+      - pandev-s-r-l
+      Openai-Processing-Ms:
+      - '3747'
+      Openai-Project:
+      - proj_NFvopmGfUTkSamqPCCc1eObh
+      Openai-Version:
+      - '2020-10-01'
+      X-Envoy-Upstream-Service-Time:
+      - '3793'
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '2000000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '1999930'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 2ms
+      X-Request-Id:
+      - req_23ad39274400449ab72ecabaa622bf8c
+      X-Openai-Proxy-Wasm:
+      - v0.1
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=jvS_yj0KKbVnKo_JDlEE67fV4RLc6t6TLiDLLapkfkE-1761154281-1.0.1.1-YQuwykL._bi4lS5pyDZmx2gHviZGKG57S9qrkRTfXntD.gvcVbJy8EJC1xyG73fEd_o7oQ02kTUBl5Qh81iE1rvDMbH9.Nql0KvvepR8J54;
+        path=/; expires=Wed, 22-Oct-25 18:01:21 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=.QVp7Ok68MmwIQmBumpebcGtigcCzZXNNxsHFaXQucg-1761154281765-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 992aba3c68fc0d53-MXP
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "id": "chatcmpl-CTWy6nS6niAo0H0CK8xLf19z25ipS",
+          "object": "chat.completion",
+          "created": 1761154278,
+          "model": "gpt-5-nano-2025-08-07",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Arrivederci",
+                "refusal": null,
+                "annotations": []
+              },
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 61,
+            "completion_tokens": 269,
+            "total_tokens": 330,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 256,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          },
+          "service_tier": "default",
+          "system_fingerprint": null
+        }
+  recorded_at: Wed, 22 Oct 2025 17:31:21 GMT
 recorded_with: VCR 6.3.1

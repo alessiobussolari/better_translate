@@ -4,7 +4,7 @@ module BetterTranslate
   module Providers
     # Anthropic Claude translation provider
     #
-    # Uses claude-3-5-sonnet-20241022 model for high-quality translations.
+    # Uses claude-haiku-4-5 model for fast, efficient translations.
     #
     # @example Basic usage
     #   config = Configuration.new
@@ -18,7 +18,7 @@ module BetterTranslate
       API_URL = "https://api.anthropic.com/v1/messages"
 
       # Model to use for translations
-      MODEL = "claude-3-5-sonnet-20241022"
+      MODEL = "claude-haiku-4-5"
 
       # API version
       API_VERSION = "2023-06-01"
@@ -97,7 +97,8 @@ module BetterTranslate
       #
       def build_system_message(target_lang_name)
         base_message = "You are a professional translator. Translate the following text to #{target_lang_name}. " \
-                       "Return ONLY the translated text, without any explanations or additional text."
+                       "Return ONLY the translated text, without any explanations or additional text. " \
+                       "Words like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation."
 
         if config.translation_context && !config.translation_context.empty?
           base_message += "\n\nContext: #{config.translation_context}"

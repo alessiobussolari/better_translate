@@ -6,7 +6,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       extractor = described_class.new("Hello %<name>s, you have %<count>s messages")
       safe_text = extractor.extract
 
-      expect(safe_text).to eq("Hello __VAR_0__, you have __VAR_1__ messages")
+      expect(safe_text).to eq("Hello VARIABLE_0, you have VARIABLE_1 messages")
       expect(extractor.variables).to eq(["%<name>s", "%<count>s"])
       expect(extractor.variable_count).to eq(2)
     end
@@ -15,7 +15,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       extractor = described_class.new("Welcome {{user}}!")
       safe_text = extractor.extract
 
-      expect(safe_text).to eq("Welcome __VAR_0__!")
+      expect(safe_text).to eq("Welcome VARIABLE_0!")
       expect(extractor.variables).to eq(["{{user}}"])
     end
 
@@ -23,7 +23,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       extractor = described_class.new("Total: ${amount}")
       safe_text = extractor.extract
 
-      expect(safe_text).to eq("Total: __VAR_0__")
+      expect(safe_text).to eq("Total: VARIABLE_0")
       expect(extractor.variables).to eq(["${amount}"])
     end
 
@@ -31,7 +31,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       extractor = described_class.new("Hello {name}")
       safe_text = extractor.extract
 
-      expect(safe_text).to eq("Hello __VAR_0__")
+      expect(safe_text).to eq("Hello VARIABLE_0")
       expect(extractor.variables).to eq(["{name}"])
     end
 
@@ -41,7 +41,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       safe_text = extractor.extract
 
       expect(extractor.variables).to eq(["%<name>s", "{{count}}", "${total}"])
-      expect(safe_text).to eq("Hi __VAR_0__, you have __VAR_1__ items (__VAR_2__)")
+      expect(safe_text).to eq("Hi VARIABLE_0, you have VARIABLE_1 items (VARIABLE_2)")
     end
 
     it "handles text without variables" do
@@ -63,7 +63,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
     it "restores variables to original format" do
       extractor = described_class.new("Hello %<name>s")
       extractor.extract
-      translated = "Ciao __VAR_0__"
+      translated = "Ciao VARIABLE_0"
 
       restored = extractor.restore(translated)
       expect(restored).to eq("Ciao %<name>s")
@@ -73,7 +73,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
       extractor = described_class.new("You have %<count>s messages from {{user}}")
       extractor.extract
       # Simulated translation that reorders placeholders
-      translated = "__VAR_1__ ti ha inviato __VAR_0__ messaggi"
+      translated = "VARIABLE_1 ti ha inviato VARIABLE_0 messaggi"
 
       restored = extractor.restore(translated)
       expect(restored).to eq("{{user}} ti ha inviato %<count>s messaggi")
@@ -167,7 +167,7 @@ RSpec.describe BetterTranslate::VariableExtractor do
     end
 
     it "preserves Rails template format exactly" do
-      text = "Hello %{name}, you have %{count} messages"
+      text = "Hello %<name>s, you have %<count>s messages"
       extractor = described_class.new(text)
       extracted = extractor.extract
       restored = extractor.restore(extracted)
@@ -182,6 +182,49 @@ RSpec.describe BetterTranslate::VariableExtractor do
       restored = extractor.restore(extracted)
 
       expect(restored).to eq(text)
+    end
+  end
+
+  describe "new VARIABLE_N placeholder format" do
+    it "uses VARIABLE_0 format instead of __VAR_0__" do
+      extractor = described_class.new("Hello %<name>s")
+      extracted = extractor.extract
+
+      expect(extracted).to eq("Hello VARIABLE_0")
+    end
+
+    it "generates sequential VARIABLE_N placeholders" do
+      extractor = described_class.new("Hi %<name>s, {{count}} items, ${total}")
+      extracted = extractor.extract
+
+      expect(extracted).to eq("Hi VARIABLE_0, VARIABLE_1 items, VARIABLE_2")
+    end
+
+    it "restores original variable format from VARIABLE_N placeholder" do
+      extractor = described_class.new("Hello %<name>s")
+      extractor.extract
+      restored = extractor.restore("Ciao VARIABLE_0")
+
+      expect(restored).to eq("Ciao %<name>s")
+    end
+
+    it "preserves exact original format through complete cycle" do
+      text = "Test %<name>s, %<count>s, {{user}}, ${total}"
+      extractor = described_class.new(text)
+      extracted = extractor.extract
+      # Simulate translation preserving placeholders
+      translated = extracted.gsub("Test", "Prova")
+      restored = extractor.restore(translated)
+
+      expect(restored).to eq("Prova %<name>s, %<count>s, {{user}}, ${total}")
+    end
+
+    it "handles text without variables with new format" do
+      extractor = described_class.new("Hello world")
+      extracted = extractor.extract
+
+      expect(extracted).to eq("Hello world")
+      expect(extractor.variables).to be_empty
     end
   end
 end

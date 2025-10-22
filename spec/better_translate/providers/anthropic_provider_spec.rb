@@ -3,11 +3,11 @@
 require "tmpdir"
 require "webmock/rspec"
 
-RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
+RSpec.describe BetterTranslate::Providers::AnthropicProvider do
   let(:config) do
     config = BetterTranslate::Configuration.new
-    config.provider = :chatgpt
-    config.openai_key = "test_key"
+    config.provider = :anthropic
+    config.anthropic_key = "test_key"
     config.source_language = "en"
     config.target_languages = [{ short_name: "it", name: "Italian" }]
     config.input_file = __FILE__
@@ -20,14 +20,12 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
   subject(:provider) { described_class.new(config) }
 
   describe "#translate_text" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url) { "https://api.anthropic.com/v1/messages" }
     let(:response_body) do
       {
-        choices: [
+        content: [
           {
-            message: {
-              content: "Ciao"
-            }
+            text: "Ciao"
           }
         ]
       }.to_json
@@ -55,23 +53,41 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
       end.to raise_error(BetterTranslate::ValidationError)
     end
 
-    it "sends correct request to OpenAI API" do
+    it "sends correct request to Anthropic API" do
       provider.translate_text("Hello", "it", "Italian")
 
       expect(WebMock).to(have_requested(:post, api_url).with do |req|
         body = JSON.parse(req.body)
-        body["model"] == "gpt-5-nano" &&
-          body["temperature"] == 1.0 &&
+        body["model"] == "claude-haiku-4-5" &&
+          body["max_tokens"] == 1024 &&
           body["messages"].is_a?(Array)
       end)
     end
 
-    it "includes authorization header" do
+    it "includes x-api-key header" do
       provider.translate_text("Hello", "it", "Italian")
 
       expect(WebMock).to have_requested(:post, api_url).with(
-        headers: { "Authorization" => "Bearer test_key" }
+        headers: { "x-api-key" => "test_key" }
       )
+    end
+
+    it "includes anthropic-version header" do
+      provider.translate_text("Hello", "it", "Italian")
+
+      expect(WebMock).to have_requested(:post, api_url).with(
+        headers: { "anthropic-version" => "2023-06-01" }
+      )
+    end
+
+    it "includes system message in request" do
+      provider.translate_text("Hello", "it", "Italian")
+
+      expect(WebMock).to(have_requested(:post, api_url).with do |req|
+        body = JSON.parse(req.body)
+        body["system"].include?("professional translator") &&
+          body["system"].include?("Italian")
+      end)
     end
 
     it "includes translation context if provided" do
@@ -80,8 +96,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
       expect(WebMock).to(have_requested(:post, api_url).with do |req|
         body = JSON.parse(req.body)
-        system_message = body["messages"].find { |m| m["role"] == "system" }
-        system_message["content"].include?("Technical documentation")
+        body["system"].include?("Technical documentation")
       end)
     end
 
@@ -90,9 +105,8 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
 
       expect(WebMock).to(have_requested(:post, api_url).with do |req|
         body = JSON.parse(req.body)
-        system_message = body["messages"].find { |m| m["role"] == "system" }
-        system_message["content"].include?("VARIABLE_") &&
-          system_message["content"].include?("placeholder")
+        body["system"].include?("VARIABLE_") &&
+          body["system"].include?("placeholder")
       end)
     end
 
@@ -115,7 +129,7 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
     it "raises TranslationError when no translation in response" do
       stub_request(:post, api_url).to_return(
         status: 200,
-        body: { choices: [] }.to_json,
+        body: { content: [] }.to_json,
         headers: { "Content-Type" => "application/json" }
       )
 
@@ -123,16 +137,27 @@ RSpec.describe BetterTranslate::Providers::ChatGPTProvider do
         provider.translate_text("Hello", "it", "Italian")
       end.to raise_error(BetterTranslate::TranslationError, /No translation/)
     end
+
+    it "strips whitespace from translation" do
+      stub_request(:post, api_url).to_return(
+        status: 200,
+        body: { content: [{ text: "  Ciao  " }] }.to_json,
+        headers: { "Content-Type" => "application/json" }
+      )
+
+      result = provider.translate_text("Hello", "it", "Italian")
+      expect(result).to eq("Ciao")
+    end
   end
 
   describe "#translate_batch" do
-    let(:api_url) { "https://api.openai.com/v1/chat/completions" }
+    let(:api_url) { "https://api.anthropic.com/v1/messages" }
 
     before do
       stub_request(:post, api_url)
         .to_return(
-          { status: 200, body: { choices: [{ message: { content: "Ciao" } }] }.to_json },
-          { status: 200, body: { choices: [{ message: { content: "Mondo" } }] }.to_json }
+          { status: 200, body: { content: [{ text: "Ciao" }] }.to_json },
+          { status: 200, body: { content: [{ text: "Mondo" }] }.to_json }
         )
     end
 

@@ -14,7 +14,7 @@ BetterTranslate is a powerful Ruby gem designed to automatically translate YAML 
 
 ### Key Features
 
-- **Multiple AI Providers**: ChatGPT (GPT-5-nano), Google Gemini (gemini-2.0-flash-exp), Anthropic Claude (claude-3-5-sonnet-20241022)
+- **Multiple AI Providers**: ChatGPT (GPT-5-nano), Google Gemini (gemini-2.5-flash-lite), Anthropic Claude (claude-haiku-4-5)
 - **Smart Translation Strategies**: Automatic selection between Deep (< 50 strings) and Batch (≥ 50 strings) processing
 - **Intelligent Caching**: LRU cache with configurable capacity and TTL
 - **Rails Integration**: 3 generators (install, translate, analyze)

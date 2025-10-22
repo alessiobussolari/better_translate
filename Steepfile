@@ -6,8 +6,8 @@
 D = Steep::Diagnostic
 
 target :lib do
-  # Specify Ruby version
-  check "lib"
+  # Only check library files
+  check "lib/**/*.rb"
 
   # Signature files location
   signature "sig"

@@ -15,9 +15,9 @@ module BetterTranslate
   # @example Basic usage
   #   extractor = VariableExtractor.new("Hello %{name}, you have {{count}} messages")
   #   safe_text = extractor.extract
-  #   #=> "Hello __VAR_0__, you have __VAR_1__ messages"
+  #   #=> "Hello VARIABLE_0, you have VARIABLE_1 messages"
   #
-  #   translated = translate(safe_text)  # "Ciao __VAR_0__, hai __VAR_1__ messaggi"
+  #   translated = translate(safe_text)  # "Ciao VARIABLE_0, hai VARIABLE_1 messaggi"
   #   final = extractor.restore(translated)
   #   #=> "Ciao %{name}, hai {{count}} messaggi"
   #
@@ -41,10 +41,10 @@ module BetterTranslate
     COMBINED_PATTERN = Regexp.union(*VARIABLE_PATTERNS.values).freeze
 
     # Placeholder prefix
-    PLACEHOLDER_PREFIX = "__VAR_"
+    PLACEHOLDER_PREFIX = "VARIABLE_"
 
     # Placeholder suffix
-    PLACEHOLDER_SUFFIX = "__"
+    PLACEHOLDER_SUFFIX = ""
 
     # @return [String] Original text with variables
     attr_reader :original_text
@@ -72,13 +72,13 @@ module BetterTranslate
     # Extract variables and replace with placeholders
     #
     # Scans the text for all supported variable formats and replaces them
-    # with numbered placeholders (__VAR_0__, __VAR_1__, etc.).
+    # with numbered placeholders (VARIABLE_0, VARIABLE_1, etc.).
     #
     # @return [String] Text with variables replaced by placeholders
     #
     # @example
     #   extractor = VariableExtractor.new("Hello %{name}")
-    #   extractor.extract  #=> "Hello __VAR_0__"
+    #   extractor.extract  #=> "Hello VARIABLE_0"
     #
     def extract
       return "" if original_text.nil? || original_text.empty?
@@ -112,7 +112,7 @@ module BetterTranslate
     # @example Successful restore
     #   extractor = VariableExtractor.new("Hello %{name}")
     #   extractor.extract
-    #   extractor.restore("Ciao __VAR_0__")  #=> "Ciao %{name}"
+    #   extractor.restore("Ciao VARIABLE_0")  #=> "Ciao %{name}"
     #
     # @example Strict mode with missing variable
     #   extractor = VariableExtractor.new("Hello %{name}")

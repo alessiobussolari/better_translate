@@ -7,8 +7,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text.\n\nContext:
-        Software development"},{"role":"user","content":"authentication"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation.\n\nContext: Software development"},{"role":"user","content":"authentication"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -26,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:10:53 GMT
+      - Wed, 22 Oct 2025 17:31:26 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -38,13 +39,13 @@ http_interactions:
       Openai-Organization:
       - pandev-s-r-l
       Openai-Processing-Ms:
-      - '2258'
+      - '1345'
       Openai-Project:
       - proj_NFvopmGfUTkSamqPCCc1eObh
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '2490'
+      - '1367'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -52,22 +53,22 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '4999'
       X-Ratelimit-Remaining-Tokens:
-      - '1999947'
+      - '1999921'
       X-Ratelimit-Reset-Requests:
       - 12ms
       X-Ratelimit-Reset-Tokens:
-      - 1ms
+      - 2ms
       X-Request-Id:
-      - req_6218b124ab7f4adcb1e2d5557e0d11ab
+      - req_f7020b81610d4a4bb05f790b3c1a5763
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=4StPBsvNkuy5NUjurZmUOB2MqZFCMzeeIxbWLfWNj6g-1761145853-1.0.1.1-E_bFbY0hXkntctC2P1vUvzh.SnCIPPVevgb_jCNOLevXaLwCjWKlln8Qe93hWkNmh74wW9Zuvgb6ZhlIwqlzUJmP54NyWIn8boIWIphouuE;
-        path=/; expires=Wed, 22-Oct-25 15:40:53 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=tXPrPd9vTAenIO2g.ySHKwA73AvRs0QQw6uZ29MCBKE-1761154286-1.0.1.1-mkdS_Qf0KtbMLTdXD2eZVopmWq2ObdB.eN0mWCpyfLwds6BqHpXMTy5KpvuueR9wYr9DdruDZZg1RtTPAr0qZl.x5Pm7zWW2Ejc1VUb5SRg;
+        path=/; expires=Wed, 22-Oct-25 18:01:26 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=fgh.AWnoJGQ8HJcblJJgSApi.bpiAmk.hsida3Rl75M-1761145853073-0.0.1.1-604800000;
+      - _cfuvid=ZtAGQ9J2HZgvHzDzBoXshM6Vt7jls7_sSgtUBwUwcL8-1761154286960-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -76,16 +77,16 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929ec7ac956ee7e-MXP
+      - 992aba6c48deed57-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-CTUmAXtu8kSD3U2W3nXQCi3hRvGCG",
+          "id": "chatcmpl-CTWyD1Zzay9eCImZ1V4XpyDo2X8bC",
           "object": "chat.completion",
-          "created": 1761145850,
+          "created": 1761154285,
           "model": "gpt-5-nano-2025-08-07",
           "choices": [
             {
@@ -100,15 +101,15 @@ http_interactions:
             }
           ],
           "usage": {
-            "prompt_tokens": 41,
-            "completion_tokens": 140,
-            "total_tokens": 181,
+            "prompt_tokens": 64,
+            "completion_tokens": 76,
+            "total_tokens": 140,
             "prompt_tokens_details": {
               "cached_tokens": 0,
               "audio_tokens": 0
             },
             "completion_tokens_details": {
-              "reasoning_tokens": 128,
+              "reasoning_tokens": 64,
               "audio_tokens": 0,
               "accepted_prediction_tokens": 0,
               "rejected_prediction_tokens": 0
@@ -117,5 +118,5 @@ http_interactions:
           "service_tier": "default",
           "system_fingerprint": null
         }
-  recorded_at: Wed, 22 Oct 2025 15:10:53 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:26 GMT
 recorded_with: VCR 6.3.1

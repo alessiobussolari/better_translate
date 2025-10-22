@@ -4,7 +4,7 @@ module BetterTranslate
   module Providers
     # Google Gemini translation provider
     #
-    # Uses gemini-2.0-flash-exp model for fast, high-quality translations.
+    # Uses gemini-2.5-flash-lite model for fast, high-quality translations.
     #
     # @example Basic usage
     #   config = Configuration.new
@@ -15,10 +15,10 @@ module BetterTranslate
     #
     class GeminiProvider < BaseHttpProvider
       # Google Gemini API endpoint
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent"
 
       # Model to use for translations
-      MODEL = "gemini-2.0-flash-exp"
+      MODEL = "gemini-2.5-flash-lite"
 
       # Translate a single text
       #
@@ -77,7 +77,8 @@ module BetterTranslate
       #
       def build_prompt(text, target_lang_name)
         base_prompt = "Translate the following text to #{target_lang_name}. " \
-                      "Return ONLY the translated text, without any explanations.\n\n" \
+                      "Return ONLY the translated text, without any explanations. " \
+                      "Words like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.\n\n" \
                       "Text: #{text}"
 
         if config.translation_context && !config.translation_context.empty?

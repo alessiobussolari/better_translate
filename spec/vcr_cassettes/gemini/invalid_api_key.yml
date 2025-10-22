@@ -2,11 +2,13 @@
 http_interactions:
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=invalid_key_12345
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=invalid_key_12345
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to Italian.
-        Return ONLY the translated text, without any explanations.\n\nText: Hello"}]}]}'
+        Return ONLY the translated text, without any explanations. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.\n\nText:
+        Hello"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -28,7 +30,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Wed, 22 Oct 2025 15:09:27 GMT
+      - Wed, 22 Oct 2025 17:31:41 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -38,7 +40,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=21
+      - gfet4t7; dur=25
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -68,14 +70,16 @@ http_interactions:
             ]
           }
         }
-  recorded_at: Wed, 22 Oct 2025 15:09:27 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:41 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=invalid_key_12345
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=invalid_key_12345
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to Italian.
-        Return ONLY the translated text, without any explanations.\n\nText: Hello"}]}]}'
+        Return ONLY the translated text, without any explanations. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.\n\nText:
+        Hello"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -97,7 +101,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Wed, 22 Oct 2025 15:09:30 GMT
+      - Wed, 22 Oct 2025 17:31:43 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -107,7 +111,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=20
+      - gfet4t7; dur=31
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -137,14 +141,16 @@ http_interactions:
             ]
           }
         }
-  recorded_at: Wed, 22 Oct 2025 15:09:30 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:43 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=invalid_key_12345
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=invalid_key_12345
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to Italian.
-        Return ONLY the translated text, without any explanations.\n\nText: Hello"}]}]}'
+        Return ONLY the translated text, without any explanations. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.\n\nText:
+        Hello"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -166,7 +172,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Wed, 22 Oct 2025 15:09:35 GMT
+      - Wed, 22 Oct 2025 17:31:48 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -176,7 +182,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=107
+      - gfet4t7; dur=26
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -206,5 +212,5 @@ http_interactions:
             ]
           }
         }
-  recorded_at: Wed, 22 Oct 2025 15:09:35 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:48 GMT
 recorded_with: VCR 6.3.1

@@ -2,12 +2,13 @@
 http_interactions:
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Context: Software development\n\nTranslate
         the following text to Italian. Return ONLY the translated text, without any
-        explanations.\n\nText: authentication"}]}]}'
+        explanations. Words like VARIABLE_0, VARIABLE_1, etc. are placeholders and
+        must be kept unchanged in the translation.\n\nText: authentication"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -29,7 +30,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:09:27 GMT
+      - Wed, 22 Oct 2025 17:31:40 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -39,7 +40,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=539
+      - gfet4t7; dur=293
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -53,34 +54,28 @@ http_interactions:
               "content": {
                 "parts": [
                   {
-                    "text": "autenticazione\n"
+                    "text": "autenticazione"
                   }
                 ],
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -6.7495740950107574e-05
+              "index": 0
             }
           ],
           "usageMetadata": {
-            "promptTokenCount": 26,
+            "promptTokenCount": 49,
             "candidatesTokenCount": 4,
-            "totalTokenCount": 30,
+            "totalTokenCount": 53,
             "promptTokensDetails": [
               {
                 "modality": "TEXT",
-                "tokenCount": 26
-              }
-            ],
-            "candidatesTokensDetails": [
-              {
-                "modality": "TEXT",
-                "tokenCount": 4
+                "tokenCount": 49
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "p_P4aO3UEvGo28oPycW7KQ"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "_BT5aIviMsnovdIPuOnfiQE"
         }
-  recorded_at: Wed, 22 Oct 2025 15:09:27 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:40 GMT
 recorded_with: VCR 6.3.1

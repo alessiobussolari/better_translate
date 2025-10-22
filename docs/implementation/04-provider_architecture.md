@@ -331,10 +331,10 @@ module BetterTranslate
   module Providers
     # Google Gemini translation provider
     #
-    # Uses gemini-2.0-flash-exp model
+    # Uses gemini-2.5-flash-lite model
     class GeminiProvider < BaseHttpProvider
-      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
-      MODEL = "gemini-2.0-flash-exp"
+      API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent"
+      MODEL = "gemini-2.5-flash-lite"
 
       # Translate a single text
       #
@@ -431,10 +431,10 @@ module BetterTranslate
   module Providers
     # Anthropic Claude translation provider
     #
-    # Uses claude-3-5-sonnet-20241022 model
+    # Uses claude-haiku-4-5 model
     class AnthropicProvider < BaseHttpProvider
       API_URL = "https://api.anthropic.com/v1/messages"
-      MODEL = "claude-3-5-sonnet-20241022"
+      MODEL = "claude-haiku-4-5"
       API_VERSION = "2023-06-01"
 
       # Translate a single text

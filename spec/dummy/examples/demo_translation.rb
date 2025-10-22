@@ -11,9 +11,9 @@ require_relative "../../lib/better_translate"
 require "dotenv/load"
 require "fileutils"
 
-puts "\n" + "=" * 80
+puts "\n#{"=" * 80}"
 puts "BetterTranslate Demo - Dummy Rails App"
-puts "=" * 80 + "\n"
+puts "#{"=" * 80}\n"
 
 # Paths
 dummy_app_path = __dir__
@@ -27,7 +27,7 @@ puts "📂 Output folder: #{output_folder}\n\n"
 puts "📄 Source file content (en.yml):"
 puts "-" * 80
 puts File.read(input_file)
-puts "-" * 80 + "\n\n"
+puts "#{"-" * 80}\n\n"
 
 # Configure BetterTranslate
 config = BetterTranslate::Configuration.new
@@ -47,8 +47,8 @@ config.translation_mode = :override
 puts "⚙️  Configuration:"
 puts "   Provider: #{config.provider}"
 puts "   Source: #{config.source_language}"
-puts "   Targets: #{config.target_languages.map { |l| l[:name] }.join(', ')}"
-puts "   API Key: #{config.openai_key ? '✓ Set' : '✗ Not set'}\n\n"
+puts "   Targets: #{config.target_languages.map { |l| l[:name] }.join(", ")}"
+puts "   API Key: #{config.openai_key ? "✓ Set" : "✗ Not set"}\n\n"
 
 unless config.openai_key
   puts "❌ ERROR: OPENAI_API_KEY not found in environment"
@@ -66,7 +66,7 @@ puts "🚀 Starting translation...\n\n"
 translator = BetterTranslate::Translator.new(config)
 results = translator.translate_all
 
-puts "\n" + "=" * 80
+puts "\n#{"=" * 80}"
 puts "Translation Results"
 puts "=" * 80
 
@@ -81,9 +81,9 @@ if results[:errors].any?
 end
 
 # Show generated files
-puts "\n" + "=" * 80
+puts "\n#{"=" * 80}"
 puts "Generated Files"
-puts "=" * 80 + "\n"
+puts "#{"=" * 80}\n"
 
 config.target_languages.each do |lang|
   output_file = File.join(output_folder, "#{lang[:short_name]}.yml")
@@ -95,9 +95,9 @@ config.target_languages.each do |lang|
     # Show first few lines
     content = YAML.load_file(output_file)
     puts "  Sample translations:"
-    puts "    hello: #{content.dig(lang[:short_name], 'hello')}"
-    puts "    world: #{content.dig(lang[:short_name], 'world')}"
-    puts "    messages.success: #{content.dig(lang[:short_name], 'messages', 'success')}\n\n"
+    puts "    hello: #{content.dig(lang[:short_name], "hello")}"
+    puts "    world: #{content.dig(lang[:short_name], "world")}"
+    puts "    messages.success: #{content.dig(lang[:short_name], "messages", "success")}\n\n"
   else
     puts "✗ #{output_file} - NOT FOUND"
   end
@@ -108,13 +108,13 @@ italian_file = File.join(output_folder, "it.yml")
 if File.exist?(italian_file)
   puts "=" * 80
   puts "Italian Translation (it.yml) - Full Content"
-  puts "=" * 80 + "\n"
+  puts "#{"=" * 80}\n"
   puts File.read(italian_file)
 end
 
-puts "\n" + "=" * 80
+puts "\n#{"=" * 80}"
 puts "Demo Complete!"
-puts "=" * 80 + "\n"
+puts "#{"=" * 80}\n"
 
 puts "💡 Next steps:"
 puts "   1. Check the generated files in: #{output_folder}"

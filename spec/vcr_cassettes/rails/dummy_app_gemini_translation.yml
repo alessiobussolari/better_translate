@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -28,7 +28,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:27 GMT
+      - Wed, 22 Oct 2025 16:35:01 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -38,7 +38,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=546
+      - gfet4t7; dur=700
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -78,13 +78,13 @@ http_interactions:
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "Gvj4aNL1NNHC28oPwf7DWQ"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "tQf5aI_2AsTWvdIPheLryAU"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:27 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:01 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -110,7 +110,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:28 GMT
+      - Wed, 22 Oct 2025 16:35:02 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -120,7 +120,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=564
+      - gfet4t7; dur=542
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -140,7 +140,7 @@ http_interactions:
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.00060031788113216555
+              "avgLogprobs": -0.00049048429355025291
             }
           ],
           "usageMetadata": {
@@ -160,13 +160,13 @@ http_interactions:
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "HPj4aJabEuPd7M8Pm6musA4"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "tgf5aO6aGPPxxN8P9rf4OA"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:28 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:02 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -193,7 +193,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:30 GMT
+      - Wed, 22 Oct 2025 16:35:04 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -203,7 +203,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=663
+      - gfet4t7; dur=792
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -223,7 +223,7 @@ http_interactions:
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.10616627931594849
+              "avgLogprobs": -0.33641741275787351
             }
           ],
           "usageMetadata": {
@@ -243,13 +243,13 @@ http_interactions:
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "Hfj4aO26Jqn9nsEP87DFoAc"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "twf5aO35KOyXvdIP5_q3yAM"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:30 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:04 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -275,7 +275,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:31 GMT
+      - Wed, 22 Oct 2025 16:35:05 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -285,7 +285,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=565
+      - gfet4t7; dur=792
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -305,7 +305,7 @@ http_interactions:
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.081059873104095459
+              "avgLogprobs": -0.12723572055498758
             }
           ],
           "usageMetadata": {
@@ -325,13 +325,13 @@ http_interactions:
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "H_j4aLffA8DwnsEPqMb1kQ0"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "uQf5aIyCF8-5kdUPu9_3mAs"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:31 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:05 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -358,7 +358,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:33 GMT
+      - Wed, 22 Oct 2025 16:35:07 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -368,7 +368,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=968
+      - gfet4t7; dur=486
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -376,11 +376,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIk9ww6lyYXRpb24gdGVybWluw6llIGF2ZWMgc3VjY8Oocy5cbiIKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJyb2xlIjogIm1vZGVsIgogICAgICB9LAogICAgICAiZmluaXNoUmVhc29uIjogIlNUT1AiLAogICAgICAiYXZnTG9ncHJvYnMiOiAtMC4xMjY0OTgyMzA4NjYwMjM0NgogICAgfQogIF0sCiAgInVzYWdlTWV0YWRhdGEiOiB7CiAgICAicHJvbXB0VG9rZW5Db3VudCI6IDIzLAogICAgImNhbmRpZGF0ZXNUb2tlbkNvdW50IjogNywKICAgICJ0b3RhbFRva2VuQ291bnQiOiAzMCwKICAgICJwcm9tcHRUb2tlbnNEZXRhaWxzIjogWwogICAgICB7CiAgICAgICAgIm1vZGFsaXR5IjogIlRFWFQiLAogICAgICAgICJ0b2tlbkNvdW50IjogMjMKICAgICAgfQogICAgXSwKICAgICJjYW5kaWRhdGVzVG9rZW5zRGV0YWlscyI6IFsKICAgICAgewogICAgICAgICJtb2RhbGl0eSI6ICJURVhUIiwKICAgICAgICAidG9rZW5Db3VudCI6IDcKICAgICAgfQogICAgXQogIH0sCiAgIm1vZGVsVmVyc2lvbiI6ICJnZW1pbmktMi4wLWZsYXNoLWV4cCIsCiAgInJlc3BvbnNlSWQiOiAiSVBqNGFQcVBKSldGa2RVUG42bXUyUUkiCn0K
-  recorded_at: Wed, 22 Oct 2025 15:28:33 GMT
+        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIk9ww6lyYXRpb24gdGVybWluw6llIGF2ZWMgc3VjY8Oocy5cbiIKICAgICAgICAgIH0KICAgICAgICBdLAogICAgICAgICJyb2xlIjogIm1vZGVsIgogICAgICB9LAogICAgICAiZmluaXNoUmVhc29uIjogIlNUT1AiLAogICAgICAiYXZnTG9ncHJvYnMiOiAtMC4zMjE4NTgwNjU0Njg5MjQzNwogICAgfQogIF0sCiAgInVzYWdlTWV0YWRhdGEiOiB7CiAgICAicHJvbXB0VG9rZW5Db3VudCI6IDIzLAogICAgImNhbmRpZGF0ZXNUb2tlbkNvdW50IjogNywKICAgICJ0b3RhbFRva2VuQ291bnQiOiAzMCwKICAgICJwcm9tcHRUb2tlbnNEZXRhaWxzIjogWwogICAgICB7CiAgICAgICAgIm1vZGFsaXR5IjogIlRFWFQiLAogICAgICAgICJ0b2tlbkNvdW50IjogMjMKICAgICAgfQogICAgXSwKICAgICJjYW5kaWRhdGVzVG9rZW5zRGV0YWlscyI6IFsKICAgICAgewogICAgICAgICJtb2RhbGl0eSI6ICJURVhUIiwKICAgICAgICAidG9rZW5Db3VudCI6IDcKICAgICAgfQogICAgXQogIH0sCiAgIm1vZGVsVmVyc2lvbiI6ICJnZW1pbmktMi4wLWZsYXNoLWV4cCIsCiAgInJlc3BvbnNlSWQiOiAidWdmNWFOZmpKdlB4eE44UDlyZjRPQSIKfQo=
+  recorded_at: Wed, 22 Oct 2025 16:35:07 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -407,7 +407,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:35 GMT
+      - Wed, 22 Oct 2025 16:35:08 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -417,7 +417,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=885
+      - gfet4t7; dur=638
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -431,19 +431,19 @@ http_interactions:
               "content": {
                 "parts": [
                   {
-                    "text": "Une erreur est survenue.\n"
+                    "text": "Une erreur s'est produite.\n"
                   }
                 ],
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.13390293291636876
+              "avgLogprobs": -0.12784124910831451
             }
           ],
           "usageMetadata": {
             "promptTokenCount": 23,
-            "candidatesTokenCount": 7,
-            "totalTokenCount": 30,
+            "candidatesTokenCount": 8,
+            "totalTokenCount": 31,
             "promptTokensDetails": [
               {
                 "modality": "TEXT",
@@ -453,17 +453,17 @@ http_interactions:
             "candidatesTokensDetails": [
               {
                 "modality": "TEXT",
-                "tokenCount": 7
+                "tokenCount": 8
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "Ivj4aP_DKPuzkdUPvv2VkA0"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "uwf5aNTcK53yxs0P0Ie5wAM"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:35 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:08 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -490,7 +490,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:36 GMT
+      - Wed, 22 Oct 2025 16:35:09 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -500,7 +500,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=540
+      - gfet4t7; dur=633
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -508,11 +508,11 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIlZldWlsbGV6IHbDqXJpZmllciB2b3RyZSBzYWlzaWUuXG4iCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAicm9sZSI6ICJtb2RlbCIKICAgICAgfSwKICAgICAgImZpbmlzaFJlYXNvbiI6ICJTVE9QIiwKICAgICAgImF2Z0xvZ3Byb2JzIjogLTAuMDAxODA0OTU5MzM5NDAwMTMyNAogICAgfQogIF0sCiAgInVzYWdlTWV0YWRhdGEiOiB7CiAgICAicHJvbXB0VG9rZW5Db3VudCI6IDI0LAogICAgImNhbmRpZGF0ZXNUb2tlbkNvdW50IjogNiwKICAgICJ0b3RhbFRva2VuQ291bnQiOiAzMCwKICAgICJwcm9tcHRUb2tlbnNEZXRhaWxzIjogWwogICAgICB7CiAgICAgICAgIm1vZGFsaXR5IjogIlRFWFQiLAogICAgICAgICJ0b2tlbkNvdW50IjogMjQKICAgICAgfQogICAgXSwKICAgICJjYW5kaWRhdGVzVG9rZW5zRGV0YWlscyI6IFsKICAgICAgewogICAgICAgICJtb2RhbGl0eSI6ICJURVhUIiwKICAgICAgICAidG9rZW5Db3VudCI6IDYKICAgICAgfQogICAgXQogIH0sCiAgIm1vZGVsVmVyc2lvbiI6ICJnZW1pbmktMi4wLWZsYXNoLWV4cCIsCiAgInJlc3BvbnNlSWQiOiAiSlBqNGFJcWdCNFBva2RVUDhOenYyQU0iCn0K
-  recorded_at: Wed, 22 Oct 2025 15:28:36 GMT
+        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIlZldWlsbGV6IHbDqXJpZmllciB2b3RyZSBzYWlzaWUuXG4iCiAgICAgICAgICB9CiAgICAgICAgXSwKICAgICAgICAicm9sZSI6ICJtb2RlbCIKICAgICAgfSwKICAgICAgImZpbmlzaFJlYXNvbiI6ICJTVE9QIiwKICAgICAgImF2Z0xvZ3Byb2JzIjogLTAuMDAwODAzNTE5MTE3OTU2MzYwMjIKICAgIH0KICBdLAogICJ1c2FnZU1ldGFkYXRhIjogewogICAgInByb21wdFRva2VuQ291bnQiOiAyNCwKICAgICJjYW5kaWRhdGVzVG9rZW5Db3VudCI6IDYsCiAgICAidG90YWxUb2tlbkNvdW50IjogMzAsCiAgICAicHJvbXB0VG9rZW5zRGV0YWlscyI6IFsKICAgICAgewogICAgICAgICJtb2RhbGl0eSI6ICJURVhUIiwKICAgICAgICAidG9rZW5Db3VudCI6IDI0CiAgICAgIH0KICAgIF0sCiAgICAiY2FuZGlkYXRlc1Rva2Vuc0RldGFpbHMiOiBbCiAgICAgIHsKICAgICAgICAibW9kYWxpdHkiOiAiVEVYVCIsCiAgICAgICAgInRva2VuQ291bnQiOiA2CiAgICAgIH0KICAgIF0KICB9LAogICJtb2RlbFZlcnNpb24iOiAiZ2VtaW5pLTIuMC1mbGFzaC1leHAiLAogICJyZXNwb25zZUlkIjogInZBZjVhTUtjT1o3a3hOOFA1LXVIT0EiCn0K
+  recorded_at: Wed, 22 Oct 2025 16:35:09 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -539,7 +539,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:37 GMT
+      - Wed, 22 Oct 2025 16:35:10 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -549,7 +549,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=617
+      - gfet4t7; dur=621
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -569,7 +569,7 @@ http_interactions:
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.00022997353225946427
+              "avgLogprobs": -0.00023836158215999602
             }
           ],
           "usageMetadata": {
@@ -589,13 +589,13 @@ http_interactions:
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "Jfj4aKeOErCykdUPkNvRsAQ"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "vgf5aPGCD7fC28oPmJDCyQQ"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:37 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:10 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -621,7 +621,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:39 GMT
+      - Wed, 22 Oct 2025 16:35:11 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -631,7 +631,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=761
+      - gfet4t7; dur=618
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -645,19 +645,19 @@ http_interactions:
               "content": {
                 "parts": [
                   {
-                    "text": "Profil de l'utilisateur\n"
+                    "text": "Profil d'utilisateur\n"
                   }
                 ],
                 "role": "model"
               },
               "finishReason": "STOP",
-              "avgLogprobs": -0.16997981071472168
+              "avgLogprobs": -0.20381634235382079
             }
           ],
           "usageMetadata": {
             "promptTokenCount": 22,
-            "candidatesTokenCount": 6,
-            "totalTokenCount": 28,
+            "candidatesTokenCount": 5,
+            "totalTokenCount": 27,
             "promptTokensDetails": [
               {
                 "modality": "TEXT",
@@ -667,17 +667,17 @@ http_interactions:
             "candidatesTokensDetails": [
               {
                 "modality": "TEXT",
-                "tokenCount": 6
+                "tokenCount": 5
               }
             ]
           },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "J_j4aLqjDePd7M8P7amusA4"
+          "modelVersion": "gemini-2.5-flash-lite",
+          "responseId": "vwf5aOiIHMTWvdIPheLryAU"
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:39 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:11 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
@@ -704,7 +704,7 @@ http_interactions:
       - Referer
       - X-Origin
       Date:
-      - Wed, 22 Oct 2025 15:28:41 GMT
+      - Wed, 22 Oct 2025 16:35:13 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -714,7 +714,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=487
+      - gfet4t7; dur=508
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -722,146 +722,15 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIlBhcmFtw6h0cmVzIGR1IGNvbXB0ZVxuIgogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgInJvbGUiOiAibW9kZWwiCiAgICAgIH0sCiAgICAgICJmaW5pc2hSZWFzb24iOiAiU1RPUCIsCiAgICAgICJhdmdMb2dwcm9icyI6IC0wLjAwMDMzNDc4NjI1MTE4NzMyNDUyCiAgICB9CiAgXSwKICAidXNhZ2VNZXRhZGF0YSI6IHsKICAgICJwcm9tcHRUb2tlbkNvdW50IjogMjIsCiAgICAiY2FuZGlkYXRlc1Rva2VuQ291bnQiOiA1LAogICAgInRvdGFsVG9rZW5Db3VudCI6IDI3LAogICAgInByb21wdFRva2Vuc0RldGFpbHMiOiBbCiAgICAgIHsKICAgICAgICAibW9kYWxpdHkiOiAiVEVYVCIsCiAgICAgICAgInRva2VuQ291bnQiOiAyMgogICAgICB9CiAgICBdLAogICAgImNhbmRpZGF0ZXNUb2tlbnNEZXRhaWxzIjogWwogICAgICB7CiAgICAgICAgIm1vZGFsaXR5IjogIlRFWFQiLAogICAgICAgICJ0b2tlbkNvdW50IjogNQogICAgICB9CiAgICBdCiAgfSwKICAibW9kZWxWZXJzaW9uIjogImdlbWluaS0yLjAtZmxhc2gtZXhwIiwKICAicmVzcG9uc2VJZCI6ICJLUGo0YUkzQ0paUHhuc0VQX3ZDSThBUSIKfQo=
-  recorded_at: Wed, 22 Oct 2025 15:28:40 GMT
+        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIlBhcmFtw6h0cmVzIGR1IGNvbXB0ZVxuIgogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgInJvbGUiOiAibW9kZWwiCiAgICAgIH0sCiAgICAgICJmaW5pc2hSZWFzb24iOiAiU1RPUCIsCiAgICAgICJhdmdMb2dwcm9icyI6IC0wLjAwMDIzNTc2NzMzNjU2MjI3NTg5CiAgICB9CiAgXSwKICAidXNhZ2VNZXRhZGF0YSI6IHsKICAgICJwcm9tcHRUb2tlbkNvdW50IjogMjIsCiAgICAiY2FuZGlkYXRlc1Rva2VuQ291bnQiOiA1LAogICAgInRvdGFsVG9rZW5Db3VudCI6IDI3LAogICAgInByb21wdFRva2Vuc0RldGFpbHMiOiBbCiAgICAgIHsKICAgICAgICAibW9kYWxpdHkiOiAiVEVYVCIsCiAgICAgICAgInRva2VuQ291bnQiOiAyMgogICAgICB9CiAgICBdLAogICAgImNhbmRpZGF0ZXNUb2tlbnNEZXRhaWxzIjogWwogICAgICB7CiAgICAgICAgIm1vZGFsaXR5IjogIlRFWFQiLAogICAgICAgICJ0b2tlbkNvdW50IjogNQogICAgICB9CiAgICBdCiAgfSwKICAibW9kZWxWZXJzaW9uIjogImdlbWluaS0yLjAtZmxhc2gtZXhwIiwKICAicmVzcG9uc2VJZCI6ICJ3QWY1YVBlckk1Q2d4TjhQejZmbFdRIgp9Cg==
+  recorded_at: Wed, 22 Oct 2025 16:35:13 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
         Return ONLY the translated text, without any explanations.\n\nText: Home"}]}]}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Content-Type:
-      - application/json; charset=UTF-8
-      Vary:
-      - Origin
-      - Referer
-      - X-Origin
-      Date:
-      - Wed, 22 Oct 2025 15:28:42 GMT
-      Server:
-      - scaffolding on HTTPServer2
-      X-Xss-Protection:
-      - '0'
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Content-Type-Options:
-      - nosniff
-      Server-Timing:
-      - gfet4t7; dur=564
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "candidates": [
-            {
-              "content": {
-                "parts": [
-                  {
-                    "text": "Maison\n"
-                  }
-                ],
-                "role": "model"
-              },
-              "finishReason": "STOP",
-              "avgLogprobs": -0.72266703844070435
-            }
-          ],
-          "usageMetadata": {
-            "promptTokenCount": 21,
-            "candidatesTokenCount": 2,
-            "totalTokenCount": 23,
-            "promptTokensDetails": [
-              {
-                "modality": "TEXT",
-                "tokenCount": 21
-              }
-            ],
-            "candidatesTokensDetails": [
-              {
-                "modality": "TEXT",
-                "tokenCount": 2
-              }
-            ]
-          },
-          "modelVersion": "gemini-2.0-flash-exp",
-          "responseId": "Kfj4aK6hLuPd7M8P7amusA4"
-        }
-  recorded_at: Wed, 22 Oct 2025 15:28:42 GMT
-- request:
-    method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
-    body:
-      encoding: UTF-8
-      string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
-        Return ONLY the translated text, without any explanations.\n\nText: About"}]}]}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Content-Type:
-      - application/json; charset=UTF-8
-      Vary:
-      - Origin
-      - Referer
-      - X-Origin
-      Date:
-      - Wed, 22 Oct 2025 15:28:43 GMT
-      Server:
-      - scaffolding on HTTPServer2
-      X-Xss-Protection:
-      - '0'
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Content-Type-Options:
-      - nosniff
-      Server-Timing:
-      - gfet4t7; dur=587
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        ewogICJjYW5kaWRhdGVzIjogWwogICAgewogICAgICAiY29udGVudCI6IHsKICAgICAgICAicGFydHMiOiBbCiAgICAgICAgICB7CiAgICAgICAgICAgICJ0ZXh0IjogIsOAIHByb3Bvc1xuIgogICAgICAgICAgfQogICAgICAgIF0sCiAgICAgICAgInJvbGUiOiAibW9kZWwiCiAgICAgIH0sCiAgICAgICJmaW5pc2hSZWFzb24iOiAiU1RPUCIsCiAgICAgICJhdmdMb2dwcm9icyI6IC0wLjMxNzMxNzkwMzA0MTgzOTYKICAgIH0KICBdLAogICJ1c2FnZU1ldGFkYXRhIjogewogICAgInByb21wdFRva2VuQ291bnQiOiAyMSwKICAgICJjYW5kaWRhdGVzVG9rZW5Db3VudCI6IDMsCiAgICAidG90YWxUb2tlbkNvdW50IjogMjQsCiAgICAicHJvbXB0VG9rZW5zRGV0YWlscyI6IFsKICAgICAgewogICAgICAgICJtb2RhbGl0eSI6ICJURVhUIiwKICAgICAgICAidG9rZW5Db3VudCI6IDIxCiAgICAgIH0KICAgIF0sCiAgICAiY2FuZGlkYXRlc1Rva2Vuc0RldGFpbHMiOiBbCiAgICAgIHsKICAgICAgICAibW9kYWxpdHkiOiAiVEVYVCIsCiAgICAgICAgInRva2VuQ291bnQiOiAzCiAgICAgIH0KICAgIF0KICB9LAogICJtb2RlbFZlcnNpb24iOiAiZ2VtaW5pLTIuMC1mbGFzaC1leHAiLAogICJyZXNwb25zZUlkIjogIktfajRhTXlIR3VteGtkVVBzUG5wOFFNIgp9Cg==
-  recorded_at: Wed, 22 Oct 2025 15:28:43 GMT
-- request:
-    method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
-    body:
-      encoding: UTF-8
-      string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
-        Return ONLY the translated text, without any explanations.\n\nText: Contact
-        Us"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -883,7 +752,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Wed, 22 Oct 2025 15:28:44 GMT
+      - Wed, 22 Oct 2025 16:35:13 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -893,7 +762,90 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=141
+      - gfet4t7; dur=49
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: |
+        {
+          "error": {
+            "code": 429,
+            "message": "You exceeded your current quota. Please migrate to Gemini 2.0 Flash Preview (Image Generation) (models/gemini-2.0-flash-preview-image-generation) for higher quota limits. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.",
+            "status": "RESOURCE_EXHAUSTED",
+            "details": [
+              {
+                "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+                "violations": [
+                  {
+                    "quotaMetric": "generativelanguage.googleapis.com/generate_requests_per_model",
+                    "quotaId": "GenerateRequestsPerMinutePerProjectPerModel",
+                    "quotaDimensions": {
+                      "model": "gemini-2.5-flash-lite",
+                      "location": "global"
+                    },
+                    "quotaValue": "10"
+                  }
+                ]
+              },
+              {
+                "@type": "type.googleapis.com/google.rpc.Help",
+                "links": [
+                  {
+                    "description": "Learn more about Gemini API quotas",
+                    "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
+                  }
+                ]
+              },
+              {
+                "@type": "type.googleapis.com/google.rpc.RetryInfo",
+                "retryDelay": "46s"
+              }
+            ]
+          }
+        }
+  recorded_at: Wed, 22 Oct 2025 16:35:13 GMT
+- request:
+    method: post
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
+        Return ONLY the translated text, without any explanations.\n\nText: Home"}]}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 429
+      message: Too Many Requests
+    headers:
+      Vary:
+      - Origin
+      - Referer
+      - X-Origin
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Wed, 22 Oct 2025 16:35:16 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Server-Timing:
+      - gfet4t7; dur=131
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -915,7 +867,7 @@ http_interactions:
                     "quotaId": "GenerateRequestsPerMinutePerProjectPerModel",
                     "quotaDimensions": {
                       "location": "global",
-                      "model": "gemini-2.0-flash-exp"
+                      "model": "gemini-2.5-flash-lite"
                     },
                     "quotaValue": "10"
                   }
@@ -932,20 +884,19 @@ http_interactions:
               },
               {
                 "@type": "type.googleapis.com/google.rpc.RetryInfo",
-                "retryDelay": "15s"
+                "retryDelay": "43s"
               }
             ]
           }
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:44 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:16 GMT
 - request:
     method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=<GEMINI_API_KEY>
     body:
       encoding: UTF-8
       string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
-        Return ONLY the translated text, without any explanations.\n\nText: Contact
-        Us"}]}]}'
+        Return ONLY the translated text, without any explanations.\n\nText: Home"}]}]}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -967,7 +918,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Wed, 22 Oct 2025 15:28:48 GMT
+      - Wed, 22 Oct 2025 16:35:21 GMT
       Server:
       - scaffolding on HTTPServer2
       X-Xss-Protection:
@@ -977,7 +928,7 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Server-Timing:
-      - gfet4t7; dur=146
+      - gfet4t7; dur=54
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Transfer-Encoding:
@@ -998,8 +949,8 @@ http_interactions:
                     "quotaMetric": "generativelanguage.googleapis.com/generate_requests_per_model",
                     "quotaId": "GenerateRequestsPerMinutePerProjectPerModel",
                     "quotaDimensions": {
-                      "model": "gemini-2.0-flash-exp",
-                      "location": "global"
+                      "location": "global",
+                      "model": "gemini-2.5-flash-lite"
                     },
                     "quotaValue": "10"
                   }
@@ -1016,94 +967,10 @@ http_interactions:
               },
               {
                 "@type": "type.googleapis.com/google.rpc.RetryInfo",
-                "retryDelay": "11s"
+                "retryDelay": "38s"
               }
             ]
           }
         }
-  recorded_at: Wed, 22 Oct 2025 15:28:48 GMT
-- request:
-    method: post
-    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=<GEMINI_API_KEY>
-    body:
-      encoding: UTF-8
-      string: '{"contents":[{"parts":[{"text":"Translate the following text to French.
-        Return ONLY the translated text, without any explanations.\n\nText: Contact
-        Us"}]}]}'
-    headers:
-      User-Agent:
-      - Faraday v2.14.0
-      Content-Type:
-      - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 429
-      message: Too Many Requests
-    headers:
-      Vary:
-      - Origin
-      - Referer
-      - X-Origin
-      Content-Type:
-      - application/json; charset=UTF-8
-      Date:
-      - Wed, 22 Oct 2025 15:28:52 GMT
-      Server:
-      - scaffolding on HTTPServer2
-      X-Xss-Protection:
-      - '0'
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Content-Type-Options:
-      - nosniff
-      Server-Timing:
-      - gfet4t7; dur=139
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Transfer-Encoding:
-      - chunked
-    body:
-      encoding: ASCII-8BIT
-      string: |
-        {
-          "error": {
-            "code": 429,
-            "message": "You exceeded your current quota. Please migrate to Gemini 2.0 Flash Preview (Image Generation) (models/gemini-2.0-flash-preview-image-generation) for higher quota limits. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.",
-            "status": "RESOURCE_EXHAUSTED",
-            "details": [
-              {
-                "@type": "type.googleapis.com/google.rpc.QuotaFailure",
-                "violations": [
-                  {
-                    "quotaMetric": "generativelanguage.googleapis.com/generate_requests_per_model",
-                    "quotaId": "GenerateRequestsPerMinutePerProjectPerModel",
-                    "quotaDimensions": {
-                      "model": "gemini-2.0-flash-exp",
-                      "location": "global"
-                    },
-                    "quotaValue": "10"
-                  }
-                ]
-              },
-              {
-                "@type": "type.googleapis.com/google.rpc.Help",
-                "links": [
-                  {
-                    "description": "Learn more about Gemini API quotas",
-                    "url": "https://ai.google.dev/gemini-api/docs/rate-limits"
-                  }
-                ]
-              },
-              {
-                "@type": "type.googleapis.com/google.rpc.RetryInfo",
-                "retryDelay": "7s"
-              }
-            ]
-          }
-        }
-  recorded_at: Wed, 22 Oct 2025 15:28:52 GMT
+  recorded_at: Wed, 22 Oct 2025 16:35:21 GMT
 recorded_with: VCR 6.3.1

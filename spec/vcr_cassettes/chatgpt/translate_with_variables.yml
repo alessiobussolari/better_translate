@@ -7,8 +7,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello
-        %<name>s, welcome!"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello VARIABLE_0, welcome!"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -26,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:10:49 GMT
+      - Wed, 22 Oct 2025 17:31:25 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -38,13 +39,13 @@ http_interactions:
       Openai-Organization:
       - pandev-s-r-l
       Openai-Processing-Ms:
-      - '3384'
+      - '3269'
       Openai-Project:
       - proj_NFvopmGfUTkSamqPCCc1eObh
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '4684'
+      - '3304'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -52,22 +53,22 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '4999'
       X-Ratelimit-Remaining-Tokens:
-      - '1999953'
+      - '1999926'
       X-Ratelimit-Reset-Requests:
       - 12ms
       X-Ratelimit-Reset-Tokens:
-      - 1ms
+      - 2ms
       X-Request-Id:
-      - req_49f443afd83d4e119ebab01202e1e549
+      - req_da327c926037455d83ef52cf0f0ec299
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=ExJLYHX_Zha6sXvmzVqc5llPA7Hb4J.bh7Q3u.jbbbo-1761145849-1.0.1.1-XMdaKm9C0VMXr0p1Pw4Glm38nnVMYuFer9tyXJDoHgxjTMk8Fhh1L1euSrjDRRPxqQRu9UmosObTEL240u82jpbNQhhy9CQ7tXel2EU2iM4;
-        path=/; expires=Wed, 22-Oct-25 15:40:49 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=3wy.CR661OeXMixo6fybCK33XoHxDwUwmxWzUGvtRWc-1761154285-1.0.1.1-NPiYwEdMoFHoskkcGzhxE1nSfxLPREjmQyf0y80CEZl7XyoXtjzHQfjt52ci6tNSyQqjxP35JwvEEH6bkKNY50wN73E2hpGPNqoRPV8xjRA;
+        path=/; expires=Wed, 22-Oct-25 18:01:25 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=a2LDwKfUl_B1cPD_IZ2qxacXR7refxAj5ruxAQBQwVc-1761145849944-0.0.1.1-604800000;
+      - _cfuvid=sC4YYzYHy29oXzUAs_VCxy2hav0JE48CjU2NIuNVBWs-1761154285381-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -76,23 +77,23 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929ec58aa2c5254-MXP
+      - 992aba561875ee5d-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-CTUm6cqQsjP69rRbfAQhVzOmmALF2",
+          "id": "chatcmpl-CTWyArDUU5ANQLZWMsMjGyVOheXzz",
           "object": "chat.completion",
-          "created": 1761145846,
+          "created": 1761154282,
           "model": "gpt-5-nano-2025-08-07",
           "choices": [
             {
               "index": 0,
               "message": {
                 "role": "assistant",
-                "content": "Ciao %<name>s, benvenuto!",
+                "content": "Ciao VARIABLE_0, benvenuto!",
                 "refusal": null,
                 "annotations": []
               },
@@ -100,15 +101,15 @@ http_interactions:
             }
           ],
           "usage": {
-            "prompt_tokens": 42,
-            "completion_tokens": 210,
-            "total_tokens": 252,
+            "prompt_tokens": 66,
+            "completion_tokens": 339,
+            "total_tokens": 405,
             "prompt_tokens_details": {
               "cached_tokens": 0,
               "audio_tokens": 0
             },
             "completion_tokens_details": {
-              "reasoning_tokens": 192,
+              "reasoning_tokens": 320,
               "audio_tokens": 0,
               "accepted_prediction_tokens": 0,
               "rejected_prediction_tokens": 0
@@ -117,5 +118,5 @@ http_interactions:
           "service_tier": "default",
           "system_fingerprint": null
         }
-  recorded_at: Wed, 22 Oct 2025 15:41:00 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:25 GMT
 recorded_with: VCR 6.3.1

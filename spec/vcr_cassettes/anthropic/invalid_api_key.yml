@@ -1,0 +1,177 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-haiku-4-5","max_tokens":1024,"system":"You are a professional
+        translator. Translate the following text to Italian. Return ONLY the translated
+        text, without any explanations or additional text. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.","messages":[{"role":"user","content":"Hello"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      X-Api-Key:
+      - invalid_key_12345
+      Anthropic-Version:
+      - '2023-06-01'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:30:56 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '130'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 992ab9b67e16cd75-MXP
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUNdmJBZNjWWY1MCAreZ7
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Envoy-Upstream-Service-Time:
+      - '11'
+      Via:
+      - 1.1 google
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
+        x-api-key"},"request_id":"req_011CUNdmJBZNjWWY1MCAreZ7"}'
+  recorded_at: Wed, 22 Oct 2025 17:30:56 GMT
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-haiku-4-5","max_tokens":1024,"system":"You are a professional
+        translator. Translate the following text to Italian. Return ONLY the translated
+        text, without any explanations or additional text. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.","messages":[{"role":"user","content":"Hello"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      X-Api-Key:
+      - invalid_key_12345
+      Anthropic-Version:
+      - '2023-06-01'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:30:58 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '130'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 992ab9c4fe0fed1c-MXP
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUNdmU4dK5HieyhtDhiJ5
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Envoy-Upstream-Service-Time:
+      - '15'
+      Via:
+      - 1.1 google
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
+        x-api-key"},"request_id":"req_011CUNdmU4dK5HieyhtDhiJ5"}'
+  recorded_at: Wed, 22 Oct 2025 17:30:58 GMT
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-haiku-4-5","max_tokens":1024,"system":"You are a professional
+        translator. Translate the following text to Italian. Return ONLY the translated
+        text, without any explanations or additional text. Words like VARIABLE_0,
+        VARIABLE_1, etc. are placeholders and must be kept unchanged in the translation.","messages":[{"role":"user","content":"Hello"}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      X-Api-Key:
+      - invalid_key_12345
+      Anthropic-Version:
+      - '2023-06-01'
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Wed, 22 Oct 2025 17:31:03 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '130'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 992ab9df7bb6ed62-MXP
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUNdmnHzXGgzk1m4zEAxK
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Envoy-Upstream-Service-Time:
+      - '29'
+      Via:
+      - 1.1 google
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
+        x-api-key"},"request_id":"req_011CUNdmnHzXGgzk1m4zEAxK"}'
+  recorded_at: Wed, 22 Oct 2025 17:31:03 GMT
+recorded_with: VCR 6.3.1

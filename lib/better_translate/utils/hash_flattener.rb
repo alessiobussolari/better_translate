@@ -47,7 +47,7 @@ module BetterTranslate
       #   #=> { "config/database/host" => "localhost" }
       #
       def self.flatten(hash, parent_key = "", separator = ".")
-        initial_hash = {} #: Hash[String, untyped]
+        initial_hash = {} # : Hash[String, untyped]
         hash.each_with_object(initial_hash) do |(key, value), result|
           new_key = parent_key.empty? ? key.to_s : "#{parent_key}#{separator}#{key}"
 
@@ -85,7 +85,7 @@ module BetterTranslate
       #   #=> { "config" => { "database" => { "host" => "localhost" } } }
       #
       def self.unflatten(hash, separator = ".")
-        initial_hash = {} #: Hash[String, untyped]
+        initial_hash = {} # : Hash[String, untyped]
         hash.each_with_object(initial_hash) do |(key, value), result|
           keys = key.split(separator)
           last_key = keys.pop

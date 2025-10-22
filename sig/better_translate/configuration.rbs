@@ -31,8 +31,13 @@ module BetterTranslate
     attr_accessor provider: (Symbol | nil)
     attr_accessor openai_key: String?
     attr_accessor google_gemini_key: String?
-    attr_accessor gemini_key: String?
-    attr_accessor anthropic_key: String?
+    attr_accessor claude_key: String?
+
+    # Aliases (these are methods created by alias in configuration.rb)
+    alias gemini_key google_gemini_key
+    alias gemini_key= google_gemini_key=
+    alias anthropic_key claude_key
+    alias anthropic_key= claude_key=
     attr_accessor source_language: String?
     attr_accessor target_languages: Array[target_language]
     attr_accessor input_file: String?

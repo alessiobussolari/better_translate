@@ -14,15 +14,47 @@ BetterTranslate.configure do |config|
   config.anthropic_key = ENV["ANTHROPIC_API_KEY"]
 
   # Source and target languages
-  config.source_language = "en"
-  config.target_languages = [
-    { short_name: "it", name: "Italian" },
-    { short_name: "es", name: "Spanish" },
-    { short_name: "fr", name: "French" }
-  ]
+  # Automatically uses Rails I18n configuration
+  # To configure I18n in your Rails app, set in config/application.rb:
+  #   config.i18n.default_locale = :it
+  #   config.i18n.available_locales = [:it, :en, :es, :fr]
+  config.source_language = I18n.default_locale.to_s
+
+  # Target languages: automatically derived from I18n.available_locales
+  # Excludes the source language from targets
+  available_targets = (I18n.available_locales - [I18n.default_locale]).map(&:to_s)
+
+  # Language name mapping for common languages
+  language_names = {
+    "en" => "English", "it" => "Italian", "es" => "Spanish", "fr" => "French",
+    "de" => "German", "pt" => "Portuguese", "ru" => "Russian", "zh" => "Chinese",
+    "ja" => "Japanese", "ko" => "Korean", "ar" => "Arabic", "nl" => "Dutch",
+    "pl" => "Polish", "tr" => "Turkish", "sv" => "Swedish", "da" => "Danish",
+    "fi" => "Finnish", "no" => "Norwegian", "cs" => "Czech", "el" => "Greek",
+    "he" => "Hebrew", "hi" => "Hindi", "th" => "Thai", "vi" => "Vietnamese"
+  }
+
+  if available_targets.any?
+    # Use I18n available locales
+    config.target_languages = available_targets.map do |locale|
+      {
+        short_name: locale,
+        name: language_names[locale] || locale.capitalize
+      }
+    end
+  else
+    # Fallback: suggest common languages
+    # Uncomment and modify the languages you want to translate to
+    config.target_languages = [
+      { short_name: "it", name: "Italian" },
+      { short_name: "es", name: "Spanish" },
+      { short_name: "fr", name: "French" }
+    ]
+  end
 
   # File paths
-  config.input_file = Rails.root.join("config", "locales", "en.yml").to_s
+  # Uses source_language for input file
+  config.input_file = Rails.root.join("config", "locales", "#{config.source_language}.yml").to_s
   config.output_folder = Rails.root.join("config", "locales").to_s
 
   # Options

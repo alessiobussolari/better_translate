@@ -60,10 +60,10 @@ RSpec.describe "ChatGPT Provider Integration", :vcr do
     end
 
     it "preserves variables in translation", vcr: { cassette_name: "chatgpt/translate_with_variables" } do
-      text_with_var = "Hello %<name>s, welcome!"
+      text_with_var = "Hello VARIABLE_0, welcome!"
       result = provider.translate_text(text_with_var, "it", "Italian")
 
-      expect(result).to include("%<name>s")
+      expect(result).to include("VARIABLE_0")
       expect(result).to be_a(String)
     end
 

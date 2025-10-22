@@ -7,7 +7,9 @@ http_interactions:
       encoding: UTF-8
       string: '{"model":"gpt-5-nano","messages":[{"role":"system","content":"You are
         a professional translator. Translate the following text to Italian. Return
-        ONLY the translated text, without any explanations or additional text."},{"role":"user","content":"Hello"}],"temperature":1.0}'
+        ONLY the translated text, without any explanations or additional text. Words
+        like VARIABLE_0, VARIABLE_1, etc. are placeholders and must be kept unchanged
+        in the translation."},{"role":"user","content":"Hello"}],"temperature":1.0}'
     headers:
       User-Agent:
       - Faraday v2.14.0
@@ -25,7 +27,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 22 Oct 2025 15:09:58 GMT
+      - Wed, 22 Oct 2025 17:31:05 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -37,13 +39,13 @@ http_interactions:
       Openai-Organization:
       - pandev-s-r-l
       Openai-Processing-Ms:
-      - '3292'
+      - '2277'
       Openai-Project:
       - proj_NFvopmGfUTkSamqPCCc1eObh
       Openai-Version:
       - '2020-10-01'
       X-Envoy-Upstream-Service-Time:
-      - '3590'
+      - '2343'
       X-Ratelimit-Limit-Requests:
       - '5000'
       X-Ratelimit-Limit-Tokens:
@@ -51,22 +53,22 @@ http_interactions:
       X-Ratelimit-Remaining-Requests:
       - '4999'
       X-Ratelimit-Remaining-Tokens:
-      - '1999957'
+      - '1999931'
       X-Ratelimit-Reset-Requests:
       - 12ms
       X-Ratelimit-Reset-Tokens:
-      - 1ms
+      - 2ms
       X-Request-Id:
-      - req_e1b9fc3ee4614a0ba97057e2b97e4187
+      - req_529d288377f34df49cf5e0cf7e0a151e
       X-Openai-Proxy-Wasm:
       - v0.1
       Cf-Cache-Status:
       - DYNAMIC
       Set-Cookie:
-      - __cf_bm=pC_ccSuUJrmx4q4meU_X7PJ_FBue8brBkVAG5AvW3Mo-1761145798-1.0.1.1-9bz.QF33ZJ9dcoPQTmWua7vt8RW4uS4iTPVXfOHKZoYrpE8oa7POT2A4vaoKeGl.B4k3HSAtWzsIeiORyRV8Fk9WS9zlwW5uZ4hxO8PEE3A;
-        path=/; expires=Wed, 22-Oct-25 15:39:58 GMT; domain=.api.openai.com; HttpOnly;
+      - __cf_bm=ZGHSDKazKuoCkDciccO8KDIxc3cn_tN.hmkwYN8LfkA-1761154265-1.0.1.1-ZnQ0hguhSnnR2UKc5YCTiWOVjjj4GZj_S4z5cbNgcjz2SfX.3rZLs_ncRR3JU7Z4xRa.TaPDg68CfRplzNCBCKpeiOrAlW1ujL5fWHXTVj0;
+        path=/; expires=Wed, 22-Oct-25 18:01:05 GMT; domain=.api.openai.com; HttpOnly;
         Secure; SameSite=None
-      - _cfuvid=TK50CwdQsyZtFcdZ7KgGlBZz85_14vRN7KCh8dXJZQk-1761145798512-0.0.1.1-604800000;
+      - _cfuvid=ykeuFAYEKN1h3M2l.cSAA3SKeNdTFjjJfZXaKuNHuic-1761154265659-0.0.1.1-604800000;
         path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
@@ -75,16 +77,16 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 9929eb1efacdee97-MXP
+      - 992ab9e0f84afb0d-MXP
       Alt-Svc:
       - h3=":443"; ma=86400
     body:
       encoding: ASCII-8BIT
       string: |
         {
-          "id": "chatcmpl-CTUlHCW7kVZNNswDmi85P7Ba3OPXJ",
+          "id": "chatcmpl-CTWxr5M4IIS46ZWshYCGJll4SfKUo",
           "object": "chat.completion",
-          "created": 1761145795,
+          "created": 1761154263,
           "model": "gpt-5-nano-2025-08-07",
           "choices": [
             {
@@ -99,9 +101,9 @@ http_interactions:
             }
           ],
           "usage": {
-            "prompt_tokens": 37,
+            "prompt_tokens": 60,
             "completion_tokens": 139,
-            "total_tokens": 176,
+            "total_tokens": 199,
             "prompt_tokens_details": {
               "cached_tokens": 0,
               "audio_tokens": 0
@@ -116,5 +118,5 @@ http_interactions:
           "service_tier": "default",
           "system_fingerprint": null
         }
-  recorded_at: Wed, 22 Oct 2025 15:09:58 GMT
+  recorded_at: Wed, 22 Oct 2025 17:31:05 GMT
 recorded_with: VCR 6.3.1
