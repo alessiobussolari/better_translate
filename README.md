@@ -2,10 +2,15 @@
 
 > AI-powered YAML locale file translator for Rails and Ruby projects
 
+[![CI](https://github.com/alessiobussolari/better_translate/actions/workflows/main.yml/badge.svg)](https://github.com/alessiobussolari/better_translate/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/alessiobussolari/better_translate/branch/main/graph/badge.svg)](https://codecov.io/gh/alessiobussolari/better_translate)
+[![Gem Version](https://badge.fury.io/rb/better_translate.svg)](https://badge.fury.io/rb/better_translate)
+[![Downloads](https://img.shields.io/gem/dt/better_translate)](https://rubygems.org/gems/better_translate)
 [![Ruby Version](https://img.shields.io/badge/ruby-%3E%3D%203.0.0-ruby.svg)](https://www.ruby-lang.org/en/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)
-[![Gem Version](https://img.shields.io/badge/version-1.1.0-green.svg)](https://rubygems.org/gems/better_translate)
-[![codecov](https://codecov.io/gh/alessiobussolari/better_translate/branch/main/graph/badge.svg)](https://codecov.io/gh/alessiobussolari/better_translate)
+[![Security](https://img.shields.io/badge/security-brakeman-green)](https://brakemanscanner.org/)
+[![Type Check](https://img.shields.io/badge/types-steep-blue)](https://github.com/soutaro/steep)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/alessiobussolari/better_translate/graphs/commit-activity)
 
 BetterTranslate automatically translates your YAML locale files using cutting-edge AI providers (ChatGPT, Google Gemini, and Anthropic Claude). It's designed for Rails applications but works with any Ruby project that uses YAML-based internationalization.
 

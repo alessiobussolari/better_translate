@@ -178,12 +178,13 @@ RSpec.describe BetterTranslate::YAMLHandler do
     it "returns diff summary when dry_run mode with diff_preview" do
       config.dry_run = true
 
-      # Create a mock diff_preview
-      diff_preview = double("diff_preview")
-      expect(diff_preview).to receive(:show_diff).with({}, data, output_path).and_return({ added: 1 })
+      # Create a spy diff_preview
+      diff_preview = instance_spy("DiffPreview") # rubocop:disable RSpec/VerifiedDoubleReference
+      allow(diff_preview).to receive(:show_diff).with({}, data, output_path).and_return({ added: 1 })
 
       result = handler.write_yaml(output_path, data, diff_preview: diff_preview)
       expect(result).to eq({ added: 1 })
+      expect(diff_preview).to have_received(:show_diff).with({}, data, output_path)
     end
 
     it "reads existing file when showing diff in dry_run mode" do
@@ -193,11 +194,12 @@ RSpec.describe BetterTranslate::YAMLHandler do
       existing_data = { "it" => { "greeting" => "Salve" } }
       File.write(output_path, existing_data.to_yaml)
 
-      diff_preview = double("diff_preview")
-      expect(diff_preview).to receive(:show_diff).with(existing_data, data, output_path).and_return({ modified: 1 })
+      diff_preview = instance_spy("DiffPreview") # rubocop:disable RSpec/VerifiedDoubleReference
+      allow(diff_preview).to receive(:show_diff).with(existing_data, data, output_path).and_return({ modified: 1 })
 
       result = handler.write_yaml(output_path, data, diff_preview: diff_preview)
       expect(result).to eq({ modified: 1 })
+      expect(diff_preview).to have_received(:show_diff).with(existing_data, data, output_path)
     end
   end
 

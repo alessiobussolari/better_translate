@@ -26,7 +26,7 @@ RSpec.describe BetterTranslate::Analyzer::KeyScanner do
       keys = scanner.scan
 
       expect(keys["users.greeting"]).to eq("Hello")
-      expect(keys["users.welcome"]).to eq("Welcome %{name}")  # rubocop:disable Style/FormatStringToken
+      expect(keys["users.welcome"]).to eq("Welcome %{name}") # rubocop:disable Style/FormatStringToken
       expect(keys["users.profile.title"]).to eq("User Profile")
     end
 
