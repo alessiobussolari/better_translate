@@ -15,4 +15,17 @@ task :steep do
   sh "bundle exec steep check"
 end
 
-task default: %i[spec rubocop steep]
+# Security scanning with Brakeman
+desc "Run security scanning with Brakeman"
+task :brakeman do
+  require "brakeman"
+  result = Brakeman.run(
+    app_path: ".",
+    print_report: true,
+    pager: false,
+    force_scan: true
+  )
+  exit Brakeman::Warnings_Found_Exit_Code unless result.filtered_warnings.empty?
+end
+
+task default: %i[spec rubocop steep brakeman]

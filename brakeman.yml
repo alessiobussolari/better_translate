@@ -1,0 +1,37 @@
+# Brakeman configuration file
+# https://brakemanscanner.org/docs/options/
+
+# Set application path (defaults to current directory)
+:app_path: "."
+
+# Set Rails version (detected automatically)
+# :rails_version: "8.1.0"
+
+# Enable additional security checks
+:force_scan: true
+
+# Show all files processed
+:report_progress: true
+
+# Skip certain checks (none skipped by default)
+:skip_checks: []
+
+# Only run specific checks (empty means run all)
+:run_checks: []
+
+# Set confidence levels to report (1=High, 2=Medium, 3=Weak)
+:min_confidence: 2
+
+# Ignore specific warnings
+:ignore_file: ".brakeman.ignore"
+
+# Additional paths to scan
+:additional_checks_path: []
+
+# Paths to exclude from scanning
+:skip_files:
+  - "spec/"
+  - "test/"
+
+# Exit with error code if warnings found
+:exit_on_warn: true

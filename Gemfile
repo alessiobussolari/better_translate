@@ -7,6 +7,7 @@ gemspec
 gem "rake", "~> 13.0"
 
 # Development & Testing
+gem "brakeman", "~> 6.0", require: false
 gem "bundler-audit", "~> 0.9"
 gem "dotenv", "~> 2.8"
 gem "generator_spec", "~> 0.10"

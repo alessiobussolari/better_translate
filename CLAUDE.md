@@ -75,8 +75,19 @@ bundle exec rake steep
 # or
 bundle exec steep check
 
-# Run default rake task (runs spec, rubocop, and steep)
+# Run default rake task (runs spec, rubocop, steep, and brakeman)
 bundle exec rake
+```
+
+### Security
+```bash
+# Run Brakeman security scanner
+bundle exec rake brakeman
+# or
+bundle exec brakeman --force --no-pager
+
+# Check for security vulnerabilities in dependencies
+bundle exec bundler-audit check --update
 ```
 
 ### Documentation
@@ -89,12 +100,6 @@ bundle exec yard server
 
 # Check documentation coverage
 bundle exec yard stats
-```
-
-### Security
-```bash
-# Check for security vulnerabilities in dependencies
-bundle exec bundler-audit check --update
 ```
 
 ### Type Checking (RBS/Steep)
