@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
-
 RSpec.describe BetterTranslate::Analyzer::OrphanDetector do
   let(:all_keys) do
     {

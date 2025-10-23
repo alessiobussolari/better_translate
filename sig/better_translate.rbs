@@ -5,6 +5,10 @@
 module BetterTranslate
   type translation_results = { success_count: Integer, failure_count: Integer, errors: Array[Hash[Symbol, untyped]] }
 
+  # Analyzer module for translation file analysis
+  module Analyzer
+  end
+
   # Module-level instance variable (for singleton methods)
   self.@configuration: Configuration?
 

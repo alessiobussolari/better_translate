@@ -19,7 +19,6 @@ target :lib do
   library "pathname"
   library "monitor"
   library "logger"
-  library "set"
   library "json"
   library "yaml"
   library "securerandom"

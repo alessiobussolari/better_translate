@@ -76,7 +76,7 @@ module BetterTranslate
 
       # Show diff preview if in dry run mode
       if config.dry_run && diff_preview
-        existing_data = File.exist?(file_path) ? read_json(file_path) : {}
+        existing_data = File.exist?(file_path) ? read_json(file_path) : {} # : Hash[untyped, untyped]
         summary = diff_preview.show_diff(existing_data, data, file_path)
       end
 
@@ -151,7 +151,7 @@ module BetterTranslate
         target_lang = config.target_languages.first[:short_name]
         existing = existing[target_lang] || existing
       else
-        existing = {}
+        existing = {} # : Hash[untyped, untyped]
       end
 
       existing_flat = Utils::HashFlattener.flatten(existing)

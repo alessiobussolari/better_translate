@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+# CSV library type signatures
+class CSV
+  # Generate CSV string
+  #
+  # @yield CSV instance for writing rows
+  # @return CSV string
+  def self.generate: () { (CSV) -> void } -> String
+
+  # Add row to CSV
+  #
+  # @param row Array of values
+  # @return CSV instance
+  def <<: (Array[untyped]) -> CSV
+end

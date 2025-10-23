@@ -64,9 +64,12 @@ module BetterTranslate
       #   #=> { "orphan_key" => "This is never used" }
       #
       def orphan_details
-        @orphans.each_with_object({}) do |key, details|
-          details[key] = all_keys[key]
+        # @type var result: Hash[String, untyped]
+        result = {}
+        @orphans.each do |key|
+          result[key] = all_keys[key]
         end
+        result
       end
 
       # Calculate usage percentage
@@ -81,7 +84,7 @@ module BetterTranslate
         return 0.0 if all_keys.empty?
 
         used_count = all_keys.size - @orphans.size
-        (used_count.to_f / all_keys.size * 100).round(1)
+        (used_count.to_f / all_keys.size * 100).round(1).to_f
       end
     end
   end

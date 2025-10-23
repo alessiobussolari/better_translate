@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
-
 module BetterTranslate
   module Analyzer
     # Scans code files to find i18n key references

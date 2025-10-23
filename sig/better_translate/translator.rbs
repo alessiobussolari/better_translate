@@ -10,6 +10,7 @@ module BetterTranslate
     @provider: Providers::BaseHttpProvider
     @yaml_handler: YAMLHandler
     @progress_tracker: ProgressTracker
+    @input_files: Array[String]
 
     attr_reader config: Configuration
 
@@ -19,6 +20,16 @@ module BetterTranslate
 
     private
 
-    def translate_language: (Hash[String, untyped] source_strings, Hash[Symbol, String] lang) -> void
+    def resolve_input_files: () -> Array[String]
+
+    def translate_parallel: (Hash[String, untyped] source_strings, (YAMLHandler | JsonHandler) handler) -> translation_results
+
+    def translate_sequential: (Hash[String, untyped] source_strings, (YAMLHandler | JsonHandler) handler) -> translation_results
+
+    def translate_language: (Hash[String, untyped] source_strings, Hash[Symbol, String] lang, (YAMLHandler | JsonHandler) handler) -> void
+
+    def record_error: (translation_results results, Hash[Symbol, String] lang, Exception error) -> void
+
+    def build_output_path_for_file: (String input_file, String target_lang_code) -> String
   end
 end

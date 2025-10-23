@@ -14,7 +14,7 @@ module BetterTranslate
 
     def complete: (String language, Integer total_strings) -> void
 
-    def error: (String language, StandardError error) -> void
+    def error: (String language, Exception error) -> void
 
     def reset: () -> void
 

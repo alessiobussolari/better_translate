@@ -40,6 +40,10 @@ module BetterTranslate
   class YamlError < Error
   end
 
+  # Raised when JSON parsing fails
+  class JsonError < Error
+  end
+
   # Raised when a provider is not found
   class ProviderNotFoundError < Error
   end

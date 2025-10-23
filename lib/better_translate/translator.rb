@@ -116,7 +116,7 @@ module BetterTranslate
                 # Backward compatibility with single input_file
                 [config.input_file]
               else
-                []
+                [] # : Array[String]
               end
 
       # Validate files exist (unless glob pattern that found nothing)
@@ -247,7 +247,8 @@ module BetterTranslate
       translated = strategy.translate(strings_to_translate, target_lang_code, target_lang_name)
 
       # Save - generate output path with proper filename
-      output_path = build_output_path_for_file(config.input_file, target_lang_code)
+      current_input_file = config.input_file or raise "No input file set"
+      output_path = build_output_path_for_file(current_input_file, target_lang_code)
 
       final_translations = if config.translation_mode == :incremental
                              handler.merge_translations(output_path, translated)

@@ -1,0 +1,70 @@
+# frozen_string_literal: true
+
+module BetterTranslate
+  module Analyzer
+    # Generates reports for orphan key analysis
+    class Reporter
+      # List of orphan keys
+      attr_reader orphans: Array[String]
+
+      # Orphan keys with their values
+      attr_reader orphan_details: Hash[String, untyped]
+
+      # Total number of keys
+      attr_reader total_keys: Integer
+
+      # Number of used keys
+      attr_reader used_keys: Integer
+
+      # Usage percentage
+      attr_reader usage_percentage: Float
+
+      # Output format (:text, :json, :csv)
+      attr_reader format: Symbol
+
+      # Initialize reporter
+      #
+      # @param orphans List of orphan keys
+      # @param orphan_details Orphan keys with values
+      # @param total_keys Total number of keys
+      # @param used_keys Number of used keys
+      # @param usage_percentage Usage percentage
+      # @param format Output format (:text, :json, :csv)
+      def initialize: (
+        orphans: Array[String],
+        orphan_details: Hash[String, untyped],
+        total_keys: Integer,
+        used_keys: Integer,
+        usage_percentage: Float,
+        ?format: Symbol
+      ) -> void
+
+      # Generate report in specified format
+      #
+      # @return Generated report
+      def generate: () -> String
+
+      # Save report to file
+      #
+      # @param file_path Output file path
+      def save_to_file: (String file_path) -> void
+
+      private
+
+      # Generate text format report
+      #
+      # @return Text report
+      def generate_text: () -> String
+
+      # Generate JSON format report
+      #
+      # @return JSON report
+      def generate_json: () -> String
+
+      # Generate CSV format report
+      #
+      # @return CSV report
+      def generate_csv: () -> String
+    end
+  end
+end

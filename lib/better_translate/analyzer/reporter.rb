@@ -87,7 +87,7 @@ module BetterTranslate
       # @return [String] Text report
       #
       def generate_text
-        lines = []
+        lines = [] # : Array[String]
         lines << "=" * 60
         lines << "Orphan Keys Analysis Report"
         lines << "=" * 60

@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+module BetterTranslate
+  # Handles JSON file operations
+  class JsonHandler
+    # Configuration object
+    attr_reader config: Configuration
+
+    # Initialize JSON handler
+    #
+    # @param config Configuration object
+    def initialize: (Configuration config) -> void
+
+    # Read and parse JSON file
+    #
+    # @param file_path Path to JSON file
+    # @return Parsed JSON content
+    def read_json: (String file_path) -> Hash[untyped, untyped]
+
+    # Write hash to JSON file
+    #
+    # @param file_path Output file path
+    # @param data Data to write
+    # @param diff_preview Optional diff preview instance
+    # @return Summary hash if dry_run, nil otherwise
+    def write_json: (String file_path, Hash[untyped, untyped] data, ?diff_preview: untyped) -> (Hash[Symbol, untyped] | nil)
+
+    # Get translatable strings from source JSON
+    #
+    # @return Flattened hash of translatable strings
+    def get_source_strings: () -> Hash[String, untyped]
+
+    # Filter out excluded keys for a specific language
+    #
+    # @param strings Flattened strings
+    # @param target_lang_code Target language code
+    # @return Filtered strings
+    def filter_exclusions: (Hash[String, untyped] strings, String target_lang_code) -> Hash[String, untyped]
+
+    # Merge translated strings with existing file (incremental mode)
+    #
+    # @param file_path Existing file path
+    # @param new_translations New translations (flattened)
+    # @return Merged translations (nested)
+    def merge_translations: (String file_path, Hash[String, untyped] new_translations) -> Hash[String, untyped]
+
+    # Build output file path for target language
+    #
+    # @param target_lang_code Target language code
+    # @return Output file path
+    def build_output_path: (String target_lang_code) -> String
+
+    private
+
+    # Create backup file with rotation support
+    #
+    # @param file_path Path to file to backup
+    def create_backup_file: (String file_path) -> void
+
+    # Rotate backup files, keeping only max_backups
+    #
+    # @param file_path Base file path
+    def rotate_backups: (String file_path) -> void
+  end
+end

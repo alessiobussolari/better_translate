@@ -225,8 +225,8 @@ module BetterTranslate
         "dry_run" => false,
         "translation_mode" => "override",
         "preserve_variables" => true,
-        "global_exclusions" => [],
-        "exclusions_per_language" => {},
+        "global_exclusions" => [], # : Array[String]
+        "exclusions_per_language" => {}, # : Hash[String, Array[String]]
         "model" => nil,
         "temperature" => 0.3,
         "max_tokens" => 2000,

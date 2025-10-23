@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+module BetterTranslate
+  module Analyzer
+    # Scans YAML translation files and extracts all keys in flatten format
+    class KeyScanner
+      # Path to the YAML file
+      attr_reader file_path: String
+
+      # Flatten keys extracted from YAML
+      attr_reader keys: Hash[String, untyped]
+
+      # Initialize scanner with YAML file path
+      #
+      # @param file_path Path to YAML file
+      def initialize: (String file_path) -> void
+
+      # Scan YAML file and extract all flatten keys
+      #
+      # @return Flatten keys with their values
+      def scan: () -> Hash[String, untyped]
+
+      # Get total count of keys
+      #
+      # @return Number of keys
+      def key_count: () -> Integer
+
+      private
+
+      # Validate that file exists
+      def validate_file!: () -> void
+
+      # Flatten nested hash into dot-notation keys
+      #
+      # @param hash Nested hash to flatten
+      # @param prefix Prefix for current level
+      def flatten_keys: (Hash[untyped, untyped] hash, ?String? prefix) -> void
+    end
+  end
+end

@@ -27,6 +27,9 @@ module BetterTranslate
     @global_exclusions: Array[String]
     @exclusions_per_language: Hash[String, Array[String]]
     @preserve_variables: bool
+    @input_files: (String | Array[String])?
+    @create_backup: bool
+    @max_backups: Integer
 
     attr_accessor provider: (Symbol | nil)
     attr_accessor openai_key: String?
@@ -56,6 +59,9 @@ module BetterTranslate
     attr_accessor global_exclusions: Array[String]
     attr_accessor exclusions_per_language: Hash[String, Array[String]]
     attr_accessor preserve_variables: bool
+    attr_accessor input_files: (String | Array[String])?
+    attr_accessor create_backup: bool
+    attr_accessor max_backups: Integer
 
     # Provider-specific options
     attr_accessor model: String?

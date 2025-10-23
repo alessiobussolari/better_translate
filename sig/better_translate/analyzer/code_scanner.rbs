@@ -1,0 +1,59 @@
+# frozen_string_literal: true
+
+module BetterTranslate
+  module Analyzer
+    # Scans code files to find i18n key references
+    class CodeScanner
+      # I18n patterns to match
+      I18N_PATTERNS: Array[Regexp]
+
+      # File extensions to scan
+      SCANNABLE_EXTENSIONS: Array[String]
+
+      # Path to scan (file or directory)
+      attr_reader path: String
+
+      # Found i18n keys
+      attr_reader keys: Set[String]
+
+      # List of scanned files
+      attr_reader files_scanned: Array[String]
+
+      # Initialize scanner with path
+      #
+      # @param path File or directory path to scan
+      def initialize: (String path) -> void
+
+      # Scan path and extract i18n keys
+      #
+      # @return Set of found i18n keys
+      def scan: () -> Set[String]
+
+      # Get count of unique keys found
+      #
+      # @return Number of unique keys
+      def key_count: () -> Integer
+
+      private
+
+      # Validate that path exists
+      def validate_path!: () -> void
+
+      # Collect all scannable files from path
+      #
+      # @return List of file paths
+      def collect_files: () -> Array[String]
+
+      # Check if file should be scanned
+      #
+      # @param file File path
+      # @return Boolean
+      def scannable_file?: (String file) -> bool
+
+      # Scan single file and extract keys
+      #
+      # @param file File path
+      def scan_file: (String file) -> void
+    end
+  end
+end

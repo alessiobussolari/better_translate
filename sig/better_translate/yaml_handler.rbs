@@ -25,5 +25,11 @@ module BetterTranslate
     def merge_translations: (String file_path, Hash[String, untyped] new_translations) -> Hash[String, untyped]
 
     def build_output_path: (String target_lang_code) -> String
+
+    private
+
+    def create_backup_file: (String file_path) -> void
+
+    def rotate_backups: (String file_path) -> void
   end
 end

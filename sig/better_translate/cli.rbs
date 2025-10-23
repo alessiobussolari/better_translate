@@ -20,5 +20,7 @@ module BetterTranslate
     def run_generate: () -> void
 
     def run_direct: () -> void
+
+    def run_analyze: () -> void
   end
 end

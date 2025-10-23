@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+module BetterTranslate
+  module Analyzer
+    # Detects orphan i18n keys (keys defined but never used in code)
+    class OrphanDetector
+      # All translation keys with their values
+      attr_reader all_keys: Hash[String, untyped]
+
+      # Keys that are used in code
+      attr_reader used_keys: Set[String]
+
+      # Orphan keys (not used in code)
+      attr_reader orphans: Array[String]
+
+      # Initialize detector
+      #
+      # @param all_keys All translation keys from YAML files
+      # @param used_keys Keys found in code
+      def initialize: (Hash[String, untyped] all_keys, Set[String] used_keys) -> void
+
+      # Detect orphan keys
+      #
+      # @return List of orphan key names
+      def detect: () -> Array[String]
+
+      # Get count of orphan keys
+      #
+      # @return Number of orphan keys
+      def orphan_count: () -> Integer
+
+      # Get details of orphan keys with their values
+      #
+      # @return Hash of orphan keys and their translation values
+      def orphan_details: () -> Hash[String, untyped]
+
+      # Calculate usage percentage
+      #
+      # @return Percentage of keys that are used (0.0 to 100.0)
+      def usage_percentage: () -> Float
+    end
+  end
+end
