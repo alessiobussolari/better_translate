@@ -333,7 +333,7 @@ RSpec.describe BetterTranslate::Providers::BaseHttpProvider do
 
       expect do
         provider.send(:make_request, :post, "https://api.test.com")
-      end.to output(/Retry 1\/3/).to_stdout
+      end.to output(%r{Retry 1/3}).to_stdout
     end
   end
 end

@@ -15,9 +15,9 @@ SimpleCov.start do
 
   # Generate both HTML (for local viewing) and Cobertura (for Codecov)
   formatter SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::CoberturaFormatter
-  ])
+                                                       SimpleCov::Formatter::HTMLFormatter,
+                                                       SimpleCov::Formatter::CoberturaFormatter
+                                                     ])
 
   # Require 93% minimum coverage
   minimum_coverage 93
