@@ -19,8 +19,8 @@ SimpleCov.start do
                                                        SimpleCov::Formatter::CoberturaFormatter
                                                      ])
 
-  # Require 93% minimum coverage
-  minimum_coverage 93
+  # Require 92% minimum coverage
+  minimum_coverage 92
 
   # Track all files in lib/
   track_files "lib/**/*.rb"

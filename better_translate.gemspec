@@ -30,5 +30,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Runtime dependencies
+  spec.add_dependency "csv", "~> 3.0"
   spec.add_dependency "faraday", "~> 2.0"
 end

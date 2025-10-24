@@ -11,6 +11,9 @@ RSpec.describe "Rake tasks" do
   let(:source_file) { File.join(locales_dir, "en.yml") }
 
   before do
+    # Reset BetterTranslate configuration
+    BetterTranslate.reset!
+
     # Clear existing tasks
     Rake::Task.clear if Rake::Task.tasks.any?
     FileUtils.mkdir_p(File.dirname(config_file))
@@ -87,6 +90,75 @@ RSpec.describe "Rake tasks" do
       expect do
         Rake::Task["better_translate:translate"].execute
       end.to output(/Failure: 1/).to_stdout
+    end
+
+    context "with initializer configuration" do
+      before do
+        # Configure via initializer (not YAML file)
+        BetterTranslate.reset!
+        BetterTranslate.configure do |config|
+          config.provider = :chatgpt
+          config.openai_key = "test_key"
+          config.source_language = "en"
+          config.target_languages = [{ short_name: "it", name: "Italian" }]
+          config.input_file = source_file
+          config.output_folder = locales_dir
+        end
+
+        # Remove YAML config file to ensure initializer takes precedence
+        FileUtils.rm_f(config_file)
+      end
+
+      it "uses initializer configuration when YAML file does not exist" do
+        allow_any_instance_of(BetterTranslate::Translator)
+          .to receive(:translate_all).and_return({
+                                                   success_count: 1,
+                                                   failure_count: 0,
+                                                   errors: []
+                                                 })
+
+        expect do
+          Rake::Task["better_translate:translate"].execute
+        end.not_to raise_error
+      end
+
+      it "validates initializer configuration" do
+        # Set invalid configuration (missing required fields)
+        BetterTranslate.reset!
+        BetterTranslate.configure do |config|
+          config.provider = :chatgpt
+          # Missing openai_key and other required fields
+        end
+
+        expect do
+          expect do
+            Rake::Task["better_translate:translate"].execute
+          end.to raise_error(SystemExit)
+        end.to output(/Invalid configuration/).to_stdout
+      end
+    end
+
+    context "without any configuration" do
+      before do
+        BetterTranslate.reset!
+        FileUtils.rm_f(config_file)
+      end
+
+      it "shows helpful error message when no configuration found" do
+        expect do
+          expect do
+            Rake::Task["better_translate:translate"].execute
+          end.to raise_error(SystemExit)
+        end.to output(/No configuration found/).to_stdout
+      end
+
+      it "suggests configuration options" do
+        expect do
+          expect do
+            Rake::Task["better_translate:translate"].execute
+          end.to raise_error(SystemExit)
+        end.to output(%r{Create config/initializers/better_translate.rb}).to_stdout
+      end
     end
   end
 

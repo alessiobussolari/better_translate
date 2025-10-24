@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "csv"
+
 require_relative "better_translate/version"
 require_relative "better_translate/errors"
 require_relative "better_translate/configuration"
