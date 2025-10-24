@@ -5,6 +5,33 @@ All notable changes to BetterTranslate will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2025-10-24
+
+### Fixed
+- **Initializer Configuration**: Updated template to use manual I18n configuration instead of `after_initialize` hook
+  - Fixes loop/deadlock issues when running rake tasks
+  - Adds clear documentation explaining I18n loading order
+  - Provides example showing how to match Rails I18n config
+  - Removes dependency on Rails initialization order
+
+### Added
+- **Automatic File Creation**: Input files are now created automatically if they don't exist
+  - Creates directory structure automatically (mkdir -p)
+  - Supports both YAML and JSON formats
+  - Creates minimal valid file with root language key only
+  - Shows message in verbose mode when file is created
+  - Backward compatible: existing files are never modified
+
+- **CSV Dependency**: Added explicit CSV dependency for Ruby 3.4.0 compatibility
+  - Prevents deprecation warnings in Ruby 3.4.0+
+  - Ensures gem works across all Ruby versions
+
+### Changed
+- **Initializer Priority**: Rake task now prioritizes initializer configuration over YAML config
+  - Checks for existing initializer configuration first
+  - Falls back to YAML config if no initializer found
+  - Provides helpful error messages suggesting both configuration methods
+
 ## [1.1.0] - 2025-10-22
 
 ### Added
