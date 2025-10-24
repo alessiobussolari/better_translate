@@ -39,6 +39,12 @@ BetterTranslate automatically translates your YAML locale files using cutting-ed
 - 📊 **Similarity Analysis**: Built-in Levenshtein distance analyzer to identify similar translations
 - 🔍 **Orphan Key Analyzer**: Find unused translation keys in your codebase with comprehensive reports (text, JSON, CSV)
 
+### New in v1.1.1 🔧
+- 📝 **Automatic File Creation**: Input files are automatically created if they don't exist
+- 🔧 **Initializer Priority**: Rake task now checks for initializer configuration before YAML config
+- 🐛 **Fixed Loop Issues**: Removed problematic `after_initialize` hook that caused deadlocks
+- 🔄 **Ruby 3.4.0 Support**: Added explicit CSV dependency for compatibility
+
 ### New in v1.1.0 🎉
 - 🎛️ **Provider-Specific Options**: Fine-tune AI behavior with `model`, `temperature`, and `max_tokens`
 - 💾 **Automatic Backups**: Configurable backup rotation before overwriting files (`.bak`, `.bak.1`, `.bak.2`)
@@ -111,7 +117,9 @@ BetterTranslate.configure do |config|
   config.provider = :chatgpt
   config.openai_key = ENV["OPENAI_API_KEY"]
 
-  config.source_language = "en"
+  # IMPORTANT: Set these manually to match your Rails I18n configuration
+  # (I18n.default_locale and I18n.available_locales are not yet available)
+  config.source_language = "en"  # Should match config.i18n.default_locale
   config.target_languages = [
     { short_name: "it", name: "Italian" },
     { short_name: "fr", name: "French" },
@@ -158,6 +166,12 @@ rails generate better_translate:install
 ```
 
 This creates `config/initializers/better_translate.rb` with example configuration for all supported providers.
+
+**Important Notes (v1.1.1+):**
+- The initializer now uses manual language configuration instead of `I18n.default_locale`
+- You must set `source_language` and `target_languages` to match your `config/application.rb` I18n settings
+- This prevents loop/deadlock issues when running rake tasks
+- Input files are automatically created if they don't exist
 
 ## ⚙️ Configuration
 
@@ -321,6 +335,8 @@ config.input_file = "config/locales/en.yml"       # Source file
 config.output_folder = "config/locales"            # Output directory
 ```
 
+**Note (v1.1.1+):** If the input file doesn't exist, it will be automatically created with a minimal valid structure (e.g., `{ "en": {} }`).
+
 ## 🎨 Features in Detail
 
 ### Translation Modes
@@ -457,6 +473,8 @@ rails generate better_translate:translate
 ```
 
 This triggers the translation based on your configuration and displays progress messages.
+
+**Note (v1.1.1+):** The generator now prioritizes configuration from `config/initializers/better_translate.rb` over YAML config files. If no configuration is found, it provides helpful error messages suggesting both configuration methods.
 
 ### 3. Analyze Generator
 
