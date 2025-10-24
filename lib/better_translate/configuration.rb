@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "fileutils"
+require "json"
+
 module BetterTranslate
   # Configuration class for BetterTranslate
   #
@@ -216,7 +219,12 @@ module BetterTranslate
 
       # Only validate input_file exists if using single file mode (not glob pattern or array)
       return unless input_file && !input_file.empty? && !input_files
-      raise ConfigurationError, "Input file does not exist: #{input_file}" unless File.exist?(input_file)
+
+      # Create input file if it doesn't exist
+      return if File.exist?(input_file)
+
+      create_default_input_file!(input_file)
+      puts "Created empty input file: #{input_file}" if verbose
     end
 
     # Validate optional settings (timeouts, retries, cache, etc.)
@@ -242,6 +250,25 @@ module BetterTranslate
 
       # Validate max_tokens is positive
       raise ConfigurationError, "Max tokens must be positive" if max_tokens && max_tokens <= 0
+    end
+
+    # Create a default input file with root language key
+    #
+    # @param file_path [String] Path to the input file
+    # @return [void]
+    # @api private
+    def create_default_input_file!(file_path)
+      # Create directory if needed
+      FileUtils.mkdir_p(File.dirname(file_path))
+
+      # Determine file format (YAML or JSON)
+      content = if file_path.end_with?(".json")
+                  JSON.pretty_generate({ source_language => {} })
+                else
+                  { source_language => {} }.to_yaml
+                end
+
+      File.write(file_path, content)
     end
   end
 end

@@ -2,6 +2,10 @@
 
 # BetterTranslate Configuration
 #
+# IMPORTANT: I18n configuration is not yet available when initializers load.
+# You must manually set source_language and target_languages to match your
+# Rails I18n configuration in config/application.rb
+#
 # For more configuration options, see config/better_translate.yml
 
 BetterTranslate.configure do |config|
@@ -14,43 +18,27 @@ BetterTranslate.configure do |config|
   config.anthropic_key = ENV["ANTHROPIC_API_KEY"]
 
   # Source and target languages
-  # Automatically uses Rails I18n configuration
-  # To configure I18n in your Rails app, set in config/application.rb:
+  #
+  # IMPORTANT: These must be set manually to match your Rails I18n config
+  # (I18n.default_locale and I18n.available_locales are not yet available)
+  #
+  # Example: If your config/application.rb has:
   #   config.i18n.default_locale = :it
-  #   config.i18n.available_locales = [:it, :en, :es, :fr]
-  config.source_language = I18n.default_locale.to_s
+  #   config.i18n.available_locales = [:it, :en, :fr, :ja, :ru]
+  #
+  # Then set:
+  #   config.source_language = "it"  # matches default_locale
+  #   config.target_languages = [...]  # matches available_locales (excluding source)
 
-  # Target languages: automatically derived from I18n.available_locales
-  # Excludes the source language from targets
-  available_targets = (I18n.available_locales - [I18n.default_locale]).map(&:to_s)
+  config.source_language = "en" # TODO: Change to match your default_locale
 
-  # Language name mapping for common languages
-  language_names = {
-    "en" => "English", "it" => "Italian", "es" => "Spanish", "fr" => "French",
-    "de" => "German", "pt" => "Portuguese", "ru" => "Russian", "zh" => "Chinese",
-    "ja" => "Japanese", "ko" => "Korean", "ar" => "Arabic", "nl" => "Dutch",
-    "pl" => "Polish", "tr" => "Turkish", "sv" => "Swedish", "da" => "Danish",
-    "fi" => "Finnish", "no" => "Norwegian", "cs" => "Czech", "el" => "Greek",
-    "he" => "Hebrew", "hi" => "Hindi", "th" => "Thai", "vi" => "Vietnamese"
-  }
-
-  if available_targets.any?
-    # Use I18n available locales
-    config.target_languages = available_targets.map do |locale|
-      {
-        short_name: locale,
-        name: language_names[locale] || locale.capitalize
-      }
-    end
-  else
-    # Fallback: suggest common languages
-    # Uncomment and modify the languages you want to translate to
-    config.target_languages = [
-      { short_name: "it", name: "Italian" },
-      { short_name: "es", name: "Spanish" },
-      { short_name: "fr", name: "French" }
-    ]
-  end
+  # Target languages (excluding source language)
+  # TODO: Change to match your available_locales
+  config.target_languages = [
+    { short_name: "it", name: "Italian" },
+    { short_name: "es", name: "Spanish" },
+    { short_name: "fr", name: "French" }
+  ]
 
   # File paths
   # Uses source_language for input file

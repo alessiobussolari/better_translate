@@ -168,12 +168,89 @@ RSpec.describe BetterTranslate::Configuration do
         end.to raise_error(BetterTranslate::ConfigurationError, /Output folder must be set/)
       end
 
-      it "requires input file to exist" do
-        config.input_file = "/nonexistent/file.yml"
-        config.output_folder = Dir.tmpdir
+      it "creates input file if it doesn't exist (YAML)" do
+        tmpdir = Dir.mktmpdir
+        input_file = File.join(tmpdir, "config", "locales", "en.yml")
+        config.input_file = input_file
+        config.output_folder = tmpdir
+        config.verbose = false
+
+        expect(File.exist?(input_file)).to be false
+
+        config.validate!
+
+        expect(File.exist?(input_file)).to be true
+        content = YAML.load_file(input_file)
+        expect(content).to eq({ "en" => {} })
+
+        FileUtils.rm_rf(tmpdir)
+      end
+
+      it "creates input file if it doesn't exist (JSON)" do
+        tmpdir = Dir.mktmpdir
+        input_file = File.join(tmpdir, "config", "locales", "en.json")
+        config.input_file = input_file
+        config.output_folder = tmpdir
+        config.verbose = false
+
+        expect(File.exist?(input_file)).to be false
+
+        config.validate!
+
+        expect(File.exist?(input_file)).to be true
+        content = JSON.parse(File.read(input_file))
+        expect(content).to eq({ "en" => {} })
+
+        FileUtils.rm_rf(tmpdir)
+      end
+
+      it "creates directory if it doesn't exist" do
+        tmpdir = Dir.mktmpdir
+        input_file = File.join(tmpdir, "deeply", "nested", "path", "en.yml")
+        config.input_file = input_file
+        config.output_folder = tmpdir
+        config.verbose = false
+
+        expect(File.exist?(File.dirname(input_file))).to be false
+
+        config.validate!
+
+        expect(File.exist?(File.dirname(input_file))).to be true
+        expect(File.exist?(input_file)).to be true
+
+        FileUtils.rm_rf(tmpdir)
+      end
+
+      it "shows message when creating file in verbose mode" do
+        tmpdir = Dir.mktmpdir
+        input_file = File.join(tmpdir, "en.yml")
+        config.input_file = input_file
+        config.output_folder = tmpdir
+        config.verbose = true
+
         expect do
           config.validate!
-        end.to raise_error(BetterTranslate::ConfigurationError, /Input file does not exist/)
+        end.to output(/Created empty input file/).to_stdout
+
+        FileUtils.rm_rf(tmpdir)
+      end
+
+      it "does not create file if it already exists" do
+        tmpdir = Dir.mktmpdir
+        input_file = File.join(tmpdir, "en.yml")
+        File.write(input_file, { "en" => { "existing" => "data" } }.to_yaml)
+
+        config.input_file = input_file
+        config.output_folder = tmpdir
+        config.verbose = false
+
+        config.validate!
+
+        # File content should remain unchanged
+        content = YAML.load_file(input_file)
+        expect(content).to eq({ "en" => { "existing" => "data" } })
+
+        FileUtils.rm_rf(tmpdir)
       end
     end
 
